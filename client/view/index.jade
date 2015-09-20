@@ -1,0 +1,29 @@
+doctype html
+html(ng-app='stashApp')
+  head
+    meta(charset='utf-8')
+
+    link(rel='stylesheet' href='static/css/common.css')
+    link(rel='stylesheet' href='static/css/login.css')
+    link(rel='stylesheet' href='static/css/home.css')
+    link(rel='stylesheet', href='public/jquery-easyui/themes/default/easyui.css')
+    link(rel='stylesheet', href='public/jquery-easyui/themes/icon.css')
+    link(rel='stylesheet', href='public/jquery-easyui/themes/color.css')
+    link(rel='stylesheet', href='public/jquery-loading/dist/jquery.loading.css')
+
+    script(src='public/jquery/dist/jquery.min.js')
+    script(src='public/jquery-easyui/jquery.easyui.min.js')
+    script(src='public/jquery-loading/dist/jquery.loading.min.js')
+
+    script(src='public/underscore/underscore-min.js')
+    script(src='public/bower-angularjs/angular.min.js')
+    script(src='public/bower-angularjs/angular-cookies.min.js')
+    script(src='public/angular-local-storage/dist/angular-local-storage.min.js')
+    script(src='public/angular-ui-router/release/angular-ui-router.min.js')
+
+    script(src='js/app.js')
+    script(src='js/ctrls/login.js')
+    script(src='js/ctrls/home.js')
+    script(src='js/servs/auth.js')
+
+  body(ui-view, ng-class='{"login-bg": isLogin, "xxxxx": !isLogin}')

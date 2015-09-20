@@ -1,0 +1,19 @@
+form.second-body
+  table.width300(border='0')
+    tr
+      td 用户名：
+      td(colspan='2')
+        input.login(type='text', ng-model='username')
+    tr
+      td 密&nbsp;&nbsp;&nbsp;码：
+      td(colspan='2')
+        input.login(type='password', ng-model='password')
+    tr
+      td
+      td(colspan='2')
+        input(type='checkbox')
+        span 记录我
+    tr
+      td.text-center(colspan='3')
+        button.login_button(ng-click='doLogin()') 登录
+        button.reset_botton(ng-click='doReset()') 重置

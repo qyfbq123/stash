@@ -1,0 +1,12 @@
+html,body {
+    margin:0px;
+    height:100%;
+}
+
+.text-center{
+  text-align:center;
+}
+
+.width300 {
+  width:300px;
+}

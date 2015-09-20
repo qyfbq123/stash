@@ -1,0 +1,17 @@
+
+.item {
+  width:100px;
+  height: 30px;
+  min-height: 30px;
+  min-width: 100px;
+  text-align:center;
+  color: rgb(23, 132, 105);
+  background-color: rgb(23, 132, 105);
+}
+
+/*.itemCur {
+  width:100px;
+  height: 30px;
+  min-height: 30px;
+  min-width: 100px;
+}*/
