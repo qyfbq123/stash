@@ -18,25 +18,26 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
 
   $stateProvider.state('home', {
     url: '/home',
-    templateUrl: './views/home.html',
+    templateUrl: './views/home/home.html',
     controller: 'homeCtrl'
   })
-  .state('home.userManagement', {
-    url: '/userManagement',
-    templateUrl: './views/userManagement.html'
+  .state('home.clientManagement', {
+    url: '/clientManagement',
+    templateUrl: './views/home/client-management/client-management.html',
+    controller: 'clientManagementCtrl'
   })
-  .state('home.inReport', {
-    url: '/inReport',
-    templateUrl: './views/inReport.html'
-  })
-  .state('home.roleManagement', {
-    url: '/roleManagement',
-    templateUrl: './views/roleManagement.html'
-  })
-  .state('home.outReport', {
-    url: '/outReport',
-    templateUrl: './views/outReport.html'
-  })
+  // .state('home.inReport', {
+  //   url: '/inReport',
+  //   templateUrl: './views/inReport.html'
+  // })
+  // .state('home.roleManagement', {
+  //   url: '/roleManagement',
+  //   templateUrl: './views/roleManagement.html'
+  // })
+  // .state('home.outReport', {
+  //   url: '/outReport',
+  //   templateUrl: './views/outReport.html'
+  // })
 
   $urlRouterProvider.otherwise('/home');
 }]);

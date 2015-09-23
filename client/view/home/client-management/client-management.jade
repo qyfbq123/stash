@@ -1,0 +1,26 @@
+
+div.easyui-layout.fullHeight#mainLayout(data-options='fit:true')
+  div(data-options="border:false, region:'south'", style="height:40px;")
+    div.easyui-layout#contentLayout(data-options="border:false, fit:true")
+      div(data-options="border:false, region:'west'", style="height:40px;width:300px;")
+        input#searchInput(type='input', style='width:100px;')
+        input#searchBtn(type='button', value='查找客户')
+      div(data-options="border:false, region:'east'", style="height:40px;width:200px;")
+        input#searchBtn(type='button', value='新增')
+        input#searchBtn(type='button', value='禁用')
+        input#searchBtn(type='button', value='删除')
+        input#searchBtn(type='button', value='启用')
+
+  div(data-options="region:'north'")
+    table.easyui-datagrid#clients(title="客户管理" style="width:100%;height:auto" data-options="iconCls:'icon-edit',\
+                                  singleSelect:true,toolbar:'#tb',fitColumns:true,method:'get',\
+                                  url:'http://192.168.1.3:8080/mywms/client/page', onLoadSuccess:onLoadSuccess")
+      thead
+        tr
+          th(data-options="field:'name', width:100") 姓名
+          th(data-options="field:'address', width:100") 地址
+          th(data-options="field:'contacts_name', width:100") 联系人
+          th(data-options="field:'contacts_tel', width:100") 联系号码
+          th(data-options="field:'contacts_email', width:100") 联系邮箱
+          th(data-options="field:'desc', width:100") 其他
+      tbody

@@ -44,7 +44,7 @@ angular.module('homeModule', []).controller('homeCtrl', ['$rootScope', '$scope',
       var father = $('#leftMenu').accordion('getPanel', fatherId - 1);
       if (!father) return;
 
-      father.append(_.template('<a ui-sref="home.userManagement" class="item " href=#/home/<%-url%>><p><b><%-name%></b></p></a>')(child));
+      father.append(_.template('<a class="item " href=#/home/<%-url%>><p><b><%-name%></b></p></a>')(child));
     }
   }
 ]);

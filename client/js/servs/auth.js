@@ -34,6 +34,6 @@ function($http, $rootScope, $state, localStorageService) {
     },
     user: function () {
       return localStorageService.get('user');
-    },
+    }
   }
 }]);
