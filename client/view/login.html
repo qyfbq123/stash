@@ -4,13 +4,13 @@
     <tr>
       <td>用户名：</td>
       <td colspan="2">
-        <input type="text" ng-model="username" class="login"/>
+        <input type="text" can-value="username" class="login"/>
       </td>
     </tr>
     <tr>
       <td>密&nbsp;&nbsp;&nbsp;码：</td>
       <td colspan="2">
-        <input type="password" ng-model="password" class="login"/>
+        <input type="password" can-value="password" class="login"/>
       </td>
     </tr>
     <tr>
@@ -21,8 +21,8 @@
     </tr>
     <tr>
       <td colspan="3" class="text-center">
-        <button ng-click="doLogin()" class="login_button">登录</button>
-        <button ng-click="doReset()" class="reset_botton">重置</button>
+        <button class="login_button">登录</button>
+        <button class="reset_botton">重置</button>
       </td>
     </tr>
   </table>

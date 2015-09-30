@@ -3,11 +3,11 @@ form.second-body
     tr
       td 用户名：
       td(colspan='2')
-        input.login(type='text', ng-model='username')
+        input.login(type='text', can-value='username')
     tr
       td 密&nbsp;&nbsp;&nbsp;码：
       td(colspan='2')
-        input.login(type='password', ng-model='password')
+        input.login(type='password', can-value='password')
     tr
       td
       td(colspan='2')
@@ -15,5 +15,5 @@ form.second-body
         span 记录我
     tr
       td.text-center(colspan='3')
-        button.login_button(ng-click='doLogin()') 登录
-        button.reset_botton(ng-click='doReset()') 重置
+        button.login_button 登录
+        button.reset_botton 重置
