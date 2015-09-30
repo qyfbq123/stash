@@ -4,20 +4,22 @@ angular.module('stashApp').controller('clientManagementCtrl', ['$rootScope', '$s
   function($rootScope, $scope, $http, $state, Auth) {
     $('#mainLayout').layout();
     $('#contentLayout').layout();
+    $('createClientDlg').dialog();
 
     $('#clients').datagrid({'loadFilter': function (ret) {
       var rets = [];
+      console.log(ret);
 
-      for(var i = 0; i < ret.items.length; i++) {
-        var clientInfo = ret.items[i];
+      for(var i = 0; i < ret.rows.length; i++) {
+        var clientInfo = ret.rows[i];
         var merge = {};
 
-        if (clientInfo.contactList.length == 0) {
+        if (clientInfo.contacts.length == 0) {
           rets.push(clientInfo);
         } else{
-          mergeData.push({index:i, rowspan:clientInfo.contactList.length});
-          for(var j = 0; j < clientInfo.contactList.length; j++) {
-            var contractInfo = clientInfo.contactList[j];
+          mergeData.push({index:i, rowspan:clientInfo.contacts.length});
+          for(var j = 0; j < clientInfo.contacts.length; j++) {
+            var contractInfo = clientInfo.contacts[j];
             var newClientInfo = {
               name: clientInfo.name,
               address: clientInfo.address,
@@ -33,6 +35,28 @@ angular.module('stashApp').controller('clientManagementCtrl', ['$rootScope', '$s
 
       return {total: rets.length, rows:rets};
     }});
+
+    $('#addClientBtn').bind('click', function () {
+      console.log('addClientBtn');
+      $('createClientDlg').dialog('open');
+    });
+
+    $('#editClientBtn').bind('click', function () {
+      console.log('editClientBtn');
+      $('createClientDlg').dialog('close');
+    });
+
+    $('#removeClientBtn').bind('click', function () {
+      console.log('removeClientBtn');
+    });
+
+    $('#disableClientBtn').bind('click', function () {
+      console.log('disableClientBtn');
+    });
+
+    $('#enableClientBtn').bind('click', function () {
+      console.log('enableClientBtn');
+    });
   }
 ]);
 

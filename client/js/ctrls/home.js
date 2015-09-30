@@ -7,6 +7,7 @@ angular.module('homeModule', []).controller('homeCtrl', ['$rootScope', '$scope',
 
     $('#mainLayout').layout()
     $('#leftMenu').accordion();
+    // $('#tab').tabs();
 
     $scope.username = Auth.user().username;
     console.log(Auth.user());

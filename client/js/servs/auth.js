@@ -2,7 +2,7 @@
 
 angular.module('authModule', ['ngCookies', 'LocalStorageModule']).factory('Auth', ['$http', '$rootScope', '$state', 'localStorageService',
 function($http, $rootScope, $state, localStorageService) {
-  var host = $rootScope.apiHost = 'http://192.168.1.3:8080/';
+  var host = $rootScope.apiHost = 'http://192.168.1.5:8080/';
 
   return {
     login: function (data) {
@@ -34,6 +34,9 @@ function($http, $rootScope, $state, localStorageService) {
     },
     user: function () {
       return localStorageService.get('user');
+    },
+    createClient: function (userInfo) {
+      console.log(userInfo);
     }
   }
 }]);

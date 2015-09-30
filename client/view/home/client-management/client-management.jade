@@ -5,16 +5,18 @@ div.easyui-layout.fullHeight#mainLayout(data-options='fit:true')
       div(data-options="border:false, region:'west'", style="height:40px;width:300px;")
         input#searchInput(type='input', style='width:100px;')
         input#searchBtn(type='button', value='查找客户')
-      div(data-options="border:false, region:'east'", style="height:40px;width:200px;")
-        input#searchBtn(type='button', value='新增')
-        input#searchBtn(type='button', value='禁用')
-        input#searchBtn(type='button', value='删除')
-        input#searchBtn(type='button', value='启用')
+      div(data-options="border:false, region:'east'", style="height:40px;width:250px;")
+
+        input#addClientBtn(type='button', value='新增')
+        input#editClientBtn(type='button', value='编辑')
+        input#removeClientBtn(type='button', value='删除')
+        input#disableClientBtn(type='button', value='禁用')
+        input#enableClientBtn(type='button', value='启用')
 
   div(data-options="region:'north'")
     table.easyui-datagrid#clients(title="客户管理" style="width:100%;height:auto" data-options="iconCls:'icon-edit',\
                                   singleSelect:true,toolbar:'#tb',fitColumns:true,method:'get',\
-                                  url:'http://192.168.1.3:8080/mywms/client/page', onLoadSuccess:onLoadSuccess")
+                                  url:'http://192.168.1.5:8080/mywms/client/page', onLoadSuccess:onLoadSuccess")
       thead
         tr
           th(data-options="field:'name', width:100") 姓名
@@ -24,3 +26,6 @@ div.easyui-layout.fullHeight#mainLayout(data-options='fit:true')
           th(data-options="field:'contacts_email', width:100") 联系邮箱
           th(data-options="field:'desc', width:100") 其他
       tbody
+
+  div#createClientDlg(class="easyui-dialog" title="Basic Dialog" data-options="iconCls:'icon-save'" style="width:400px;height:200px;padding:10px")
+    p The dialog content.
