@@ -16,7 +16,7 @@
     </div>
   </div>
   <div data-options="region:'north'">
-    <table id="clients" title="客户管理" style="width:100%;height:auto" data-options="iconCls:'icon-edit',singleSelect:true,fitColumns:true" class="easyui-datagrid">
+    <table id="clients" data-options="iconCls:'icon-edit',                                  singleSelect:true,toolbar:'#tb',fitColumns:true" title="客户管理" style="width:100%;height:auto" class="easyui-datagrid">
       <thead>
         <tr>
           <th data-options="field:'name', width:100">姓名</th>
@@ -30,4 +30,5 @@
       <tbody></tbody>
     </table>
   </div>
+  <div data-options="fit:true,total:0, showPageList: false, showRefresh: false, displayMsg: ''" class="easyui-pagination"></div>
 </div>

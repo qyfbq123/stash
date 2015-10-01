@@ -11,7 +11,8 @@ require.config({
     Auth: '../public/js/servs/auth',
     homeCtrl: '../public/js/ctrls/HomeCtrl',
     loginCtrl: '../public/js/ctrls/LoginCtrl',
-    clientManagementCtrl: '../public/js/ctrls/ClientManagementCtrl'
+    clientManagementCtrl: '../public/js/ctrls/ClientManagementCtrl',
+    newClientCtrl: '../public/js/ctrls/NewClientCtrl'
   },
   shim: {
     can: ['$'],
@@ -22,6 +23,33 @@ require.config({
 
 require(['can', 'Auth'], function(can, Auth) {
   var Router, validRoute;
+  $.getJSON = function(url, data, success, error) {
+    return jQuery.ajax({
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      'type': 'GET',
+      'url': url,
+      'data': data,
+      'success': success,
+      'error': error
+    });
+  };
+  $.postJSON = function(url, data, success, error) {
+    return jQuery.ajax({
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      'type': 'POST',
+      'url': url,
+      'data': JSON.stringify(data),
+      'dataType': 'json',
+      'success': success,
+      'error': error
+    });
+  };
   validRoute = function(route, p) {
     if (!Auth.logined() && route !== 'login') {
       console.log('to login...');

@@ -1,5 +1,5 @@
 
-define ['can/control', 'can/view/mustache', 'Auth', '$'], (Ctrl, can, Auth)->
+define ['can/control', 'can/view/mustache', 'Auth', 'newClientCtrl', '$'], (Ctrl, can, Auth, newClientCtrl)->
   mergeCol = (merge, colName)->
     $('#clients').datagrid('mergeCells', {
       index: merge.index,
@@ -14,6 +14,16 @@ define ['can/control', 'can/view/mustache', 'Auth', '$'], (Ctrl, can, Auth)->
       mergeCol(merge, 'address');
       mergeCol(merge, 'desc');
 
+  getClient = (pageNum, pageSize)->
+    $.getJSON(Auth.apiHost + 'mywms/client/page', {page: pageNum, rows: pageSize}
+      , (data)->
+        $('.easyui-pagination').pagination({total:data.total, pageSize:10})
+        $('#clients').datagrid data:data
+      , (data)->
+        console.log 'error'
+    )
+
+
   return Ctrl.extend
     init: ()->
       console.log this.element
@@ -22,7 +32,9 @@ define ['can/control', 'can/view/mustache', 'Auth', '$'], (Ctrl, can, Auth)->
 
       $('#mainLayout').layout();
       $('#contentLayout').layout();
-      $('createClientDlg').dialog();
+      $('.easyui-pagination').pagination({total:0, pageSize:10, onSelectPage: (pageNum, pageSize)->
+        getClient pageNum, pageSize
+        })
 
       $('#clients').datagrid 'loadFilter': (ret) ->
         rets = []
@@ -51,13 +63,8 @@ define ['can/control', 'can/view/mustache', 'Auth', '$'], (Ctrl, can, Auth)->
       $('#clients').datagrid 'onLoadSuccess':(data)->
         onLoadSuccess mergeData
 
-      $.get(Auth.apiHost + 'mywms/client/page', (data)->
-        console.log data
-        $('#clients').datagrid data:data
-      ).fail (data)->
+      getClient 0, 10
 
     '#addClientBtn click': ()->
       console.log 'click'
-    # '.easyui-datagrid onLoadSuccess', ()->
-    #   console.log 'onLoadSuccess'
-
+      new newClientCtrl('#dialog', {})

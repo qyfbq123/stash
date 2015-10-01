@@ -15,8 +15,7 @@ div.easyui-layout.fullHeight#mainLayout(data-options='fit:true')
 
   div(data-options="region:'north'")
     table.easyui-datagrid#clients(data-options="iconCls:'icon-edit',\
-                                  singleSelect:true,toolbar:'#tb',fitColumns:true,\
-                                  onLoadSuccess:onLoadSuccess",
+                                  singleSelect:true,toolbar:'#tb',fitColumns:true",
                                   title="客户管理" style="width:100%;height:auto")
       thead
         tr
@@ -27,3 +26,7 @@ div.easyui-layout.fullHeight#mainLayout(data-options='fit:true')
           th(data-options="field:'contacts_email', width:100") 联系邮箱
           th(data-options="field:'desc', width:100") 其他
       tbody
+
+  div.easyui-pagination(data-options="fit:true,total:0, showPageList: false, showRefresh: false, displayMsg: ''")
+
+

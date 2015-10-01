@@ -12,12 +12,36 @@ require.config
     homeCtrl: '../public/js/ctrls/HomeCtrl'
     loginCtrl: '../public/js/ctrls/LoginCtrl'
     clientManagementCtrl: '../public/js/ctrls/ClientManagementCtrl'
+    newClientCtrl: '../public/js/ctrls/NewClientCtrl'
   shim:
     can: ['$']
     loading: ['$']
     easyui: ['$']
 
 require ['can', 'Auth'], (can, Auth)->
+  $.getJSON = (url, data, success, error)->
+    return jQuery.ajax
+      headers:
+          'Accept': 'application/json'
+          'Content-Type': 'application/json'
+      'type': 'GET'
+      'url': url
+      'data': data
+      'success': success
+      'error': error
+
+  $.postJSON = (url, data, success, error)->
+    return jQuery.ajax
+      headers:
+          'Accept': 'application/json'
+          'Content-Type': 'application/json'
+      'type': 'POST'
+      'url': url
+      'data': JSON.stringify(data)
+      'dataType': 'json'
+      'success': success
+      'error': error
+
   validRoute = (route, p)->
     if !Auth.logined() && route != 'login'
       console.log 'to login...'
