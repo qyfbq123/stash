@@ -11,6 +11,7 @@ require.config
     Auth: '../public/js/servs/auth'
     homeCtrl: '../public/js/ctrls/HomeCtrl'
     loginCtrl: '../public/js/ctrls/LoginCtrl'
+    clientManagementCtrl: '../public/js/ctrls/ClientManagementCtrl'
   shim:
     can: ['$']
     loading: ['$']
@@ -29,15 +30,9 @@ require ['can', 'Auth'], (can, Auth)->
 
   Router = can.Control({
     '{can.route} change': (ev, attr, how, newVal, oldVal)->
-      console.log(JSON.stringify(ev), ev.route, '---------')
+      # console.log(JSON.stringify(ev), ev.route, '---------')
       validRoute ev.route, 'change'
-
-    'home route': (data)->
-      console.log 'start home'
-      require ['homeCtrl'], (homeCtrl)->
-        new homeCtrl('body', {})
     'login route': (data)->
-      console.log 'start login'
       require ['loginCtrl'], (loginCtrl)->
         new loginCtrl('body', {})
     'logout route': (data)->
@@ -45,6 +40,27 @@ require ['can', 'Auth'], (can, Auth)->
       window.location.hash = '!login'
     'route': ()->
       validRoute '', 'empty'
+    'home route': (data)->
+      console.log 'start home', data
+      require ['homeCtrl'], (homeCtrl)->
+        this.Home = new homeCtrl('body', {})
+    'home/:id route': (data)->
+      console.log 'child home', data
+      require ['homeCtrl', 'clientManagementCtrl'], (homeCtrl, clientManagementCtrl)->
+        this.Home = new homeCtrl('body', {}) if !this.Home
+
+        # this.current?.destroy()
+        switch data.id
+          when 'clientManagement'
+            this.current = new clientManagementCtrl('#currentWork', {})
+          when 'userManagement'
+            this.current = ''
+          when 'roleManagement'
+            this.current = ''
+          when 'outReport'
+            this.current = ''
+          when 'inReport'
+            this.current = ''
   })
 
   new Router(window)

@@ -14,9 +14,10 @@ div.easyui-layout.fullHeight#mainLayout(data-options='fit:true')
         input#enableClientBtn(type='button', value='启用')
 
   div(data-options="region:'north'")
-    table.easyui-datagrid#clients(title="客户管理" style="width:100%;height:auto" data-options="iconCls:'icon-edit',\
-                                  singleSelect:true,toolbar:'#tb',fitColumns:true,method:'get',\
-                                  url:'http://192.168.1.5:8080/mywms/client/page', onLoadSuccess:onLoadSuccess")
+    table.easyui-datagrid#clients(data-options="iconCls:'icon-edit',\
+                                  singleSelect:true,toolbar:'#tb',fitColumns:true,\
+                                  onLoadSuccess:onLoadSuccess",
+                                  title="客户管理" style="width:100%;height:auto")
       thead
         tr
           th(data-options="field:'name', width:100") 姓名
@@ -26,6 +27,3 @@ div.easyui-layout.fullHeight#mainLayout(data-options='fit:true')
           th(data-options="field:'contacts_email', width:100") 联系邮箱
           th(data-options="field:'desc', width:100") 其他
       tbody
-
-  div#createClientDlg(class="easyui-dialog" title="Basic Dialog" data-options="iconCls:'icon-save'" style="width:400px;height:200px;padding:10px")
-    p The dialog content.

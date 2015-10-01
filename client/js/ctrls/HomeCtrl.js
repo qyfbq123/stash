@@ -27,7 +27,7 @@ define(['can/control', 'can/view/mustache', 'Auth', 'easyui', '_'], function(Con
     if (!father) {
       return;
     }
-    return father.append(_.template('<a class="item " href=#/home/<%-url%>><p><b><%-name%></b></p></a>')(child));
+    return father.append(_.template('<a class="item " href=#!home/<%-url%>><p><b><%-name%></b></p></a>')(child));
   };
   return Control.extend({
     init: function() {
@@ -35,10 +35,12 @@ define(['can/control', 'can/view/mustache', 'Auth', 'easyui', '_'], function(Con
       this.element.html(can.view('../../public/view/home/home.html', data));
       $('#mainLayout').layout();
       $('#leftMenu').accordion();
+      $('#tabs').tabs();
       data.attr('username', Auth.user().username);
       console.log(Auth.user());
       isFirst = true;
       return $.get(Auth.apiHost + 'mywms/main/menu', function(data, status) {
+        console.log(data);
         if (parseInt(data.status) !== 0) {
           $.messager.alert('错误', '获取菜单失败 ' + data.message, 'error');
           return;

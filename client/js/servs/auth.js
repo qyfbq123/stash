@@ -4,11 +4,13 @@ define(['localStorage', 'loading', 'easyui'], function(localStorage, loading, ea
   apiHost = 'http://192.168.1.5:8080/';
   return {
     apiHost: apiHost,
-    login: function(data) {
+    login: function(userinfo) {
+      console.log(userinfo);
       $('html').loading({
         message: '正在登录...'
       });
-      return $.post(apiHost + 'mywms/main/login', data, function(data, status) {
+      return $.post(apiHost + 'mywms/main/login?cb=', userinfo, function(data, status) {
+        console.log(data, status);
         $('html').loading('stop');
         if (parseInt(data.status) !== 0) {
           return $.messager.alert('登陆失败', data.message, 'error');
@@ -18,12 +20,13 @@ define(['localStorage', 'loading', 'easyui'], function(localStorage, loading, ea
           return window.location.hash = '!home';
         }
       }).fail(function(data, status) {
+        window.location.hash = '!login';
         $('html').loading('stop');
-        return $.messager.alert('登陆失败', 'http error:' + status + ' ' + data, 'error');
+        return $.messager.alert('登陆失败', 'http error:' + status + ' ' + data.statusText, 'error');
       });
     },
     logout: function() {
-      localStorage.set('logined', false);
+      localStorage.remove('logined');
       return localStorage.remove('user');
     },
     logined: function() {

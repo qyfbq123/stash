@@ -4,10 +4,13 @@ define ['localStorage', 'loading', 'easyui'], (localStorage, loading, easyui)->
 
   return {
     apiHost: apiHost
-    login: (data)->
+    login: (userinfo)->
+      console.log userinfo
       $('html').loading({message:'正在登录...'});
 
-      $.post(apiHost + 'mywms/main/login', data, (data, status)->
+      $.post(apiHost + 'mywms/main/login?cb=', userinfo, (data, status)->
+        console.log data, status
+
         $('html').loading('stop');
 
         if parseInt(data.status) != 0
@@ -18,11 +21,12 @@ define ['localStorage', 'loading', 'easyui'], (localStorage, loading, easyui)->
           window.location.hash = '!home'
       )
       .fail((data, status)->
+        window.location.hash = '!login'
         $('html').loading('stop');
-        $.messager.alert('登陆失败', 'http error:' + status + ' ' + data, 'error');
+        $.messager.alert('登陆失败', 'http error:' + status + ' ' + data.statusText, 'error');
       )
     logout: ()->
-      localStorage.set('logined', false);
+      localStorage.remove('logined');
       localStorage.remove('user');
     logined: ()->
       return Boolean(localStorage.get('logined'));

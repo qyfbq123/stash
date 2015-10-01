@@ -16,7 +16,7 @@
     </div>
   </div>
   <div data-options="region:'north'">
-    <table id="clients" title="客户管理" style="width:100%;height:auto" data-options="iconCls:'icon-edit',                                  singleSelect:true,toolbar:'#tb',fitColumns:true,method:'get',                                  url:'http://192.168.1.5:8080/mywms/client/page', onLoadSuccess:onLoadSuccess" class="easyui-datagrid">
+    <table id="clients" title="客户管理" style="width:100%;height:auto" data-options="iconCls:'icon-edit',singleSelect:true,fitColumns:true" class="easyui-datagrid">
       <thead>
         <tr>
           <th data-options="field:'name', width:100">姓名</th>
@@ -29,8 +29,5 @@
       </thead>
       <tbody></tbody>
     </table>
-  </div>
-  <div id="createClientDlg" title="Basic Dialog" data-options="iconCls:'icon-save'" style="width:400px;height:200px;padding:10px" class="easyui-dialog">
-    <p>The dialog content.</p>
   </div>
 </div>

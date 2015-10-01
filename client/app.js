@@ -10,7 +10,8 @@ require.config({
     localStorage: '../public/js/servs/local-storage',
     Auth: '../public/js/servs/auth',
     homeCtrl: '../public/js/ctrls/HomeCtrl',
-    loginCtrl: '../public/js/ctrls/LoginCtrl'
+    loginCtrl: '../public/js/ctrls/LoginCtrl',
+    clientManagementCtrl: '../public/js/ctrls/ClientManagementCtrl'
   },
   shim: {
     can: ['$'],
@@ -34,17 +35,9 @@ require(['can', 'Auth'], function(can, Auth) {
   };
   Router = can.Control({
     '{can.route} change': function(ev, attr, how, newVal, oldVal) {
-      console.log(JSON.stringify(ev), ev.route, '---------');
       return validRoute(ev.route, 'change');
     },
-    'home route': function(data) {
-      console.log('start home');
-      return require(['homeCtrl'], function(homeCtrl) {
-        return new homeCtrl('body', {});
-      });
-    },
     'login route': function(data) {
-      console.log('start login');
       return require(['loginCtrl'], function(loginCtrl) {
         return new loginCtrl('body', {});
       });
@@ -55,6 +48,32 @@ require(['can', 'Auth'], function(can, Auth) {
     },
     'route': function() {
       return validRoute('', 'empty');
+    },
+    'home route': function(data) {
+      console.log('start home', data);
+      return require(['homeCtrl'], function(homeCtrl) {
+        return this.Home = new homeCtrl('body', {});
+      });
+    },
+    'home/:id route': function(data) {
+      console.log('child home', data);
+      return require(['homeCtrl', 'clientManagementCtrl'], function(homeCtrl, clientManagementCtrl) {
+        if (!this.Home) {
+          this.Home = new homeCtrl('body', {});
+        }
+        switch (data.id) {
+          case 'clientManagement':
+            return this.current = new clientManagementCtrl('#currentWork', {});
+          case 'userManagement':
+            return this.current = '';
+          case 'roleManagement':
+            return this.current = '';
+          case 'outReport':
+            return this.current = '';
+          case 'inReport':
+            return this.current = '';
+        }
+      });
     }
   });
   new Router(window);
