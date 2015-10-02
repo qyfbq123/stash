@@ -27,13 +27,18 @@ define ['can/control', 'can/view/mustache', 'Auth', 'newClientCtrl', 'updateClie
         $('.easyui-pagination').pagination({total:data.total, pageSize:PAGE_ZIE})
         $('#clients').datagrid data:data
       , (data)->
-        console.log data
+        $.messager.alert '错误', "http error: #{data.status}, #{data.statusText}"
     )
 
-  disabled = (ids)->
-    $.postJSON(Auth.apiHost + 'mywms/client/disabled', {ids:ids}
+  enable = (ids, isEnable)->
+    api = Auth.apiHost
+    if isEnable
+      api += 'mywms/client/enabled'
+    else
+      api += 'mywms/client/disabled'
+
+    $.getJSON(api, {ids:ids}
       , (data)->
-        console.log data
         $.messager.alert '提示', '请先选择一个需要更新的用户所在行！' if data.status != 0
       , (data)->
         $.messager.alert '错误', "http error: #{data.status}, #{data.statusText}"
@@ -52,10 +57,10 @@ define ['can/control', 'can/view/mustache', 'Auth', 'newClientCtrl', 'updateClie
         })
 
       $('#clients').datagrid 'onUncheck': (index, row) ->
-        disabled row.id if isLoadFinish
+        enable row.id, false if isLoadFinish
 
       $('#clients').datagrid 'onCheck': (index, row) ->
-        disabled row.id if isLoadFinish
+        enable row.id, true if isLoadFinish
 
       $('#clients').datagrid 'loadFilter': (ret) ->
         rets = []

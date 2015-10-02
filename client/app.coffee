@@ -17,9 +17,11 @@ require.config
     newClientCtrl: '../public/js/ctrls/NewClientCtrl'
     updateClientCtrl: '../public/js/ctrls/UpdateClientCtrl'
   shim:
-    can: ['$', 'jqueryEx']
+    can: ['$', 'jqueryEx', 'easyui', 'easyui_lang']
     loading: ['$']
-    easyui: ['$', 'easyui_lang']
+    jqueryEx: ['$']
+    easyui: ['$']
+    easyui_lang: ['$', 'easyui']
 
 require ['can', 'Auth'], (can, Auth)->
   validRoute = (route, p)->
@@ -38,7 +40,7 @@ require ['can', 'Auth'], (can, Auth)->
       validRoute ev.route, 'change'
     'login route': (data)->
       require ['loginCtrl'], (loginCtrl)->
-        can.loginCtrl = new loginCtrl('body', {}) unless can.loginCtrl
+        new loginCtrl('body', {})
     'logout route': (data)->
       Auth.logout()
       window.location.hash = '!login'
@@ -46,14 +48,15 @@ require ['can', 'Auth'], (can, Auth)->
       validRoute '', 'empty'
     'home route': (data)->
       require ['homeCtrl'], (homeCtrl)->
-        can.Home = new homeCtrl('body', {}) unless can.Home
+        new homeCtrl('body', {})
     'home/:id route': (data)->
       require ['homeCtrl', 'clientManagementCtrl'], (homeCtrl, clientManagementCtrl)->
-        can.Home = new homeCtrl('body', {}) unless can.Home
+        new homeCtrl('body', {})
 
         switch data.id
           when 'clientManagement'
-            can.clientManagementCtrl = new clientManagementCtrl('#currentWork', {}) unless can.clientManagementCtrl
+            new clientManagementCtrl('#currentWork', {})
+            can.current = ''
           when 'userManagement'
             can.current = ''
           when 'roleManagement'

@@ -13,7 +13,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'easyui'], (Control, can, Au
 
       $('.easyui-validatebox').validatebox()
     '.login_button click': ()->
-      Auth.login userInfo.attr()
+      Auth.login userInfo.attr(), ()=> @destroy()
     '.reset_botton click': ()->
       userInfo.attr 'username', ''
       userInfo.attr 'password', ''

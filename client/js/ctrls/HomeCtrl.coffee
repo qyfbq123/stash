@@ -26,13 +26,10 @@ define ['can/control', 'can/view/mustache', 'Auth', 'easyui', '_'], (Control, ca
       $('#leftMenu').accordion();
       $('#tabs').tabs();
 
-      data.attr 'username', Auth.user().username
-
-      console.log(Auth.user());
+      data.attr 'username', Auth.user()?.username
 
       isFirst = true;
       $.get(Auth.apiHost + 'mywms/main/menu', (data, status)->
-        console.log data
 
         if parseInt(data.status) != 0
           $.messager.alert('错误', '获取菜单失败 ' + data.message, 'error');
