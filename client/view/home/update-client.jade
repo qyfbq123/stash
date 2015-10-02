@@ -1,4 +1,4 @@
-div.easyui-window#winNewClient(title="新增客户" data-options="modal:true,closed:true" style="padding:5px;")
+div.easyui-window#winUpdateClient(title="更新客户信息" data-options="modal:true,closed:true" style="padding:5px;")
   form#newClient
     table.fullHeight(border=0)
       tr(height='20px;')
@@ -54,5 +54,5 @@ div.easyui-window#winNewClient(title="新增客户" data-options="modal:true,clo
       tr
         td(colspan=3)
           textarea.fullHeight(can-value='desc', placeholder="其他...", style='height:80px;')
-        td(colspan=1)
-          button.login_button#save(style='margin-left:110px;') 保存
+        td.text-center(colspan=1)
+          button.login_button#save 保存

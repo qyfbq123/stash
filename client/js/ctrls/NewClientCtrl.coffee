@@ -1,5 +1,6 @@
 
 define ['can', 'can/control', 'Auth', '_'], (can, Control, Auth)->
+
   contacts = []
   for i in [0...5] by 1
     contacts.push
@@ -8,7 +9,6 @@ define ['can', 'can/control', 'Auth', '_'], (can, Control, Auth)->
       email: ''
 
   userInfo = new can.Map
-    title: '新增客户'
     name: ''
     address: ''
     desc: ''
@@ -19,10 +19,14 @@ define ['can', 'can/control', 'Auth', '_'], (can, Control, Auth)->
     contact5: contacts[4]
 
   return Control.extend
-    init: ()->
+    init: (el, data)->
       this.element.html can.view('../../public/view/home/new-client.html', userInfo)
-      $('#win').window({width:600, height:400, modal:true})
-      $('#win').window('open');
+      $('#winNewClient').window({width:600, height:400, modal:true, onClose:()=>
+        this.destroy()
+        })
+      $('#winNewClient').window('open');
+
+      $('.easyui-validatebox').validatebox()
 
       $('#save').unbind 'click'
       $('#save').bind 'click', ()->
@@ -32,7 +36,6 @@ define ['can', 'can/control', 'Auth', '_'], (can, Control, Auth)->
 
         user = {}
         _.map(userInfo.attr(), (it, key)->
-          return if key == 'title'
           if key.indexOf('contact') == 0
             user.contacts ?= []
             user.contacts.push it if it.name && it.tel && it.email
@@ -43,8 +46,7 @@ define ['can', 'can/control', 'Auth', '_'], (can, Control, Auth)->
         console.log user
         $.postJSON(Auth.apiHost + 'mywms/client/create', user,
           (data)->
-            console.log data
-            $('#win').window('close');
+            $('#winNewClient').window('close');
             $.messager.alert('新增客户成功', '新增客户成功！');
           (data)->
             $.messager.alert('新增客户失败', data, 'error');

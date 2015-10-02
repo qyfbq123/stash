@@ -4,44 +4,24 @@ require.config
     _: 'underscore/underscore-min'
     $: 'jquery/dist/jquery.min'
     can: 'CanJS/amd/can'
+    easyui_lang: 'jquery-easyui/locale/easyui-lang-zh_CN'
     easyui: 'jquery-easyui/jquery.easyui.min'
     loading: 'jquery-loading/dist/jquery.loading.min'
 
+    jqueryEx: '../public/js/servs/jQueryExtend'
     localStorage: '../public/js/servs/local-storage'
     Auth: '../public/js/servs/auth'
     homeCtrl: '../public/js/ctrls/HomeCtrl'
     loginCtrl: '../public/js/ctrls/LoginCtrl'
     clientManagementCtrl: '../public/js/ctrls/ClientManagementCtrl'
     newClientCtrl: '../public/js/ctrls/NewClientCtrl'
+    updateClientCtrl: '../public/js/ctrls/UpdateClientCtrl'
   shim:
-    can: ['$']
+    can: ['$', 'jqueryEx']
     loading: ['$']
-    easyui: ['$']
+    easyui: ['$', 'easyui_lang']
 
 require ['can', 'Auth'], (can, Auth)->
-  $.getJSON = (url, data, success, error)->
-    return jQuery.ajax
-      headers:
-          'Accept': 'application/json'
-          'Content-Type': 'application/json'
-      'type': 'GET'
-      'url': url
-      'data': data
-      'success': success
-      'error': error
-
-  $.postJSON = (url, data, success, error)->
-    return jQuery.ajax
-      headers:
-          'Accept': 'application/json'
-          'Content-Type': 'application/json'
-      'type': 'POST'
-      'url': url
-      'data': JSON.stringify(data)
-      'dataType': 'json'
-      'success': success
-      'error': error
-
   validRoute = (route, p)->
     if !Auth.logined() && route != 'login'
       console.log 'to login...'
@@ -58,33 +38,30 @@ require ['can', 'Auth'], (can, Auth)->
       validRoute ev.route, 'change'
     'login route': (data)->
       require ['loginCtrl'], (loginCtrl)->
-        new loginCtrl('body', {})
+        can.loginCtrl = new loginCtrl('body', {}) unless can.loginCtrl
     'logout route': (data)->
       Auth.logout()
       window.location.hash = '!login'
     'route': ()->
       validRoute '', 'empty'
     'home route': (data)->
-      console.log 'start home', data
       require ['homeCtrl'], (homeCtrl)->
-        this.Home = new homeCtrl('body', {})
+        can.Home = new homeCtrl('body', {}) unless can.Home
     'home/:id route': (data)->
-      console.log 'child home', data
       require ['homeCtrl', 'clientManagementCtrl'], (homeCtrl, clientManagementCtrl)->
-        this.Home = new homeCtrl('body', {}) if !this.Home
+        can.Home = new homeCtrl('body', {}) unless can.Home
 
-        # this.current?.destroy()
         switch data.id
           when 'clientManagement'
-            this.current = new clientManagementCtrl('#currentWork', {})
+            can.clientManagementCtrl = new clientManagementCtrl('#currentWork', {}) unless can.clientManagementCtrl
           when 'userManagement'
-            this.current = ''
+            can.current = ''
           when 'roleManagement'
-            this.current = ''
+            can.current = ''
           when 'outReport'
-            this.current = ''
+            can.current = ''
           when 'inReport'
-            this.current = ''
+            can.current = ''
   })
 
   new Router(window)

@@ -1,24 +1,20 @@
 
 div.easyui-layout.fullHeight#mainLayout(data-options='fit:true')
-  div(data-options="border:false, region:'south'", style="height:40px;")
+  div(data-options="border:false, region:'south'", style="height:28px;")
     div.easyui-layout#contentLayout(data-options="border:false, fit:true")
-      div(data-options="border:false, region:'west'", style="height:40px;width:300px;")
-        input#searchInput(type='input', style='width:100px;')
-        input#searchBtn(type='button', value='查找客户')
-      div(data-options="border:false, region:'east'", style="height:40px;width:250px;")
-
-        input#addClientBtn(type='button', value='新增')
-        input#editClientBtn(type='button', value='编辑')
-        input#removeClientBtn(type='button', value='删除')
-        input#disableClientBtn(type='button', value='禁用')
-        input#enableClientBtn(type='button', value='启用')
+      div(data-options="border:false, region:'west'", style="height:28px;width:300px;")
+        input.textbox#searchInput(type='input', style='width:120px;')
+        input.login_button#searchBtn(type='button', value='查找')
+      div(data-options="border:false, region:'east'", style="height:28px;width:160px;")
+        input.login_button#addClientBtn(type='button', value='新增')
+        input.login_button#updateClientBtn(type='button', value='更新')
 
   div(data-options="region:'north'")
-    table.easyui-datagrid#clients(data-options="iconCls:'icon-edit',\
-                                  singleSelect:true,toolbar:'#tb',fitColumns:true",
+    table.easyui-datagrid#clients(data-options="iconCls:'icon-edit',singleSelect:true,checkOnSelect:false,selectOnCheck:false,fitColumns:true",
                                   title="客户管理" style="width:100%;height:auto")
       thead
         tr
+          th#clientEnableCheck(data-options="field:'locked', checkbox:true, width:40")
           th(data-options="field:'name', width:100") 姓名
           th(data-options="field:'address', width:100") 地址
           th(data-options="field:'contacts_name', width:100") 联系人

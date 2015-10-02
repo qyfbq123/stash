@@ -11,3 +11,18 @@ html,body,.fullHeight {
 .width300 {
   width:300px;
 }
+
+.marginL50{
+  margin-left: 50px;
+}
+
+.pull-left {
+  right: auto;
+  left: 0;
+}
+
+.pull-right {
+  right: 0;
+  left: auto;
+}
+
