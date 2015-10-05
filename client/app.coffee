@@ -7,21 +7,32 @@ require.config
     easyui_lang: 'jquery-easyui/locale/easyui-lang-zh_CN'
     easyui: 'jquery-easyui/jquery.easyui.min'
     loading: 'jquery-loading/dist/jquery.loading.min'
+    datagrid: 'jquery.datagrid/jquery.datagrid'
+    autocomplete: 'devbridge-autocomplete/dist/jquery.autocomplete.min'
 
     jqueryEx: '../public/js/servs/jQueryExtend'
     localStorage: '../public/js/servs/local-storage'
     Auth: '../public/js/servs/auth'
+
     homeCtrl: '../public/js/ctrls/HomeCtrl'
     loginCtrl: '../public/js/ctrls/LoginCtrl'
+
     clientManagementCtrl: '../public/js/ctrls/ClientManagementCtrl'
     newClientCtrl: '../public/js/ctrls/NewClientCtrl'
     updateClientCtrl: '../public/js/ctrls/UpdateClientCtrl'
+
+    userManagementCtrl: '../public/js/ctrls/UserManagementCtrl'
+    newUserCtrl: '../public/js/ctrls/NewUserCtrl'
+    # updateUserCtrl: '../public/js/ctrls/UserManagementCtrl'
+
   shim:
     can: ['$', 'jqueryEx', 'easyui', 'easyui_lang']
     loading: ['$']
     jqueryEx: ['$']
     easyui: ['$']
     easyui_lang: ['$', 'easyui']
+    datagrid: ['$']
+    autocomplete: ['$']
 
 require ['can', 'Auth'], (can, Auth)->
   validRoute = (route, p)->
@@ -44,21 +55,23 @@ require ['can', 'Auth'], (can, Auth)->
     'logout route': (data)->
       Auth.logout()
       window.location.hash = '!login'
+      delete can.home
+      console.log 1
     'route': ()->
       validRoute '', 'empty'
     'home route': (data)->
-      require ['homeCtrl'], (homeCtrl)->
-        new homeCtrl('body', {})
+      require ['homeCtrl', 'clientManagementCtrl', 'userManagementCtrl'], (homeCtrl, clientManagementCtrl, userManagementCtrl)->
+        can.home = new homeCtrl('body', {}) if !can.home
     'home/:id route': (data)->
-      require ['homeCtrl', 'clientManagementCtrl'], (homeCtrl, clientManagementCtrl)->
-        new homeCtrl('body', {})
+      require ['homeCtrl', 'clientManagementCtrl', 'userManagementCtrl'], (homeCtrl, clientManagementCtrl, userManagementCtrl)->
+        can.home = new homeCtrl('body', {}) if !can.home
 
         switch data.id
           when 'clientManagement'
             new clientManagementCtrl('#currentWork', {})
             can.current = ''
           when 'userManagement'
-            can.current = ''
+            new userManagementCtrl('#currentWork', {})
           when 'roleManagement'
             can.current = ''
           when 'outReport'

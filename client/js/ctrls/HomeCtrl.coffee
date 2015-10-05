@@ -38,3 +38,6 @@ define ['can/control', 'can/view/mustache', 'Auth', 'easyui', '_'], (Control, ca
         genLeftMenu(data.data);
 
       ).fail ()->
+
+    'userManagement route': ()->
+      console.log 'userManagement'
