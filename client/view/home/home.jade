@@ -1,12 +1,4 @@
-.easyui-layout#mainLayout(data-options='fit:true')
-  div(data-options="region:'north'", style='height:100px')
-    span 欢迎
-    span#username {{username}}
-    a(href='#!logout') 退出
-  div(data-options="region:'west', iconCls:'icon-tip'", style='width:200px', title='系统菜单')
-    div.easyui-accordion#leftMenu(data-options="border:false,height:300")
+include ./header.jade
 
-  div(data-options="region:'center', iconCls:'icon-ok'", title='工作区域')
-    div#currentWork
-    div#dialog
-    //- div#tab.easyui-tabs(style="width:100%;")
+div.content-module-heading.cf
+

@@ -12,6 +12,10 @@ html,body,.fullHeight {
   width:300px;
 }
 
+.width60 {
+  width:100px;
+}
+
 .marginL50{
   margin-left: 50px;
 }

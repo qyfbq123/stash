@@ -10,6 +10,7 @@
     "tests"
   ],
   "dependencies": {
+    "bootstrap": "~3.3.5",
     "CanJS": "canjs#~2.2.9",
     "jquery-easyui": "jquery.easyui#*",
     "requirejs": "~2.1.20",

@@ -4,8 +4,6 @@ require.config
     _: 'underscore/underscore-min'
     $: 'jquery/dist/jquery.min'
     can: 'CanJS/amd/can'
-    easyui_lang: 'jquery-easyui/locale/easyui-lang-zh_CN'
-    easyui: 'jquery-easyui/jquery.easyui.min'
     loading: 'jquery-loading/dist/jquery.loading.min'
     datagrid: 'jquery.datagrid/jquery.datagrid'
     autocomplete: 'devbridge-autocomplete/dist/jquery.autocomplete.min'
@@ -26,11 +24,9 @@ require.config
     # updateUserCtrl: '../public/js/ctrls/UserManagementCtrl'
 
   shim:
-    can: ['$', 'jqueryEx', 'easyui', 'easyui_lang']
+    can: ['$', 'jqueryEx']
     loading: ['$']
     jqueryEx: ['$']
-    easyui: ['$']
-    easyui_lang: ['$', 'easyui']
     datagrid: ['$']
     autocomplete: ['$']
 

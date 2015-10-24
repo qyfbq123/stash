@@ -1,6 +1,6 @@
 
-define ['localStorage', 'loading', 'easyui'], (localStorage, loading, easyui)->
-  apiHost = 'http://192.168.1.5:8080/';
+define ['localStorage', 'loading'], (localStorage, loading)->
+  apiHost = 'http://192.168.1.6:8080/';
 
   return {
     apiHost: apiHost

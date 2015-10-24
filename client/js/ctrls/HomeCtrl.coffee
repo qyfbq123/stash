@@ -1,5 +1,5 @@
 
-define ['can/control', 'can/view/mustache', 'Auth', 'easyui', '_'], (Control, can, Auth, easyui, un)->
+define ['can/control', 'can/view/mustache', 'Auth', '_'], (Control, can, Auth, un)->
   data = new can.Map
     username: ''
 
@@ -7,24 +7,31 @@ define ['can/control', 'can/view/mustache', 'Auth', 'easyui', '_'], (Control, ca
     _.each array, (menu)-> appendMenu(menu)
 
   appendMenu = (menu)->
-    if (menu.level == 1)
-      $('#leftMenu').accordion('add', {title: menu.name, selected: isFirst});
-    else if (menu.level > 1 && menu.pid)
-      appendChildMenu(menu.pid, menu);
-    isFirst = false;
+    console.log menu
 
-  appendChildMenu = (fatherId, child)->
-    father = $('#leftMenu').accordion('getPanel', fatherId - 1);
-    return if !father
-    father.append(_.template('<a class="item " href=#!home/<%-url%>><p><b><%-name%></b></p></a>')(child));
+    if (menu.level == 1)
+      $('#tabs').append("<li><a href=#!#{menu.url} class='width60 text-center'> #{menu.name}</li>")
+    # else if (menu.level > 1 && menu.pid)
+    #   appendChildMenu(menu.pid, menu);
+
+  #   if (menu.level == 1)
+  #     $('#leftMenu').accordion('add', {title: menu.name, selected: isFirst});
+  #   else if (menu.level > 1 && menu.pid)
+  #     appendChildMenu(menu.pid, menu);
+  #   isFirst = false;
+
+  # appendChildMenu = (fatherId, child)->
+  #   father = $('#leftMenu').accordion('getPanel', fatherId - 1);
+  #   return if !father
+  #   father.append(_.template('<a class="item " href=#!home/<%-url%>><p><b><%-name%></b></p></a>')(child));
 
   return Control.extend
     init: ()->
       this.element.html can.view('../../public/view/home/home.html', data)
 
-      $('#mainLayout').layout()
-      $('#leftMenu').accordion();
-      $('#tabs').tabs();
+      # $('#mainLayout').layout()
+      # $('#leftMenu').accordion();
+      # $('#tabs').tabs();
 
       data.attr 'username', Auth.user()?.username
 

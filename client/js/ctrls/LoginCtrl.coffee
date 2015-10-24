@@ -1,5 +1,5 @@
 
-define ['can/control', 'can/view/mustache', 'Auth', 'easyui'], (Control, can, Auth)->
+define ['can/control', 'can/view/mustache', 'Auth'], (Control, can, Auth)->
   if Auth.logined()
     window.location.hash = '!home'
 
@@ -11,7 +11,6 @@ define ['can/control', 'can/view/mustache', 'Auth', 'easyui'], (Control, can, Au
     init: ()->
       this.element.html can.view('../../public/view/login.html', userInfo)
 
-      $('.easyui-validatebox').validatebox()
     '.login_button click': ()->
       Auth.login userInfo.attr(), ()=> @destroy()
     '.reset_botton click': ()->
