@@ -4,13 +4,14 @@ define ['can/control', 'can/view/mustache', 'Auth', '_'], (Control, can, Auth, u
     username: ''
 
   genLeftMenu = (array)->
+    array = _.sortBy array, (menu)-> menu.pid
     _.each array, (menu)-> appendMenu(menu)
 
   appendMenu = (menu)->
     console.log menu
+    if (menu.level == 2)
+      $('#tabs').append("<li><a href=#!home/#{menu.url} class='width60 text-center'> #{menu.name}</li>")
 
-    if (menu.level == 1)
-      $('#tabs').append("<li><a href=#!#{menu.url} class='width60 text-center'> #{menu.name}</li>")
     # else if (menu.level > 1 && menu.pid)
     #   appendChildMenu(menu.pid, menu);
 
@@ -39,7 +40,8 @@ define ['can/control', 'can/view/mustache', 'Auth', '_'], (Control, can, Auth, u
       $.get(Auth.apiHost + 'mywms/main/menu', (data, status)->
 
         if parseInt(data.status) != 0
-          $.messager.alert('错误', '获取菜单失败 ' + data.message, 'error');
+          console.log data
+          # $.messager.alert('错误', '获取菜单失败 ' + data.message, 'error');
           return;
 
         genLeftMenu(data.data);

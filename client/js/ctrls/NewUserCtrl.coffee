@@ -5,45 +5,45 @@ define ['can', 'can/control', 'Auth', '_', '$'], (can, Control, Auth)->
   return Control.extend
     init: ()->
       this.element.html can.view('../../public/view/home/new-user.html', userInfo)
-      $('#winNewUser').window({width:600, height:400, modal:true, onClose:()=> this.destroy()})
-      $('#winNewUser').window('open');
+      # $('#winNewUser').window({width:600, height:400, modal:true, onClose:()=> this.destroy()})
+      # $('#winNewUser').window('open');
 
-      $('.easyui-validatebox').validatebox()
+      # $('.easyui-validatebox').validatebox()
 
-      $('#roles').combobox(
-        required:true,
-        multiple:true,
-        valueField:'value',
-        textField:'text'
-      )
+      # $('#roles').combobox(
+      #   required:true,
+      #   multiple:true,
+      #   valueField:'value',
+      #   textField:'text'
+      # )
 
-      $.getJSON(Auth.apiHost + 'mywms/client/allRoles', {}
-        , (data)->
-          $('#roles').combobox(data: data)
-        , (data)->
-          $.messager.alert '错误', '获取角色信息失败！'
-          $('#winNewUser').window('close');
-      )
+      # $.getJSON(Auth.apiHost + 'mywms/client/allRoles', {}
+      #   , (data)->
+      #     $('#roles').combobox(data: data)
+      #   , (data)->
+      #     $.messager.alert '错误', '获取角色信息失败！'
+      #     $('#winNewUser').window('close');
+      # )
 
-      $('#clientSelector').combogrid({
-          panelWidth:500,
-          delay: 300,
-          # mode: 'remote',
-          idField:'value',
-          textField:'text',
-          pagination : true,
-          pageSize: 10,
-          method: 'POST',
-          url:"#{Auth.apiHost}mywms/client/allByName",
-          columns:[[
-              {field:'value',title:'客户ID',width:80},
-              {field:'text',title:'客户名',width:120}
-          ]],
-          keyHandler:
-            query: (q, e)->
-              $('#clientSelector').combogrid("grid").datagrid("reload", { 'username': q });
-              $('#clientSelector').combogrid("setValue", q);
-      })
+      # $('#clientSelector').combogrid({
+      #     panelWidth:500,
+      #     delay: 300,
+      #     # mode: 'remote',
+      #     idField:'value',
+      #     textField:'text',
+      #     pagination : true,
+      #     pageSize: 10,
+      #     method: 'POST',
+      #     url:"#{Auth.apiHost}mywms/client/allByName",
+      #     columns:[[
+      #         {field:'value',title:'客户ID',width:80},
+      #         {field:'text',title:'客户名',width:120}
+      #     ]],
+      #     keyHandler:
+      #       query: (q, e)->
+      #         $('#clientSelector').combogrid("grid").datagrid("reload", { 'username': q });
+      #         $('#clientSelector').combogrid("setValue", q);
+      # })
       ###############################
       ###############################
 

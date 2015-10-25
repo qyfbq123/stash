@@ -1,28 +1,34 @@
+div#content
+  div.page-full-width.cf
+    div.side-menu.fl
+      h3 客户管理
+      ul
+        li
+          a(href='/#!home/clientManagement/newClient') 新增客户
+      ul
+        li
+          a(href='/#!home/clientManagement') 客户列表
 
-div.easyui-layout.fullHeight#mainLayout(data-options='fit:true')
-  div(data-options="border:false, region:'south'", style="height:28px;")
-    div.easyui-layout#contentLayout(data-options="border:false, fit:true")
-      div(data-options="border:false, region:'west'", style="height:28px;width:300px;")
-        input.textbox#searchInput(type='input', style='width:120px;')
-        input.login_button#searchBtn(type='button', value='查找')
-      div(data-options="border:false, region:'east'", style="height:28px;width:160px;")
-        input.login_button#addClientBtn(type='button', value='新增')
-        input.login_button#updateClientBtn(type='button', value='更新')
+    div.side-content.fr
+      input.round.my_text_box(type='text')
+      input.my_button.round.blue(type='button', value='搜    索')
 
-  div(data-options="region:'north'")
-    table.easyui-datagrid#clients(data-options="iconCls:'icon-edit',singleSelect:true,checkOnSelect:false,selectOnCheck:false,fitColumns:true",
-                                  title="客户管理" style="width:100%;height:auto")
-      thead
-        tr
-          th#clientEnableCheck(data-options="field:'locked', checkbox:true, width:40")
-          th(data-options="field:'name', width:100") 姓名
-          th(data-options="field:'address', width:100") 地址
-          th(data-options="field:'contacts_name', width:100") 联系人
-          th(data-options="field:'contacts_tel', width:100") 联系号码
-          th(data-options="field:'contacts_email', width:100") 联系邮箱
-          th(data-options="field:'desc', width:100") 其他
-      tbody
+      div.fr
+        input.my_button.round.blue(type='button', value='全    选')
+        input.my_button.round.blue(type='button', value='全不选')
 
-  div.easyui-pagination(data-options="fit:true,total:0, showPageList: false, showRefresh: false, displayMsg: ''")
+      table
+        thead
+          tr
+            th(data-options="field:'locked', width:60") 选择
+            th(data-options="field:'name', width:100") 姓名
+            th(data-options="field:'address', width:100") 地址
+            th(data-options="field:'contacts_name', width:100") 联系人
+            th(data-options="field:'contacts_tel', width:100") 联系号码
+            th(data-options="field:'contacts_email', width:100") 联系邮箱
+            th(data-options="field:'desc', width:100") 其他
+        tbody
+
+      //- div.easyui-pagination(data-options="fit:true,total:0, showPageList: false, showRefresh: false, displayMsg: ''")
 
 

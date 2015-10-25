@@ -1,18 +1,20 @@
+div#content
+  div.page-full-width.cf
+    div.side-menu.fl
+      h3 用户管理
+      ul
+        li
+          a(href='/#!home/userManagement/newUser') 新增用户
+      ul
+        li
+          a(href='/#!home/userManagement') 用户列表
 
-div.easyui-layout.fullHeight#mainLayout(data-options='fit:true')
-  div(data-options="border:false, region:'south'", style="height:28px;")
-    div.easyui-layout#contentLayout(data-options="border:false, fit:true")
-      div(data-options="border:false, region:'west'", style="height:28px;width:300px;")
-        input.textbox#searchInput(type='input', style='width:120px;')
-        input.login_button#searchBtn(type='button', value='查找')
-      div(data-options="border:false, region:'east'", style="height:28px;width:160px;")
-        input.login_button#addUserBtn(type='button', value='新增')
-        input.login_button#updateUserBtn(type='button', value='更新')
+    div.side-content.fr
+      input.round.my_text_box(type='text')
+      input.my_button.round.blue(type='button', value='搜    索')
 
-  div(data-options="region:'north'")
-    table.easyui-datagrid#users(data-options="iconCls:'icon-edit',singleSelect:true,checkOnSelect:false,selectOnCheck:false,fitColumns:true",
-                                  title="用户管理" style="width:100%;height:auto")
+      div.fr
+        input.my_button.round.blue(type='button', value='全    选')
+        input.my_button.round.blue(type='button', value='全不选')
 
-  div.easyui-pagination(data-options="fit:true,total:0, showPageList: false, showRefresh: false, displayMsg: ''")
-
-
+      #userList

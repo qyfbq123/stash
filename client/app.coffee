@@ -5,6 +5,7 @@ require.config
     $: 'jquery/dist/jquery.min'
     can: 'CanJS/amd/can'
     loading: 'jquery-loading/dist/jquery.loading.min'
+    datagrid_plugin: 'jquery.datagrid/plugins/jquery.datagrid.bootstrap3'
     datagrid: 'jquery.datagrid/jquery.datagrid'
     autocomplete: 'devbridge-autocomplete/dist/jquery.autocomplete.min'
 
@@ -28,6 +29,7 @@ require.config
     loading: ['$']
     jqueryEx: ['$']
     datagrid: ['$']
+    datagrid_plugin: ['datagrid']
     autocomplete: ['$']
 
 require ['can', 'Auth'], (can, Auth)->
@@ -52,12 +54,11 @@ require ['can', 'Auth'], (can, Auth)->
       Auth.logout()
       window.location.hash = '!login'
       delete can.home
-      console.log 1
     'route': ()->
       validRoute '', 'empty'
     'home route': (data)->
-      require ['homeCtrl', 'clientManagementCtrl', 'userManagementCtrl'], (homeCtrl, clientManagementCtrl, userManagementCtrl)->
-        can.home = new homeCtrl('body', {}) if !can.home
+      require ['homeCtrl'], (homeCtrl)->
+        can.home = new homeCtrl('body', {})
     'home/:id route': (data)->
       require ['homeCtrl', 'clientManagementCtrl', 'userManagementCtrl'], (homeCtrl, clientManagementCtrl, userManagementCtrl)->
         can.home = new homeCtrl('body', {}) if !can.home
@@ -65,15 +66,20 @@ require ['can', 'Auth'], (can, Auth)->
         switch data.id
           when 'clientManagement'
             new clientManagementCtrl('#currentWork', {})
-            can.current = ''
           when 'userManagement'
             new userManagementCtrl('#currentWork', {})
-          when 'roleManagement'
-            can.current = ''
-          when 'outReport'
-            can.current = ''
-          when 'inReport'
-            can.current = ''
+    'home/clientManagement/newClient route': (data)->
+      require ['newClientCtrl'], (newClientCtrl)->
+        new newClientCtrl('.side-content', {})
+    'home/clientManagement/clientList route': (data)->
+      require ['newClientCtrl'], (newClientCtrl)->
+        new newClientCtrl('.side-content', {})
+    'home/userManagement/newUser route': (data)->
+      require ['newUserCtrl'], (newUserCtrl)->
+        new newUserCtrl('.side-content', {})
+    'home/userManagement/userList route': (data)->
+      require ['newUserCtrl'], (newUserCtrl)->
+        new newUserCtrl('.side-content', {})
   })
 
   new Router(window)

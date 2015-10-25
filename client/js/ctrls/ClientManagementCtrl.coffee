@@ -7,11 +7,11 @@ define ['can/control', 'can/view/mustache', 'Auth', 'newClientCtrl', 'updateClie
   isLoadFinish = false
 
   mergeCol = (merge, colName)->
-    $('#clients').datagrid('mergeCells', {
-      index: merge.index,
-      field: colName,
-      rowspan: merge.rowspan
-    });
+    # $('#clients').datagrid('mergeCells', {
+    #   index: merge.index,
+    #   field: colName,
+    #   rowspan: merge.rowspan
+    # });
 
   onLoadSuccess = (data)->
     for i in [0...data.length] by 1
@@ -24,10 +24,12 @@ define ['can/control', 'can/view/mustache', 'Auth', 'newClientCtrl', 'updateClie
   getClient = (pageNum, pageSize)->
     $.getJSON(Auth.apiHost + 'mywms/client/page', {page: pageNum, rows: pageSize}
       , (data)->
-        $('.easyui-pagination').pagination({total:data.total, pageSize:PAGE_ZIE})
-        $('#clients').datagrid data:data
+        console.log data
+        # $('.easyui-pagination').pagination({total:data.total, pageSize:PAGE_ZIE})
+        # $('#clients').datagrid data:data
       , (data)->
-        $.messager.alert '错误', "http error: #{data.status}, #{data.statusText}"
+        console.error data
+        # $.messager.alert '错误', "http error: #{data.status}, #{data.statusText}"
     )
 
   enable = (ids, isEnable)->
@@ -50,59 +52,59 @@ define ['can/control', 'can/view/mustache', 'Auth', 'newClientCtrl', 'updateClie
       mergeData = []
       this.element.html can.view('../../public/view/home/client-management.html', {})
 
-      $('#mainLayout').layout();
-      $('#contentLayout').layout();
-      $('.easyui-pagination').pagination({total:0, pageSize:PAGE_ZIE, onSelectPage: (pageNum, pageSize)->
-        getClient pageNum, pageSize
-        })
+      # $('#mainLayout').layout();
+      # $('#contentLayout').layout();
+      # $('.easyui-pagination').pagination({total:0, pageSize:PAGE_ZIE, onSelectPage: (pageNum, pageSize)->
+      #   getClient pageNum, pageSize
+      #   })
 
-      $('#clients').datagrid 'onUncheck': (index, row) ->
-        enable row.id, false if isLoadFinish
+      # $('#clients').datagrid 'onUncheck': (index, row) ->
+      #   enable row.id, false if isLoadFinish
 
-      $('#clients').datagrid 'onCheck': (index, row) ->
-        enable row.id, true if isLoadFinish
+      # $('#clients').datagrid 'onCheck': (index, row) ->
+      #   enable row.id, true if isLoadFinish
 
-      $('#clients').datagrid 'loadFilter': (ret) ->
-        rets = []
-        currentPageOriginData = ret.rows
+      # $('#clients').datagrid 'loadFilter': (ret) ->
+      #   rets = []
+      #   currentPageOriginData = ret.rows
 
-        for i in [0...ret.rows.length] by 1
-          clientInfo = ret.rows[i]
-          merge = {}
+      #   for i in [0...ret.rows.length] by 1
+      #     clientInfo = ret.rows[i]
+      #     merge = {}
 
-          clientInfo.contacts ?= []
-          if clientInfo.contacts.length == 0
-            # clientInfo.locked = if clientInfo.locked == 0 then "启用" else "禁用"
-            rets.push clientInfo
-          else
-            mergeData.push index:rets.length, rowspan:clientInfo.contacts.length
-            for j in [0...clientInfo.contacts.length] by 1
-              contractInfo = clientInfo.contacts[j]
-              rets.push
-                id: clientInfo.id
-                # locked: if clientInfo.locked == 0 then "启用" else "禁用"
-                locked: clientInfo.locked
-                name: clientInfo.name,
-                address: clientInfo.address,
-                contacts_name: contractInfo.name,
-                contacts_tel: contractInfo.tel,
-                contacts_email: contractInfo.email,
-                desc: clientInfo.desc
+      #     clientInfo.contacts ?= []
+      #     if clientInfo.contacts.length == 0
+      #       # clientInfo.locked = if clientInfo.locked == 0 then "启用" else "禁用"
+      #       rets.push clientInfo
+      #     else
+      #       mergeData.push index:rets.length, rowspan:clientInfo.contacts.length
+      #       for j in [0...clientInfo.contacts.length] by 1
+      #         contractInfo = clientInfo.contacts[j]
+      #         rets.push
+      #           id: clientInfo.id
+      #           # locked: if clientInfo.locked == 0 then "启用" else "禁用"
+      #           locked: clientInfo.locked
+      #           name: clientInfo.name,
+      #           address: clientInfo.address,
+      #           contacts_name: contractInfo.name,
+      #           contacts_tel: contractInfo.tel,
+      #           contacts_email: contractInfo.email,
+      #           desc: clientInfo.desc
 
-        currentPageMergeData = rets
-        return total: rets.length, rows:rets
+      #   currentPageMergeData = rets
+      #   return total: rets.length, rows:rets
 
-      $('#clients').datagrid 'onLoadSuccess':(data)->
-        onLoadSuccess mergeData
+      # $('#clients').datagrid 'onLoadSuccess':(data)->
+      #   onLoadSuccess mergeData
 
-        $('#clients').parent().find(".datagrid-header-check").children("input[type=checkbox]").eq(0).attr("style", "display:none")
-        $('#clients').parent().find(".datagrid-header-check").eq(0).append("<span>启用/禁用</span>")
+      #   $('#clients').parent().find(".datagrid-header-check").children("input[type=checkbox]").eq(0).attr("style", "display:none")
+      #   $('#clients').parent().find(".datagrid-header-check").eq(0).append("<span>启用/禁用</span>")
 
-        $.each data.rows, (index, item)->
-          if item.locked == 0
-            $('#clients').datagrid('checkRow', index)
+      #   $.each data.rows, (index, item)->
+      #     if item.locked == 0
+      #       $('#clients').datagrid('checkRow', index)
 
-        isLoadFinish = true
+      #   isLoadFinish = true
 
       getClient 0, PAGE_ZIE
 
