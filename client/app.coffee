@@ -10,44 +10,41 @@ require.config
     autocomplete: 'devbridge-autocomplete/dist/jquery.autocomplete.min'
 
     jqueryEx: '../public/js/servs/jQueryExtend'
+    jAlert: '../public/js/plugins/jquery.alerts'
     localStorage: '../public/js/servs/local-storage'
     Auth: '../public/js/servs/auth'
 
+    base: '../public/js/ctrls/base'
     homeCtrl: '../public/js/ctrls/HomeCtrl'
     loginCtrl: '../public/js/ctrls/LoginCtrl'
-
     frameCtrl: '../public/js/ctrls/frameCtrl'
 
-    clientManagementCtrl: '../public/js/ctrls/ClientManagementCtrl'
-    newClientCtrl: '../public/js/ctrls/NewClientCtrl'
-    updateClientCtrl: '../public/js/ctrls/UpdateClientCtrl'
-
-    userManagementCtrl: '../public/js/ctrls/UserManagementCtrl'
-    newUserCtrl: '../public/js/ctrls/NewUserCtrl'
-    # updateUserCtrl: '../public/js/ctrls/UserManagementCtrl'
+    # 公司下的控制器
+    companyNewCtrl: '../public/js/ctrls/company/companyNewCtrl'
+    companyViewCtrl: '../public/js/ctrls/company/companyViewCtrl'
+    userNewCtrl: '../public/js/ctrls/UserManagementCtrl'
+    userViewCtrl: '../public/js/ctrls/NewUserCtrl'
 
   shim:
     can: ['$', 'jqueryEx']
     loading: ['$']
     jqueryEx: ['$']
     datagrid: ['$']
+    jAlert: ['$']
     datagrid_plugin: ['datagrid']
     autocomplete: ['$']
 
 require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
   validRoute = (route, p)->
     if !Auth.logined() && route != 'login'
-      console.log 'to login...'
       window.location.hash = '!login'
     else if !route
-      console.log "to home..."
       window.location.hash = '!home'
-    else
-      console.log "to #{route}..."
 
   Router = can.Control({
     '{can.route} change': (ev, attr, how, newVal, oldVal)->
       validRoute ev.route, 'change'
+
     'login route': (data)->
       require ['loginCtrl'], (loginCtrl)->
         new loginCtrl('body', {})
@@ -56,30 +53,30 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       window.location.hash = '!login'
       delete can.home
     'route': ()->
-      validRoute '', 'empty'
+      window.location.hash = '#!home'
     'home route': (data)->
-      require ['homeCtrl'], (homeCtrl)->
-        can.home = new homeCtrl('body', {})
+      require ['base'], (base)->
+        new base('', {id:'dashboard'})
     'home/:id route': (data)->
-      require ['homeCtrl', 'frameCtrl'], (homeCtrl, frameCtrl)->
-        can.home = new homeCtrl('body', {}) if !can.home
+      require ['base'], (base)->
+        new base('', data)
 
-        menus = localStorage.get('menus')
-        it = _.find(menus, (item)-> item.url == data.id)
-        new frameCtrl('#currentWork', it)
-
-    'home/clientManagement/newClient route': (data)->
-      require ['newClientCtrl'], (newClientCtrl)->
-        new newClientCtrl('.side-content', {})
-    'home/clientManagement/clientList route': (data)->
-      require ['newClientCtrl'], (newClientCtrl)->
-        new newClientCtrl('.side-content', {})
-    'home/userManagement/newUser route': (data)->
+    'home/company/companyAdd/:id route': (data)->
+      require ['companyNewCtrl'], (companyNewCtrl)->
+        console.log data
+        new companyNewCtrl('#rightWorkspace', {id:'company', value:data})
+    'home/company/companyAdd route': (data)->
+      require ['companyNewCtrl'], (companyNewCtrl)->
+        new companyNewCtrl('#rightWorkspace', {id:'company'})
+    'home/company/companyView route': (data)->
+      require ['companyViewCtrl'], (companyViewCtrl)->
+        new companyViewCtrl('#rightWorkspace', {id:'company'})
+    'home/company/userAdd route': (data)->
       require ['newUserCtrl'], (newUserCtrl)->
-        new newUserCtrl('.side-content', {})
-    'home/userManagement/userList route': (data)->
+        new newUserCtrl('#rightWorkspace', {id:'company'})
+    'home/company/userView route': (data)->
       require ['newUserCtrl'], (newUserCtrl)->
-        new newUserCtrl('.side-content', {})
+        new newUserCtrl('#rightWorkspace', {id:'company'})
   })
 
   new Router(window)

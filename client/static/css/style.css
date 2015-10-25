@@ -6,14 +6,14 @@
 	Author: Adi Purdila
 	Author URI: http://www.adipurdila.com
 	Version: 1.0.0
-	
+
 **********************************************************************************/
 
 /* ---------- RESET ---------- */
-/* ---------- Based upon 'reset.css' in the 
-Yahoo! User Interface Library: 
+/* ---------- Based upon 'reset.css' in the
+Yahoo! User Interface Library:
 http://developer.yahoo.com/yui ---------- */
-*, html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, 
+*, html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4,
 h5, h6, pre, form, label, fieldset, input, p, blockquote, th, td {
 	margin: 0;
 	padding: 0;
@@ -145,7 +145,7 @@ body, form {
 }
 
 p, .button, form input, ul#nav li ul, ul#tabs, div.side-menu ul li a, table,
-.information-box, .confirmation-box, .error-box, .error-message, .warning-box, ol, .regular-ul, 
+.information-box, .confirmation-box, .error-box, .error-message, .warning-box, ol, .regular-ul,
 .custom-ul, blockquote, cite { font-size: 0.85em; /* 12/16 */ }
 
 div.content-module-heading span { font-size: 0.625em; /* 10/16 */ }
@@ -190,26 +190,26 @@ p a, p a:hover { border-bottom: 1px dotted; }
             border: 1px solid #D9DBDD;
             width:120px;
             height:25px;
-            
+
         }
         .my_text_box:focus{
             border: 1px solid #bbbdbe;
         }
         .my_button{
-            height:30px; 
+            height:30px;
             padding: 0px 5px 0px 5px;
         }
         .my_pagination{
              border: 1px solid #bbbdbe;
              padding: 0px 5px 0px 5px;
-             margin-left:10px; 
+             margin-left:10px;
         }
 
 
 
 /* ---------- WIDTHS ---------- */
 /* Form Inputs Style */
-.default-width-input { width: 20.833em; /* Default Value. Equals 250px for the 12px font size */ }	
+.default-width-input { width: 20.833em; /* Default Value. Equals 250px for the 12px font size */ }
 
 .full-width-input { width: 95%; }
 
@@ -234,7 +234,7 @@ p a, p a:hover { border-bottom: 1px dotted; }
 /* ---------- BUTTONS ---------- */
 .button {
 	padding: 0.833em; /* 10/12 */
-	
+
 	display: inline-block;
 	text-decoration: none;
 	background-repeat: no-repeat;
@@ -294,7 +294,7 @@ p a, p a:hover { border-bottom: 1px dotted; }
 		background-image: url("../images/icons/menu/menu-email-special.png");
 		color: #7fcdff;
 	}
-	
+
 .menu-settings { background-image: url("../images/icons/menu/menu-settings.png"); }
 	.menu-settings:hover { background-image: url("../images/icons/menu/menu-settings-over.png"); }
 
@@ -304,7 +304,7 @@ p a, p a:hover { border-bottom: 1px dotted; }
 .menu-user { background-image: url("../images/icons/menu/menu-user.png"); }
 .form tr {
     height:12px !important;
-   
+
      margin: 0px !important;
 }
 .form tr td {
@@ -337,7 +337,7 @@ form input[type="text"], input[type="password"], textarea {
 	form input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 		border: 1px solid #bbbdbe;
 	}
-	
+
 form input[type="checkbox"], form input[type="radio"] { margin-right: 0.833em; /* 10/12 */ }
 
 form input[type="submit"] {
@@ -434,19 +434,19 @@ ul#nav {
 		position: relative;
 	}
 		ul#nav li:first-child { margin-left: 0; }
-		ul#nav li:hover ul { left: 0; /* On hover, we make the submenu visible again */ }	
+		ul#nav li:hover ul { left: 0; /* On hover, we make the submenu visible again */ }
 		/* Persistent hover state, exactly the same style as the inner anchor on hover (.dark:hover) */
 		ul#nav li:hover a {
 			background-color: #5d6677;
 			color: white;
 		}
-		
+
 	ul#nav li.v-sep {
 		border-right: 1px solid #3f4551;
 		margin-right: 0.625em; /* 10/16 */
 		padding-right: 0.625em; /* 10/16 */
 	}
-	
+
 	ul#nav li ul {
 		list-style-type: none;
 		position: absolute;
@@ -473,7 +473,7 @@ ul#nav {
 			}
 
 			ul#nav li ul li a:hover { background-color: #7a8497; }
-			
+
 
 
 
@@ -495,8 +495,8 @@ div#login-intro {
 	div#login-intro h1 { text-transform: uppercase; margin: 0.312em 0 0 0; }
 	div#login-intro h5 { color: #9498a1; }
 
-a#company-branding img { height: 60px; }	
-a#company-branding-small img { height: 60px; }	
+a#company-branding img { height: 60px; }
+a#company-branding-small img { height: 60px; }
 
 
 
@@ -506,7 +506,7 @@ a#company-branding-small img { height: 60px; }
 ul#tabs { list-style-type: none; }
 
 	ul#tabs li { float: left; }
-	
+
 		ul#tabs li a {
 			border: 1px solid #eeefef;
 			border-bottom: none;
@@ -519,38 +519,38 @@ ul#tabs { list-style-type: none; }
 
 ul#tabs li a.dashboard-tab {
 	background: transparent url('../images/tab-dashboard.png') no-repeat 0.833em center /* 10/12 */;
-	padding-left: 3em; /* 36/12 */	
+	padding-left: 3em; /* 36/12 */
 }
 ul#tabs li a.sales-tab {
 	background: transparent url('../images/sales-icon.png') no-repeat 0.833em center /* 10/12 */;
-	padding-left: 3em; /* 36/12 */	
+	padding-left: 3em; /* 36/12 */
 }
 
 ul#tabs li a.customers-tab {
 	background: transparent url('../images/customer-icon.png') no-repeat 0.833em center /* 10/12 */;
-	padding-left: 3em; /* 36/12 */	
+	padding-left: 3em; /* 36/12 */
 }
 
 ul#tabs li a.purchase-tab {
 	background: transparent url('../images/purchase-icon.png') no-repeat 0.833em center /* 10/12 */;
-	padding-left: 3em; /* 36/12 */	
+	padding-left: 3em; /* 36/12 */
 }
 
 ul#tabs li a.supplier-tab {
 	background: transparent url('../images/supplier-icon.png') no-repeat 0.833em center /* 10/12 */;
-	padding-left: 3em; /* 36/12 */	
+	padding-left: 3em; /* 36/12 */
 }
 ul#tabs li a.stock-tab {
 	background: transparent url('../images/stock-icon.png') no-repeat 0.833em center /* 10/12 */;
-	padding-left: 3em; /* 36/12 */	
+	padding-left: 3em; /* 36/12 */
 }
 ul#tabs li a.payment-tab {
 	background: transparent url('../images/payment-icon.png') no-repeat 0.833em center /* 10/12 */;
-	padding-left: 3em; /* 36/12 */	
+	padding-left: 3em; /* 36/12 */
 }
 ul#tabs li a.report-tab {
 	background: transparent url('../images/report-icon.png') no-repeat 0.833em center /* 10/12 */;
-	padding-left: 3em; /* 36/12 */	
+	padding-left: 3em; /* 36/12 */
 }
 ul#tabs li a.active-tab, ul#tabs li a.active-tab:hover {
 	background-color: #f8f9fa;
@@ -572,32 +572,32 @@ table { width: 100%; margin-bottom: 1.25em; /* 20/16 */ }
 		padding: 0.55em .7em 0.55em 2.25em; /* 15/12 */
 		border-left: 1px solid #747c8a;
 	}
-		
+
 	table tbody td {
 		padding: 0.33em 0 0.833em 1.25em; /* 10/12 15/12 */
-		
+
 	}
-	
+
 	/* Alternate table row */
         .mytable_row  { background-color: #153450;
         padding: 10px;
         padding-bottom: -30px;
-        border-radius:10px; 
+        border-radius:10px;
         color: #ffffff;
         }
 
 	/* Push the first cell to the right so it doesn't stick to the table border */
-	
-	
-	
-	
+
+
+
+
 	table td.table-footer {
 		text-align: left;
 		vertical-align: middle;
 		padding-top: 1.25em /* 15/12 */;
 		border: none;
 	}
-	
+
 a.table-actions-button {
 	width: 1.25em;
 	height: 1.25em;
@@ -607,7 +607,7 @@ a.table-actions-button {
 
 
 /* ---------- FORM TABLES ---------- */
-table.form { width: 400px; margin-bottom: 1.25em; /* 20/16 */ }
+table.form { width: 800px; margin-bottom: 1.25em; /* 20/16 */ }
 
 	table.form th {
 		background-color: #5d6677;
@@ -616,30 +616,30 @@ table.form { width: 400px; margin-bottom: 1.25em; /* 20/16 */ }
 		padding: 1.25em 0 1.25em 1.25em; /* 15/12 */
 		border-left: 1px solid #747c8a;
 	}
-		
+
 	table.form tbody td {
 		padding: 0.03em 0 0.03em 1.25em; /* 10/12 15/12 */
-		
+
 	}
-	
+
 	/* Push the first cell to the right so it doesn't stick to the table border */
 	table th:first-child {
 		width: 4em /* 48/12 */;
-	
+
 	}
-	
+
 	table th:last-child {
 		width: 7em; /* 84/12 */
-		
+
 	}
-	
+
 	table.form td.table-footer {
 		text-align: left;
 		vertical-align: middle;
 		padding-top: 1.25em /* 15/12 */;
 		border: none;
 	}
-	
+
 
 
 
@@ -682,9 +682,9 @@ div.side-menu {
 		margin:  1.25em; /* 15/12 */
 		color: white;
 	}
-	
+
 	div.side-menu ul { list-style-type: none; }
-	
+
 		div.side-menu ul li a {
 			padding: 0.833em 1.25em; /* 10/12 15/12 */
 			border-top: 1px solid #f8f9fa;
@@ -714,8 +714,8 @@ div.content-module-heading {
 		font-weight: bold;
 		margin: 1.25em; /* 15/12 */
 	}
-	
-	div.content-module-heading span { 
+
+	div.content-module-heading span {
 		color: #969dac;
 		text-transform: uppercase;
 		margin: 1.5em; /* 15/10 */
@@ -734,9 +734,9 @@ div#footer {
 }
 .my_with{
     width: 80px;
-   
-    padding:2px 2px 2px 2px ; 
-   
+
+    padding:2px 2px 2px 2px ;
+
 }
 .my_table tr td{
     width: 80px;

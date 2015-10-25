@@ -15,4 +15,8 @@ define ['_'], (un)->
 
     remove: (key)->
       window.localStorage.removeItem key
+    delete: (key)->
+      window.localStorage.removeItem key
+    rm: (key)->
+      window.localStorage.removeItem key
   }

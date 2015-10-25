@@ -44,7 +44,7 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage'], (Contr
 
   appendTopMenu = (menu)->
     icon = getIcon menu.url
-    $('#tabs').append("<li><a href=#!home/#{menu.url} class='width60 text-center #{icon}'> #{menu.name}</li>")
+    $('#tabs').append("<li><a href=#!home/#{menu.url} class='width100 text-center #{icon}'> #{menu.name}</li>")
 
   appendChildMenu = (fatherId, child)->
     return if !father

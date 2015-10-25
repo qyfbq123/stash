@@ -1,0 +1,62 @@
+
+p &nbsp;&nbsp;&nbsp;&nbsp;
+form#newClient
+  .col-md-offset-2
+    table.form
+      tr
+        td
+          div.width80 姓名：
+        td
+          input.round.default-width-input(type='text', can-value='name')
+        td
+          div.width80 别名：
+        td
+          input.round.default-width-input(type='text', can-value='anotherName')
+      tr
+        td
+          div.width80 地址：
+        td
+          input.round.default-width-input(type='text', can-value='address')
+        td
+          div.width80 描述：
+        td
+          input.round.default-width-input(type='text', can-value='desc')
+
+  p &nbsp;&nbsp;&nbsp;&nbsp;
+
+  .col-md-offset-2
+    table.form
+      tr
+        td
+          div.width80 联系人：
+        td
+          input.round.default-width-input(type='text', can-value='contactName')
+        td
+          div.width80 联系人号码：
+        td
+          input.round.default-width-input(type='text', can-value='contactTel')
+      tr
+        td
+          div.width80 联系人邮箱：
+        td
+          input.round.default-width-input(type='text', can-value='contactEmail')
+        td
+          div.width80 联系人传真：
+        td
+          input.round.default-width-input(type='text', can-value='contactFax')
+      tr
+        td
+          div.width80 联系人QQ：
+        td
+          input.round.default-width-input(type='text', can-value='contactQq')
+        td
+          div.width80 联系人MSN：
+        td
+          input.round.default-width-input(type='text', can-value='contactMsn')
+
+    textarea(placeholder='联系人描述...', can-value='contactDesc', style='margin: 0px; width: 797px; height: 73px;')
+
+p &nbsp;
+
+.col-md-offset-10.col-md-2
+  button.button.round.blue.image-right.ic-add#save 保存

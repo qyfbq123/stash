@@ -12,8 +12,16 @@ html,body,.fullHeight {
   width:300px;
 }
 
-.width60 {
+.width100 {
   width:100px;
+}
+
+.width80 {
+  width:80px;
+}
+
+.width60 {
+  width:60px;
 }
 
 .marginL50{
