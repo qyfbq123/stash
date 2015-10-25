@@ -22,7 +22,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'newClientCtrl', 'updateClie
       mergeCol(merge, 'desc');
 
   getClient = (pageNum, pageSize)->
-    $.getJSON(Auth.apiHost + 'mywms/client/page', {page: pageNum, rows: pageSize}
+    $.getJSON(Auth.apiHost + 'mywms2/client/page', {page: pageNum, rows: pageSize}
       , (data)->
         console.log data
         # $('.easyui-pagination').pagination({total:data.total, pageSize:PAGE_ZIE})
@@ -35,9 +35,9 @@ define ['can/control', 'can/view/mustache', 'Auth', 'newClientCtrl', 'updateClie
   enable = (ids, isEnable)->
     api = Auth.apiHost
     if isEnable
-      api += 'mywms/client/enabled'
+      api += 'mywms2/client/enabled'
     else
-      api += 'mywms/client/disabled'
+      api += 'mywms2/client/disabled'
 
     $.getJSON(api, {ids:ids}
       , (data)->

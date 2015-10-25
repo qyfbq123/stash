@@ -38,7 +38,7 @@ define ['can', 'can/control', 'Auth', '_'], (can, Control, Auth)->
             user[key] = it
         )
 
-        $.postJSON(Auth.apiHost + 'mywms/client/update', user,
+        $.postJSON(Auth.apiHost + 'mywms2/client/update', user,
           (data)->
             if data.status != 0
               return $.messager.alert('提示', "更新客户信息失败-#{data.message}");

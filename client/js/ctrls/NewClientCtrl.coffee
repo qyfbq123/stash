@@ -44,7 +44,7 @@ define ['can', 'can/control', 'Auth', '_'], (can, Control, Auth)->
         )
 
         console.log user
-        $.postJSON(Auth.apiHost + 'mywms/client/create', user,
+        $.postJSON(Auth.apiHost + 'mywms2/client/create', user,
           (data)->
             $('#winNewClient').window('close');
             $.messager.alert('新增客户成功', '新增客户成功！');

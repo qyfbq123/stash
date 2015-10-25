@@ -5,7 +5,7 @@ define ['can/control', 'can', 'Auth', 'datagrid_plugin'], (Ctrl, can, Auth)->
   userList = new can.Map
 
   getUser = (pageNum, pageSize)->
-    $.getJSON(Auth.apiHost + 'mywms/user/page', {page: pageNum, rows: pageSize}
+    $.getJSON(Auth.apiHost + 'mywms2/user/page', {page: pageNum, rows: pageSize}
       , (data)->
         console.log data
         # $('.easyui-pagination').pagination({total:data.total, pageSize:PAGE_ZIE})
@@ -19,7 +19,7 @@ define ['can/control', 'can', 'Auth', 'datagrid_plugin'], (Ctrl, can, Auth)->
       this.element.html can.view('../../public/view/home/user-management.html', userList)
 
       datagrid = $('#userList').datagrid({
-        url: Auth.apiHost + 'mywms/user/page',
+        url: Auth.apiHost + 'mywms2/user/page',
         parse: (data)->
           return {total:5, data: data.rows}
         col:[{

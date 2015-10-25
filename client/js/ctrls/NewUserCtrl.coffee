@@ -17,7 +17,7 @@ define ['can', 'can/control', 'Auth', '_', '$'], (can, Control, Auth)->
       #   textField:'text'
       # )
 
-      # $.getJSON(Auth.apiHost + 'mywms/client/allRoles', {}
+      # $.getJSON(Auth.apiHost + 'mywms2/client/allRoles', {}
       #   , (data)->
       #     $('#roles').combobox(data: data)
       #   , (data)->
@@ -34,7 +34,7 @@ define ['can', 'can/control', 'Auth', '_', '$'], (can, Control, Auth)->
       #     pagination : true,
       #     pageSize: 10,
       #     method: 'POST',
-      #     url:"#{Auth.apiHost}mywms/client/allByName",
+      #     url:"#{Auth.apiHost}mywms2/client/allByName",
       #     columns:[[
       #         {field:'value',title:'客户ID',width:80},
       #         {field:'text',title:'客户名',width:120}
@@ -57,7 +57,7 @@ define ['can', 'can/control', 'Auth', '_', '$'], (can, Control, Auth)->
         userInfo.attr('clientVo': {id:$('#clientSelector').combogrid('getValue')})
         console.log userInfo.attr()
 
-        $.postJSON(Auth.apiHost + 'mywms/user/create', userInfo.attr(),
+        $.postJSON(Auth.apiHost + 'mywms2/user/create', userInfo.attr(),
           (data)->
             console.log data
             $('#winNewUser').window('close');

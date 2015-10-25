@@ -16,6 +16,8 @@ require.config
     homeCtrl: '../public/js/ctrls/HomeCtrl'
     loginCtrl: '../public/js/ctrls/LoginCtrl'
 
+    frameCtrl: '../public/js/ctrls/frameCtrl'
+
     clientManagementCtrl: '../public/js/ctrls/ClientManagementCtrl'
     newClientCtrl: '../public/js/ctrls/NewClientCtrl'
     updateClientCtrl: '../public/js/ctrls/UpdateClientCtrl'
@@ -32,7 +34,7 @@ require.config
     datagrid_plugin: ['datagrid']
     autocomplete: ['$']
 
-require ['can', 'Auth'], (can, Auth)->
+require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
   validRoute = (route, p)->
     if !Auth.logined() && route != 'login'
       console.log 'to login...'
@@ -45,7 +47,6 @@ require ['can', 'Auth'], (can, Auth)->
 
   Router = can.Control({
     '{can.route} change': (ev, attr, how, newVal, oldVal)->
-      # console.log(JSON.stringify(ev), ev.route, '---------')
       validRoute ev.route, 'change'
     'login route': (data)->
       require ['loginCtrl'], (loginCtrl)->
@@ -60,14 +61,13 @@ require ['can', 'Auth'], (can, Auth)->
       require ['homeCtrl'], (homeCtrl)->
         can.home = new homeCtrl('body', {})
     'home/:id route': (data)->
-      require ['homeCtrl', 'clientManagementCtrl', 'userManagementCtrl'], (homeCtrl, clientManagementCtrl, userManagementCtrl)->
+      require ['homeCtrl', 'frameCtrl'], (homeCtrl, frameCtrl)->
         can.home = new homeCtrl('body', {}) if !can.home
 
-        switch data.id
-          when 'clientManagement'
-            new clientManagementCtrl('#currentWork', {})
-          when 'userManagement'
-            new userManagementCtrl('#currentWork', {})
+        menus = localStorage.get('menus')
+        it = _.find(menus, (item)-> item.url == data.id)
+        new frameCtrl('#currentWork', it)
+
     'home/clientManagement/newClient route': (data)->
       require ['newClientCtrl'], (newClientCtrl)->
         new newClientCtrl('.side-content', {})

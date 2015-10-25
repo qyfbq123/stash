@@ -8,7 +8,7 @@ define ['localStorage', 'loading'], (localStorage, loading)->
       console.log userinfo
       $('html').loading({message:'正在登录...'});
 
-      $.post(apiHost + 'mywms/main/login', userinfo, (data, status)->
+      $.post(apiHost + 'mywms2/main/login', userinfo, (data, status)->
         console.log data, status
 
         $('html').loading('stop');
