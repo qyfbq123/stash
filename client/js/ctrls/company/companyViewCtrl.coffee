@@ -1,6 +1,4 @@
 beforeClick = (info)->
-  console.log info
-
   require ['localStorage'], (localStorage)->
     localStorage.set 'tmpCompanyInfo', info
     window.location.hash = "#!home/company/companyAdd/#{info.id}"

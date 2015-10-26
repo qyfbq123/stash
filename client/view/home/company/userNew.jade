@@ -1,0 +1,46 @@
+
+p &nbsp;&nbsp;&nbsp;&nbsp;
+form#userNew
+  .col-md-offset-2
+    table.form
+      tr
+        td
+          div.width80 姓名：
+        td
+          input.round.default-width-input(type='text', can-value='username')
+        td
+          div.width80 别名：
+        td
+          input.round.default-width-input(type='text', can-value='cname')
+      tr
+        td
+          div.width80 地址：
+        td
+          input.round.default-width-input(type='text', can-value='address')
+        td
+          div.width80 密码：
+        td
+          input.round.default-width-input(type='text', can-value='password')
+      tr
+        td
+          div.width80 电话：
+        td
+          input.round.default-width-input(type='text', can-value='tel')
+        td
+          div.width80 所属公司：
+        td
+          input.round.default-width-input#companySelector(type='text')
+      tr
+        td
+          div.width80 所属角色：
+        td
+          select.round.default-width-input#roleSelector(multiple="multiple")
+
+
+
+  p &nbsp;&nbsp;&nbsp;&nbsp;
+
+p &nbsp;
+
+.col-md-offset-10.col-md-2
+  button.button.round.blue.image-right.ic-add#newUser 保存

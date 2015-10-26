@@ -8,6 +8,7 @@ require.config
     datagrid_plugin: 'jquery.datagrid/plugins/jquery.datagrid.bootstrap3'
     datagrid: 'jquery.datagrid/jquery.datagrid'
     autocomplete: 'devbridge-autocomplete/dist/jquery.autocomplete.min'
+    tokenize: 'jquery-tokenize/jquery.tokenize'
 
     jqueryEx: '../public/js/servs/jQueryExtend'
     jAlert: '../public/js/plugins/jquery.alerts'
@@ -22,8 +23,8 @@ require.config
     # 公司下的控制器
     companyNewCtrl: '../public/js/ctrls/company/companyNewCtrl'
     companyViewCtrl: '../public/js/ctrls/company/companyViewCtrl'
-    userNewCtrl: '../public/js/ctrls/UserManagementCtrl'
-    userViewCtrl: '../public/js/ctrls/NewUserCtrl'
+    userNewCtrl: '../public/js/ctrls/company/userNewCtrl'
+    userViewCtrl: '../public/js/ctrls/company/userViewCtrl'
 
   shim:
     can: ['$', 'jqueryEx']
@@ -63,20 +64,21 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
 
     'home/company/companyAdd/:id route': (data)->
       require ['companyNewCtrl'], (companyNewCtrl)->
-        console.log data
-        new companyNewCtrl('#rightWorkspace', {id:'company', value:data})
+        new companyNewCtrl('#rightWorkspace', {id:'company'})
     'home/company/companyAdd route': (data)->
       require ['companyNewCtrl'], (companyNewCtrl)->
         new companyNewCtrl('#rightWorkspace', {id:'company'})
     'home/company/companyView route': (data)->
       require ['companyViewCtrl'], (companyViewCtrl)->
         new companyViewCtrl('#rightWorkspace', {id:'company'})
+
     'home/company/userAdd route': (data)->
-      require ['newUserCtrl'], (newUserCtrl)->
-        new newUserCtrl('#rightWorkspace', {id:'company'})
+      require ['userNewCtrl'], (userNewCtrl)->
+        new userNewCtrl('#rightWorkspace', {id:'company'})
+
     'home/company/userView route': (data)->
-      require ['newUserCtrl'], (newUserCtrl)->
-        new newUserCtrl('#rightWorkspace', {id:'company'})
+      require ['userViewCtrl'], (userViewCtrl)->
+        new userViewCtrl('#rightWorkspace', {id:'company'})
   })
 
   new Router(window)
