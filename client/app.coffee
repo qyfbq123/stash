@@ -26,6 +26,12 @@ require.config
     userNewCtrl: '../public/js/ctrls/company/userNewCtrl'
     userViewCtrl: '../public/js/ctrls/company/userViewCtrl'
 
+    #stock & product
+    brandViewCtrl: '../public/js/ctrls/stocksproducts/brandViewCtrl'
+    brandCreateCtrl: '../public/js/ctrls/stocksproducts/brandCreateCtrl'
+    categoryViewCtrl: '../public/js/ctrls/stocksproducts/categoryViewCtrl'
+    categoryCreateCtrl: '../public/js/ctrls/stocksproducts/categoryCreateCtrl'
+
   shim:
     can: ['$', 'jqueryEx']
     loading: ['$']
@@ -82,6 +88,26 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
     'home/company/userView route': (data)->
       require ['userViewCtrl'], (userViewCtrl)->
         new userViewCtrl('#rightWorkspace', {id:'company'})
+
+    'home/stocksproducts/brandAdd route': (data)->
+      require ['brandCreateCtrl'], (brandCreateCtrl)->
+        new brandCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/brandAdd/:id route': (data)->
+      require ['brandCreateCtrl'], (brandCreateCtrl)->
+        new brandCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/brandView route': (data)->
+      require ['brandViewCtrl'], (brandViewCtrl)->
+        new brandViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/stocksproducts/categoryAdd route': (data)->
+      require ['categoryCreateCtrl'], (categoryCreateCtrl)->
+        new categoryCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/categoryAdd/:id route': (data)->
+      require ['categoryCreateCtrl'], (categoryCreateCtrl)->
+        new categoryCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/categoryView route': (data)->
+      require ['categoryViewCtrl'], (categoryViewCtrl)->
+        new categoryViewCtrl('#rightWorkspace', {id:'stocksproducts'})
   })
 
   new Router(window)
