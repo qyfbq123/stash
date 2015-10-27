@@ -1,20 +1,19 @@
 
-define ['localStorage', 'loading'], (localStorage, loading)->
+define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
   apiHost = 'http://192.168.0.100:8080/';
 
   return {
     apiHost: apiHost
     login: (userinfo, done)->
-      console.log userinfo
       $('html').loading({message:'正在登录...'});
 
       $.post(apiHost + 'mywms2/main/login', userinfo, (data, status)->
-        console.log data, status
+        console.log data
 
         $('html').loading('stop');
 
         if parseInt(data.status) != 0
-          $.messager.alert('登陆失败', data.message, 'error');
+          jAlert(data.message, '登陆失败');
         else
           localStorage.set('logined', true);
           localStorage.set('user', data.data);
@@ -24,7 +23,7 @@ define ['localStorage', 'loading'], (localStorage, loading)->
       .fail((data, status)->
         window.location.hash = '!login'
         $('html').loading('stop');
-        $.messager.alert('登陆失败', 'http error:' + status + ' ' + data.statusText, 'error');
+        jAlert('http error:' + status + ' ' + data.statusText, '登陆失败');
         done?()
       )
     logout: ()->
@@ -35,6 +34,4 @@ define ['localStorage', 'loading'], (localStorage, loading)->
       return Boolean(localStorage.get('logined'));
     user: ()->
       return localStorage.get('user');
-    createClient: (userInfo)->
-      console.log(userInfo);
   }

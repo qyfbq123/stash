@@ -1,5 +1,5 @@
 
-define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert'], (base, can, Control, Auth, localStorage)->
+define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'validate'], (base, can, Control, Auth, localStorage)->
   userInfo = new can.Map()
 
   return Control.extend
@@ -12,8 +12,11 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert'], (b
 
       this.element.html can.view('../../public/view/home/company/companyNew.html', userInfo)
 
-      $('#save').unbind 'click'
-      $('#save').bind 'click', ()->
+      $('#saveCompany').unbind 'click'
+      $('#saveCompany').bind 'click', ()->
+
+        return if !$('#newClient').valid()
+
         url = Auth.apiHost + if tmpCompanyInfo then 'mywms2/company/update' else 'mywms2/company/create'
 
         $.postJSON(url, userInfo.attr(),

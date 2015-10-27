@@ -1,4 +1,4 @@
-beforeClick = (info)->
+clickCompanyUpdate = (info)->
   require ['localStorage'], (localStorage)->
     localStorage.set 'tmpCompanyInfo', info
     window.location.hash = "#!home/company/companyAdd/#{info.id}"
@@ -13,6 +13,10 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
 
       datagrid = $('#companyView').datagrid({
         url: Auth.apiHost + 'mywms2/company/page',
+        attr: "class": "table table-bordered table-striped"
+        sorter: "bootstrap",
+        pager: "bootstrap"
+        paramsDefault: {paging:10}
         parse: (data)->
           return {total:data.total, data: data.rows}
         col:[{
@@ -24,17 +28,17 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:beforeClick(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='javascript:clickCompanyUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
               "<a href='' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
-            title: '用户名'
+            title: '公司名称'
           }, {
             field: 'address'
-            title: '地址'
+            title: '公司地址'
           },{
             field: 'desc'
-            title: '描述'
+            title: '公司描述'
           },{
             field:'contactName'
             title:'联系人'
@@ -55,6 +59,4 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
             title: '联系人描述'
           }
         ]
-        sorter: "bootstrap",
-        pager: "bootstrap"
       })

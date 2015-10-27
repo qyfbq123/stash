@@ -9,6 +9,7 @@ require.config
     datagrid: 'jquery.datagrid/jquery.datagrid'
     autocomplete: 'devbridge-autocomplete/dist/jquery.autocomplete.min'
     tokenize: 'jquery-tokenize/jquery.tokenize'
+    validate: 'jquery-validation/dist/jquery.validate.min'
 
     jqueryEx: '../public/js/servs/jQueryExtend'
     jAlert: '../public/js/plugins/jquery.alerts'
@@ -33,6 +34,7 @@ require.config
     jAlert: ['$']
     datagrid_plugin: ['datagrid']
     autocomplete: ['$']
+    validate: ['$']
 
 require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
   validRoute = (route, p)->
@@ -61,10 +63,10 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       require ['base'], (base)->
         new base('', data)
 
-    'home/company/companyAdd/:id route': (data)->
+    'home/company/companyAdd route': (data)->
       require ['companyNewCtrl'], (companyNewCtrl)->
         new companyNewCtrl('#rightWorkspace', {id:'company'})
-    'home/company/companyAdd route': (data)->
+    'home/company/companyAdd/:id route': (data)->
       require ['companyNewCtrl'], (companyNewCtrl)->
         new companyNewCtrl('#rightWorkspace', {id:'company'})
     'home/company/companyView route': (data)->
@@ -74,7 +76,9 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
     'home/company/userAdd route': (data)->
       require ['userNewCtrl'], (userNewCtrl)->
         new userNewCtrl('#rightWorkspace', {id:'company'})
-
+    'home/company/userAdd/:id route': (data)->
+      require ['userNewCtrl'], (userNewCtrl)->
+        new userNewCtrl('#rightWorkspace', {id:'company'})
     'home/company/userView route': (data)->
       require ['userViewCtrl'], (userViewCtrl)->
         new userViewCtrl('#rightWorkspace', {id:'company'})

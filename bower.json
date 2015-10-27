@@ -15,6 +15,7 @@
     "devbridge-autocomplete": "~1.2.24",
     "jquery-loading": "~1.1.0",
     "jquery-tokenize": "~2.5.2",
+    "jquery-validation": "~1.14.0",
     "jquery.datagrid": "~0.2.3",
     "requirejs": "~2.1.20",
     "underscore": "~1.8.3"

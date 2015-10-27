@@ -1,3 +1,8 @@
+clickUserUpdate = (info)->
+  require ['localStorage'], (localStorage)->
+    localStorage.set 'tmpUserInfo', info
+    window.location.hash = "#!home/company/userAdd/#{info.id}"
+
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
   userList = new can.Map
 
@@ -10,13 +15,23 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
 
       datagrid = $('#userList').datagrid({
         url: Auth.apiHost + 'mywms2/user/page',
+        attr: "class": "table table-bordered table-striped"
+        sorter: "bootstrap",
+        pager: "bootstrap"
+        paramsDefault: {paging:10}
         parse: (data)->
-          return {total:5, data: data.rows}
+          return {total:data.total, data: data.rows}
         col:[{
             field: 'locked'
             title: '启用'
             render: (data)->
               "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
+          },{
+            field: 'op'
+            title: '操作'
+            render: (data)->
+              "<a href='javascript:clickUserUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'username'
             title: '用户名'
@@ -55,8 +70,4 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
               "<a href=\"javascript:jAlert('#{info}', '公司信息')\">#{data?.value?.name}</a>"
           }
         ]
-        sorter: "bootstrap",
-        pager: "bootstrap"
       })
-
-    '#addUserBtn click': ()->
