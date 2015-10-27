@@ -18,7 +18,6 @@ require.config
     base: '../public/js/ctrls/base'
     homeCtrl: '../public/js/ctrls/HomeCtrl'
     loginCtrl: '../public/js/ctrls/LoginCtrl'
-    frameCtrl: '../public/js/ctrls/frameCtrl'
 
     # 公司下的控制器
     companyNewCtrl: '../public/js/ctrls/company/companyNewCtrl'

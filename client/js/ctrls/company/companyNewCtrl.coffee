@@ -4,8 +4,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert'], (b
 
   return Control.extend
     init: (el, data)->
-      if !can.base
-        new base('', data)
+      new base('', data) if !can.base
 
       tmpCompanyInfo = localStorage.get 'tmpCompanyInfo'
       if tmpCompanyInfo
