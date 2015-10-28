@@ -68,6 +68,7 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
       $.get(Auth.apiHost + 'mywms2/user/menu', (data, status)->
         if parseInt(data.status) != 0
           jAlert('获取菜单失败 ' + data.message, '错误');
+          Auth.logout()
           return;
 
         genMenu(data.data);

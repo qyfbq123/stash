@@ -31,6 +31,10 @@ require.config
     brandCreateCtrl: '../public/js/ctrls/stocksproducts/brandCreateCtrl'
     categoryViewCtrl: '../public/js/ctrls/stocksproducts/categoryViewCtrl'
     categoryCreateCtrl: '../public/js/ctrls/stocksproducts/categoryCreateCtrl'
+    supplierViewCtrl:  '../public/js/ctrls/stocksproducts/supplierViewCtrl'
+    supplierNewCtrl:  '../public/js/ctrls/stocksproducts/supplierNewCtrl'
+    consigneeViewCtrl:  '../public/js/ctrls/stocksproducts/consigneeViewCtrl'
+    consigneeCreateCtrl:  '../public/js/ctrls/stocksproducts/consigneeCreateCtrl'
 
   shim:
     can: ['$', 'jqueryEx']
@@ -108,6 +112,26 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
     'home/stocksproducts/categoryView route': (data)->
       require ['categoryViewCtrl'], (categoryViewCtrl)->
         new categoryViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/stocksproducts/supplierAdd route': (data)->
+      require ['supplierNewCtrl'], (supplierNewCtrl)->
+        new supplierNewCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/supplierAdd/:id route': (data)->
+      require ['supplierNewCtrl'], (supplierNewCtrl)->
+        new supplierNewCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/supplierView route': (data)->
+      require ['supplierViewCtrl'], (supplierViewCtrl)->
+        new supplierViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/stocksproducts/consigneeAdd route': (data)->
+      require ['consigneeCreateCtrl'], (consigneeCreateCtrl)->
+        new consigneeCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/consigneeAdd/:id route': (data)->
+      require ['consigneeCreateCtrl'], (consigneeCreateCtrl)->
+        new consigneeCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/consigneeView route': (data)->
+      require ['consigneeViewCtrl'], (consigneeViewCtrl)->
+        new consigneeViewCtrl('#rightWorkspace', {id:'stocksproducts'})
   })
 
   new Router(window)
