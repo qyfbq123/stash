@@ -1,20 +1,14 @@
-clickUserUpdate = (info)->
-  require ['localStorage'], (localStorage)->
-    localStorage.set 'tmpUserInfo', info
-    window.location.hash = "#!home/company/userAdd/#{info.id}"
-
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
-  userList = new can.Map
+  brandList = new can.Map
 
   return Ctrl.extend
     init: (el, data)->
       if !can.base
         new base('', data)
+      this.element.html can.view('../../public/view/home/stocksproducts/brandView.html', brandList)
 
-      this.element.html can.view('../../public/view/home/company/userView.html', userList)
-
-      datagrid = $('#userList').datagrid({
-        url: Auth.apiHost + 'mywms2/user/page',
+      datagrid = $('#brandList').datagrid({
+        url: Auth.apiHost + 'mywms2/goods/brand/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap"
@@ -33,27 +27,16 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
               "<a href='javascript:clickUserUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
               "<a href='' class='table-actions-button ic-table-delete'></a>"
           },{
-            field: 'username'
-            title: '用户名'
-          },{
-            field: 'cname'
-            title: '用户别名'
+            field: 'name'
+            title: '商品名'
           },{
             field: 'created'
-            title: '创建'
+            title: '创建时间'
             render: (data)-> new Date(data.value).toLocaleString()
           },{
-            field: 'tel'
-            title: '联系号码'
-          },{
-            field: 'address'
-            title: '用户地址'
-          },{
-            field: 'roleVoList'
-            title: '角色'
-            render: (data)->
-              roleNameList = _.pluck data.value, 'name'
-              return roleNameList.join(',')
+            field: 'modfied'
+            title: '最近修改'
+            render: (data)-> if data.value then new Date(data.value).toLocaleString() else '无'
           },{
             field: 'companyVo'
             title: '公司信息'

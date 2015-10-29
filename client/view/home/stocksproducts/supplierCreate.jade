@@ -1,26 +1,26 @@
 
 p &nbsp;&nbsp;&nbsp;&nbsp;
-form#newClient
+form#supplierCreate
   .col-md-offset-2
     table.form
       tr
         td
-          div.width80 公司名称：
+          div.width80 供应商名称：
         td
           input.round.default-width-input(type='text', can-value='name', name='name', rangelength='2,10', required)
         td
-          div.width80 公司别名：
+          div.width80 供应商地址：
         td
-          input.round.default-width-input(type='text', can-value='anotherName', name='anotherName', rangelength='2,10')
+          input.round.default-width-input(type='text', can-value='address', name='address', rangelength='2,50', required)
       tr
         td
-          div.width80 公司地址：
-        td
-          input.round.default-width-input(type='text', can-value='address', name='address' rangelength='2,50', required)
-        td
-          div.width80 公司描述：
+          div.width80 描述：
         td
           input.round.default-width-input(type='text', can-value='desc' name='desc')
+        td
+          div.width80
+        td
+          div.width80
 
   p &nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -59,4 +59,4 @@ form#newClient
 p &nbsp;
 
 .col-md-offset-10.col-md-2
-  button.button.round.blue.image-right.ic-add#saveCompany 保存
+  button.button.round.blue.image-right.ic-add#createSupplier 保存

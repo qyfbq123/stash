@@ -1,28 +1,11 @@
 
-define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage'], (Control, can, Auth, un, localStorage)->
+define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert'], (Control, can, Auth, un, localStorage)->
   menus = {}
-  data = new can.Map
+  currentChildMenus = []
+  homeCtrl = {}
+  homePageData = new can.Map
     username: ''
-
-  genLeftMenu = (array)->
-    _.each array, (menu)->
-      if menu.level == 1
-        appendTopMenu menu
-        menus[menu.id] = menu
-      else
-        menus[menu.pid] ?= {}
-        menus[menu.pid].childMenu ?= []
-        menus[menu.pid].childMenu.push menu
-
-    console.log menus
-    localStorage.set 'menus', menus
-
-    $('#tabs li a').each (i, el)->
-      $(el).bind('click', ()->
-        $('#tabs li a').removeClass 'active-tab'
-        $(el).addClass 'active-tab'
-      )
-
+    childMenuName: '工作区域'
 
   getIcon = (url)->
     if url == 'dashboard'
@@ -42,6 +25,24 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage'], (Contr
     else if url == 'system'
       return 'button menu-settings image-left'
 
+  genMenu = (array)->
+    _.each array, (menu)->
+      if menu.level == 1
+        appendTopMenu menu
+        menus[menu.id] = menu
+      else
+        menus[menu.pid] ?= {}
+        menus[menu.pid].childMenu ?= []
+        menus[menu.pid].childMenu.push menu
+
+    localStorage.set 'menus', menus
+
+    $('#tabs li a').each (i, el)->
+      $(el).bind('click', ()->
+        $('#tabs li a').removeClass 'active-tab'
+        $(el).addClass 'active-tab'
+      )
+
   appendTopMenu = (menu)->
     icon = getIcon menu.url
     $('#tabs').append("<li><a href=#!home/#{menu.url} class='width100 text-center #{icon}'> #{menu.name}</li>")
@@ -52,16 +53,31 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage'], (Contr
 
   return Control.extend
     init: ()->
-      this.element.html can.view('../../public/view/home/home.html', data)
+      homePageData.attr 'username', Auth.user()?.username
 
-      data.attr 'username', Auth.user()?.username
+      this.element.html can.view('../../public/view/home/home.html', homePageData)
+
+      can.route.bind "change", (ev, attr, how, newVal, oldVal)=>
+        newVal ?= ''
+        suffix = newVal.split('/')
+        suffix = suffix[suffix.length - 1]
+        hit = _.find currentChildMenus, (it)-> it.url == suffix
+        childMenuName = if hit and hit.name then hit.name else '工作区域'
+        homePageData.attr('childMenuName', childMenuName)
 
       $.get(Auth.apiHost + 'mywms2/user/menu', (data, status)->
-
         if parseInt(data.status) != 0
-          # $.messager.alert('错误', '获取菜单失败 ' + data.message, 'error');
+          jAlert('获取菜单失败 ' + data.message, '错误');
+          Auth.logout()
           return;
 
-        genLeftMenu(data.data);
-
+        genMenu(data.data);
       ).fail ()->
+
+    updateChildMenu: (data)->
+      currentChildMenus = data.childMenu || []
+      homePageData.attr('menuName', data.name)
+
+      $('#menuList').empty()
+      for menu in currentChildMenus
+        $('#menuList').append "<li><a href='#!home/#{data.url}/#{menu.url}'>#{menu.name}</a></li>"

@@ -6,17 +6,62 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
     init: (el, data)->
       if !can.base
         new base('', data)
-
-      tmpUserInfo = localStorage.get 'tmpUserInfo'
-      if tmpUserInfo
-        userInfo.attr(tmpUserInfo);
-
       this.element.html can.view('../../public/view/home/company/userNew.html', userInfo)
+
+      selectedRole = []
+      @isNewUser = window.location.hash.endsWith('userAdd')
+
+      getRole = (companyId, done)->
+        success = (data)->
+          $('#roleSelector').empty()
+          for company in data
+            $('#roleSelector').append("<option value='#{company.id}'>#{company.name}</option>")
+
+          el = $('#roleSelector').tokenize({
+            displayDropdownOnFocus: true
+            onAddToken: (value, text, e)->
+              selectedRole = _.union selectedRole, [id:value]
+              userInfo.attr('roleVoList', selectedRole)
+            onRemoveToken: (value, e)->
+              selectedRole = _.reject selectedRole, (it)-> it.id == value
+              userInfo.attr('roleVoList', selectedRole)
+          })
+          done?()
+        error = (data)->
+          selectedRole = []
+          userInfo.attr('roleVoList', selectedRole)
+          el = $('#roleSelector').tokenize().clear()
+          done?()
+        $.getJSON("#{Auth.apiHost}mywms2/company/rolelist", companyId: companyId, success, error)
+
+      # 新增
+      # 修改
+      if @isNewUser
+        for k, v of userInfo.attr()
+          userInfo.removeAttr(k)
+        localStorage.rm 'tmpUserInfo'
+      else
+        tmpUserInfo = localStorage.get 'tmpUserInfo'
+
+        if tmpUserInfo
+          $('#companySelector').attr('disabled', 'disabled')
+          selectedRole = _.map(tmpUserInfo.roleVoList, (it)->id: it.id)
+          userInfo.attr(tmpUserInfo);
+          userInfo.attr('companyVo', {id:tmpUserInfo.companyVo.id})
+
+          getRole tmpUserInfo.companyVo.id, ()->
+            for role in tmpUserInfo.roleVoList
+              $('#roleSelector').tokenize().tokenAdd(role.id, role.name)
 
       $('#newUser').unbind('click')
       $('#newUser').bind 'click', ()->
+        return if !$('#userNew').valid()
+
         tmpUserInfo = localStorage.get 'tmpUserInfo'
         url = Auth.apiHost + if tmpUserInfo then 'mywms2/user/update' else 'mywms2/user/create'
+
+        userInfo.attr('roleVoList', _.map(userInfo.attr('roleVoList'), (role)-> id:parseInt(role.id)))
+        userInfo.attr('roleVoList', _.uniq(userInfo.attr('roleVoList'), (role)-> parseInt(role.id)))
 
         console.log userInfo.attr()
 
@@ -40,13 +85,11 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
 
         $.postJSON(url, userInfo.attr(), success, error)
 
-
-      selectedRole = []
-      selectedCompany = null
+      # 非系统用户只可以使用本公司
       if Auth.user().companyVo.issystem != 1
-        selectedCompany = {id:Auth.user().companyVo.id}
-        userInfo.attr('companyVo', {id:selectedCompany.id})
-        getRole(selectedCompany.id)
+        $('#companySelector').attr('disabled', 'disabled')
+        userInfo.attr('companyVo', {id:Auth.user().companyVo.id})
+        getRole(Auth.user().companyVo.id)
       else
         $('#companySelector').autocomplete({
           serviceUrl: "#{Auth.apiHost}mywms2/company/allbyname"
@@ -55,32 +98,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
           transformResult: (response, originalQuery)->
             query: originalQuery
             suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
-          onSearchComplete: (e)->
-            selectedCompany = null
-            userInfo.attr('companyVo', null)
           onSelect: (suggestion)->
-            selectedCompany = {id:suggestion.data}
-            userInfo.attr('companyVo', {id:selectedCompany.id})
-            getRole(selectedCompany.id)
+            userInfo.attr('companyVo', {id:suggestion.data})
+            getRole(suggestion.data)
         });
-
-      getRole = (companyId)->
-        success = (data)->
-          for company in data
-            $('#roleSelector').append("<option value='#{company.id}'>#{company.name}</option>")
-
-          el = $('#roleSelector').tokenize({
-            displayDropdownOnFocus: true
-            onAddToken: (value, text, e)->
-              selectedRole = _.union selectedRole, [id:value]
-              userInfo.attr('roleVoList', selectedRole)
-            onRemoveToken: (value, e)->
-              selectedRole = _.reject selectedRole, (it)-> it.id == value
-              userInfo.attr('roleVoList', selectedRole)
-          })
-        error = (data)->
-          selectedRole = []
-          userInfo.attr('roleVoList', selectedRole)
-          el = $('#roleSelector').tokenize().clear()
-
-        $.getJSON("#{Auth.apiHost}mywms2/company/rolelist", companyId: companyId, success, error)

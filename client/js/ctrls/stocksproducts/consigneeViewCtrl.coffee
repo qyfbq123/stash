@@ -1,18 +1,14 @@
-clickCompanyUpdate = (info)->
-  require ['localStorage'], (localStorage)->
-    localStorage.set 'tmpCompanyInfo', info
-    window.location.hash = "#!home/company/companyAdd/#{info.id}"
+define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
+  consigneeData = new can.Map
 
-define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], (Ctrl, can, Auth, base)->
   return Ctrl.extend
     init: (el, data)->
       if !can.base
         new base('', data)
+      this.element.html can.view('../../public/view/home/stocksproducts/consigneeView.html', consigneeData)
 
-      this.element.html can.view('../../public/view/home/company/companyView.html', {})
-
-      datagrid = $('#companyView').datagrid({
-        url: Auth.apiHost + 'mywms2/company/page',
+      datagrid = $('#consigneeList').datagrid({
+        url: Auth.apiHost + 'mywms2/goods/consignee/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap"
@@ -32,13 +28,13 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
               "<a href='' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
-            title: '公司名称'
+            title: '供应商名称'
           }, {
             field: 'address'
-            title: '公司地址'
+            title: '供应商地址'
           },{
             field: 'desc'
-            title: '公司描述'
+            title: '供应商描述'
           },{
             field:'contactName'
             title:'联系人'

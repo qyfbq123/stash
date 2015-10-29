@@ -9,6 +9,10 @@ require.config
     datagrid: 'jquery.datagrid/jquery.datagrid'
     autocomplete: 'devbridge-autocomplete/dist/jquery.autocomplete.min'
     tokenize: 'jquery-tokenize/jquery.tokenize'
+    validate: 'jquery-validation/dist/jquery.validate.min'
+    fileInput: 'bootstrap-fileinput/js/fileinput.min'
+    fileInputZh: 'bootstrap-fileinput/js/fileinput_locale_zh'
+    imageView: 'magnific-popup/dist/jquery.magnific-popup.min'
 
     jqueryEx: '../public/js/servs/jQueryExtend'
     jAlert: '../public/js/plugins/jquery.alerts'
@@ -18,13 +22,30 @@ require.config
     base: '../public/js/ctrls/base'
     homeCtrl: '../public/js/ctrls/HomeCtrl'
     loginCtrl: '../public/js/ctrls/LoginCtrl'
-    frameCtrl: '../public/js/ctrls/frameCtrl'
 
     # 公司下的控制器
     companyNewCtrl: '../public/js/ctrls/company/companyNewCtrl'
     companyViewCtrl: '../public/js/ctrls/company/companyViewCtrl'
     userNewCtrl: '../public/js/ctrls/company/userNewCtrl'
     userViewCtrl: '../public/js/ctrls/company/userViewCtrl'
+
+    # 库存 & 商品
+    brandViewCtrl: '../public/js/ctrls/stocksproducts/brandViewCtrl'
+    brandCreateCtrl: '../public/js/ctrls/stocksproducts/brandCreateCtrl'
+    categoryViewCtrl: '../public/js/ctrls/stocksproducts/categoryViewCtrl'
+    categoryCreateCtrl: '../public/js/ctrls/stocksproducts/categoryCreateCtrl'
+    supplierViewCtrl:  '../public/js/ctrls/stocksproducts/supplierViewCtrl'
+    supplierNewCtrl:  '../public/js/ctrls/stocksproducts/supplierNewCtrl'
+    consigneeViewCtrl:  '../public/js/ctrls/stocksproducts/consigneeViewCtrl'
+    consigneeCreateCtrl:  '../public/js/ctrls/stocksproducts/consigneeCreateCtrl'
+    stockItemCreateCtrl:  '../public/js/ctrls/stocksproducts/stockItemCreateCtrl'
+    stockItemViewCtrl:  '../public/js/ctrls/stocksproducts/stockItemViewCtrl'
+
+    # 仓库 & 库位
+    warehouseAddCtrl:  '../public/js/ctrls/location/warehouseAddCtrl'
+    warehouseViewCtrl:  '../public/js/ctrls/location/warehouseViewCtrl'
+    locationAddCtrl:  '../public/js/ctrls/location/locationAddCtrl'
+    locationViewCtrl:  '../public/js/ctrls/location/locationViewCtrl'
 
   shim:
     can: ['$', 'jqueryEx']
@@ -34,6 +55,8 @@ require.config
     jAlert: ['$']
     datagrid_plugin: ['datagrid']
     autocomplete: ['$']
+    validate: ['$']
+    fileInputZh: ['fileInput', '$']
 
 require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
   validRoute = (route, p)->
@@ -51,7 +74,6 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
         new loginCtrl('body', {})
     'logout route': (data)->
       Auth.logout()
-      window.location.hash = '!login'
       delete can.home
     'route': ()->
       window.location.hash = '#!home'
@@ -62,10 +84,10 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       require ['base'], (base)->
         new base('', data)
 
-    'home/company/companyAdd/:id route': (data)->
+    'home/company/companyAdd route': (data)->
       require ['companyNewCtrl'], (companyNewCtrl)->
         new companyNewCtrl('#rightWorkspace', {id:'company'})
-    'home/company/companyAdd route': (data)->
+    'home/company/companyAdd/:id route': (data)->
       require ['companyNewCtrl'], (companyNewCtrl)->
         new companyNewCtrl('#rightWorkspace', {id:'company'})
     'home/company/companyView route': (data)->
@@ -75,10 +97,82 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
     'home/company/userAdd route': (data)->
       require ['userNewCtrl'], (userNewCtrl)->
         new userNewCtrl('#rightWorkspace', {id:'company'})
-
+    'home/company/userAdd/:id route': (data)->
+      require ['userNewCtrl'], (userNewCtrl)->
+        new userNewCtrl('#rightWorkspace', {id:'company'})
     'home/company/userView route': (data)->
       require ['userViewCtrl'], (userViewCtrl)->
         new userViewCtrl('#rightWorkspace', {id:'company'})
+
+    'home/stocksproducts/stockItemAdd route': (data)->
+      require ['stockItemCreateCtrl'], (stockItemCreateCtrl)->
+        new stockItemCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/stockItemAdd/:id route': (data)->
+      require ['stockItemCreateCtrl'], (stockItemCreateCtrl)->
+        new stockItemCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/stockItemView route': (data)->
+      require ['stockItemViewCtrl'], (stockItemViewCtrl)->
+        new stockItemViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/stocksproducts/brandAdd route': (data)->
+      require ['brandCreateCtrl'], (brandCreateCtrl)->
+        new brandCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/brandAdd/:id route': (data)->
+      require ['brandCreateCtrl'], (brandCreateCtrl)->
+        new brandCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/brandView route': (data)->
+      require ['brandViewCtrl'], (brandViewCtrl)->
+        new brandViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/stocksproducts/categoryAdd route': (data)->
+      require ['categoryCreateCtrl'], (categoryCreateCtrl)->
+        new categoryCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/categoryAdd/:id route': (data)->
+      require ['categoryCreateCtrl'], (categoryCreateCtrl)->
+        new categoryCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/categoryView route': (data)->
+      require ['categoryViewCtrl'], (categoryViewCtrl)->
+        new categoryViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/stocksproducts/supplierAdd route': (data)->
+      require ['supplierNewCtrl'], (supplierNewCtrl)->
+        new supplierNewCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/supplierAdd/:id route': (data)->
+      require ['supplierNewCtrl'], (supplierNewCtrl)->
+        new supplierNewCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/supplierView route': (data)->
+      require ['supplierViewCtrl'], (supplierViewCtrl)->
+        new supplierViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/stocksproducts/consigneeAdd route': (data)->
+      require ['consigneeCreateCtrl'], (consigneeCreateCtrl)->
+        new consigneeCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/consigneeAdd/:id route': (data)->
+      require ['consigneeCreateCtrl'], (consigneeCreateCtrl)->
+        new consigneeCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/consigneeView route': (data)->
+      require ['consigneeViewCtrl'], (consigneeViewCtrl)->
+        new consigneeViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/location/warehouseAdd route': (data)->
+      require ['warehouseAddCtrl'], (warehouseAddCtrl)->
+        new warehouseAddCtrl('#rightWorkspace', {id:'location'})
+    'home/location/warehouseAdd/:id route': (data)->
+      require ['warehouseAddCtrl'], (warehouseAddCtrl)->
+        new warehouseAddCtrl('#rightWorkspace', {id:'location'})
+    'home/location/warehouseView route': (data)->
+      require ['warehouseViewCtrl'], (warehouseViewCtrl)->
+        new warehouseViewCtrl('#rightWorkspace', {id:'location'})
+
+    'home/location/locationAdd route': (data)->
+      require ['locationAddCtrl'], (locationAddCtrl)->
+        new locationAddCtrl('#rightWorkspace', {id:'location'})
+    'home/location/locationAdd/:id route': (data)->
+      require ['locationAddCtrl'], (locationAddCtrl)->
+        new locationAddCtrl('#rightWorkspace', {id:'location'})
+    'home/location/locationView route': (data)->
+      require ['locationViewCtrl'], (locationViewCtrl)->
+        new locationViewCtrl('#rightWorkspace', {id:'location'})
   })
 
   new Router(window)
