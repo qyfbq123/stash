@@ -26,7 +26,7 @@ require.config
     userNewCtrl: '../public/js/ctrls/company/userNewCtrl'
     userViewCtrl: '../public/js/ctrls/company/userViewCtrl'
 
-    #stock & product
+    # 库存 & 商品
     brandViewCtrl: '../public/js/ctrls/stocksproducts/brandViewCtrl'
     brandCreateCtrl: '../public/js/ctrls/stocksproducts/brandCreateCtrl'
     categoryViewCtrl: '../public/js/ctrls/stocksproducts/categoryViewCtrl'
@@ -35,6 +35,12 @@ require.config
     supplierNewCtrl:  '../public/js/ctrls/stocksproducts/supplierNewCtrl'
     consigneeViewCtrl:  '../public/js/ctrls/stocksproducts/consigneeViewCtrl'
     consigneeCreateCtrl:  '../public/js/ctrls/stocksproducts/consigneeCreateCtrl'
+
+    # 仓库 & 库位
+    warehouseAddCtrl:  '../public/js/ctrls/location/warehouseAddCtrl'
+    warehouseViewCtrl:  '../public/js/ctrls/location/warehouseViewCtrl'
+    locationAddCtrl:  '../public/js/ctrls/location/locationAddCtrl'
+    locationViewCtrl:  '../public/js/ctrls/location/locationViewCtrl'
 
   shim:
     can: ['$', 'jqueryEx']
@@ -62,7 +68,6 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
         new loginCtrl('body', {})
     'logout route': (data)->
       Auth.logout()
-      window.location.hash = '!login'
       delete can.home
     'route': ()->
       window.location.hash = '#!home'
@@ -132,6 +137,26 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
     'home/stocksproducts/consigneeView route': (data)->
       require ['consigneeViewCtrl'], (consigneeViewCtrl)->
         new consigneeViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/location/warehouseAdd route': (data)->
+      require ['warehouseAddCtrl'], (warehouseAddCtrl)->
+        new warehouseAddCtrl('#rightWorkspace', {id:'location'})
+    'home/location/warehouseAdd/:id route': (data)->
+      require ['warehouseAddCtrl'], (warehouseAddCtrl)->
+        new warehouseAddCtrl('#rightWorkspace', {id:'location'})
+    'home/location/warehouseView route': (data)->
+      require ['warehouseViewCtrl'], (warehouseViewCtrl)->
+        new warehouseViewCtrl('#rightWorkspace', {id:'location'})
+
+    'home/location/locationAdd route': (data)->
+      require ['locationAddCtrl'], (locationAddCtrl)->
+        new locationAddCtrl('#rightWorkspace', {id:'location'})
+    'home/location/locationAdd/:id route': (data)->
+      require ['locationAddCtrl'], (locationAddCtrl)->
+        new locationAddCtrl('#rightWorkspace', {id:'location'})
+    'home/location/locationView route': (data)->
+      require ['locationViewCtrl'], (locationViewCtrl)->
+        new locationViewCtrl('#rightWorkspace', {id:'location'})
   })
 
   new Router(window)

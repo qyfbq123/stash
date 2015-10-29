@@ -30,6 +30,7 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
       localStorage.remove('logined');
       localStorage.remove('user');
       document.cookie = ''
+      window.location.hash = '#!login'
     logined: ()->
       return Boolean(localStorage.get('logined'));
     user: ()->
