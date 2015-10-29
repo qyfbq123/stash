@@ -10,6 +10,9 @@ require.config
     autocomplete: 'devbridge-autocomplete/dist/jquery.autocomplete.min'
     tokenize: 'jquery-tokenize/jquery.tokenize'
     validate: 'jquery-validation/dist/jquery.validate.min'
+    fileInput: 'bootstrap-fileinput/js/fileinput.min'
+    fileInputZh: 'bootstrap-fileinput/js/fileinput_locale_zh'
+    imageView: 'magnific-popup/dist/jquery.magnific-popup.min'
 
     jqueryEx: '../public/js/servs/jQueryExtend'
     jAlert: '../public/js/plugins/jquery.alerts'
@@ -35,6 +38,8 @@ require.config
     supplierNewCtrl:  '../public/js/ctrls/stocksproducts/supplierNewCtrl'
     consigneeViewCtrl:  '../public/js/ctrls/stocksproducts/consigneeViewCtrl'
     consigneeCreateCtrl:  '../public/js/ctrls/stocksproducts/consigneeCreateCtrl'
+    stockItemCreateCtrl:  '../public/js/ctrls/stocksproducts/stockItemCreateCtrl'
+    stockItemViewCtrl:  '../public/js/ctrls/stocksproducts/stockItemViewCtrl'
 
     # 仓库 & 库位
     warehouseAddCtrl:  '../public/js/ctrls/location/warehouseAddCtrl'
@@ -51,6 +56,7 @@ require.config
     datagrid_plugin: ['datagrid']
     autocomplete: ['$']
     validate: ['$']
+    fileInputZh: ['fileInput', '$']
 
 require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
   validRoute = (route, p)->
@@ -97,6 +103,16 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
     'home/company/userView route': (data)->
       require ['userViewCtrl'], (userViewCtrl)->
         new userViewCtrl('#rightWorkspace', {id:'company'})
+
+    'home/stocksproducts/stockItemAdd route': (data)->
+      require ['stockItemCreateCtrl'], (stockItemCreateCtrl)->
+        new stockItemCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/stockItemAdd/:id route': (data)->
+      require ['stockItemCreateCtrl'], (stockItemCreateCtrl)->
+        new stockItemCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
+    'home/stocksproducts/stockItemView route': (data)->
+      require ['stockItemViewCtrl'], (stockItemViewCtrl)->
+        new stockItemViewCtrl('#rightWorkspace', {id:'stocksproducts'})
 
     'home/stocksproducts/brandAdd route': (data)->
       require ['brandCreateCtrl'], (brandCreateCtrl)->
