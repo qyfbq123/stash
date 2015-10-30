@@ -30,3 +30,16 @@
 .autocomplete-suggestion { position: relative; padding: 0 .6em; line-height: 23px; white-space: nowrap; overflow: hidden; font-size: 1.02em; color: #333; }
 .autocomplete-suggestion b { font-weight: normal; color: #1f8dd6; }
 .autocomplete-suggestion.selected { background: #f0f0f0; }
+
+.gallery {
+  list-style: none;
+}
+
+.gallery li {
+  float: left;
+  height: 30px;
+}
+
+.gallery img {
+  height: 100%;
+}
