@@ -1,3 +1,8 @@
+clickSupplierUpdate = (data)->
+  require ['localStorage'], (localStorage)->
+    localStorage.set 'tmpSupplierInfo', data
+    window.location.hash = "#!home/stocksproducts/supplierAdd/#{data.id}"
+
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
   supplierList = new can.Map
 
@@ -24,7 +29,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickCompanyUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='javascript:clickSupplierUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
               "<a href='' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'

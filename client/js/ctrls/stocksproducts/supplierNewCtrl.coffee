@@ -8,12 +8,21 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       this.element.html can.view('../../public/view/home/stocksproducts/supplierCreate.html', supplierData)
 
+      isNew = window.location.hash.endsWith('supplierAdd')
+      if isNew
+        for k, v of supplierData.attr()
+          supplierData.removeAttr(k)
+        localStorage.rm 'tmpSupplierInfo'
+      else
+        tmpSupplierInfo = localStorage.get 'tmpSupplierInfo'
+        supplierData.attr(tmpSupplierInfo)
+
       $('#createSupplier').unbind 'click'
       $('#createSupplier').bind 'click', ()->
         return if !$('#supplierCreate').valid()
 
         supplierData.attr('companyVo', Auth.user().companyVo)
-        url = Auth.apiHost +  'mywms2/goods/supplier/create'
+        url = Auth.apiHost + if isNew then 'mywms2/goods/supplier/create' else 'mywms2/goods/supplier/update'
 
         $.postJSON(url, supplierData.attr(),
           (data)->
