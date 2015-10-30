@@ -1,6 +1,6 @@
 
 define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
-  apiHost = 'http://192.168.0.100:8080/';
+  apiHost = 'http://192.168.0.110:8080/';
 
   return {
     apiHost: apiHost

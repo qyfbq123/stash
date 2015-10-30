@@ -1,3 +1,8 @@
+clickWarehouseUpdate = (location)->
+  require ['localStorage'], (localStorage)->
+    localStorage.set 'tmpWarehouseInfo', location
+    window.location.hash = "#!home/location/warehouseAdd/#{location.id}"
+
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
   warehouseData = new can.Map
 
@@ -24,7 +29,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickCompanyUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='javascript:clickWarehouseUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
               "<a href='' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
