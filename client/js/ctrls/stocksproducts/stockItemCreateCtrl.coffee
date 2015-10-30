@@ -14,13 +14,27 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
       pageData.attr('StepCreate', 'none')
       pageData.attr('StepUploadImage', 'block')
 
-
   return Control.extend
     init: (el, data)->
       new base('', data) if !can.base
 
       switchStep 1
       this.element.html can.view('../../public/view/home/stocksproducts/stockItemCreate.html', stockItemData)
+
+      isNew = window.location.hash.endsWith('stockItemAdd')
+      if isNew
+        for k, v of dataData.attr()
+          dataData.removeAttr(k)
+        localStorage.rm 'tmpStockItemData'
+      else
+        tmpStockItemData = localStorage.get 'tmpStockItemData'
+        dataData.attr(tmpStockItemData)
+        dataData.attr('brandVo', tmpStockItemData.brandVo)
+        dataData.attr('categoryVo', tmpStockItemData.categoryVo)
+        dataData.attr('locationVo', tmpStockItemData.locationVo)
+        $('#brandSelector').attr('value', tmpStockItemData.brandVo.name)
+        $('#categorySelector').attr('value', tmpStockItemData.categoryVo.name)
+        $('#locationSelector').attr('value', tmpStockItemData.locationVo.name)
 
       $('#brandSelector').autocomplete({
         serviceUrl: "#{Auth.apiHost}mywms2/goods/brand/allbyname"
@@ -81,19 +95,19 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
         return if !$('#stockItemCreate').valid()
         dataData.attr('companyVo', Auth.user().companyVo)
 
-        console.log dataData.attr()
-        url = Auth.apiHost +  'mywms2/goods/create'
+        url = Auth.apiHost + if isNew then 'mywms2/goods/create' else 'mywms2/goods/update'
         $.postJSON(url, dataData.attr(),
           (data)->
             for k, v of dataData.attr()
               dataData.removeAttr(k)
 
-            console.log data
             if data.status == 0
               dataData.attr({})
-              console.log pageData.attr('itemId')
-              jAlert "新增商品成功！", "提示"
-              doUpload(data.data.id)
+              if isNew
+                jAlert "新增商品成功！", "提示"
+                doUpload(data.data.id)
+              else
+                jAlert "更新商品成功！", "提示"
             else
               jAlert "#{data.message}", "提示"
           (data)->

@@ -4,6 +4,9 @@ manageImgs = (data)->
     new imageManageCtrl '#imageManager', data
 
 clickUpdateStock = (data)->
+  require ['localStorage'], (localStorage)->
+    localStorage.set 'tmpStockItemData', data
+    window.location.hash = "#!home/stocksproducts/stockItemAdd/#{data.id}"
 
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imageView', 'imageManageCtrl'], (Ctrl, can, Auth, base)->
   consigneeData = new can.Map
@@ -43,7 +46,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickUpdateStock(#{JSON.stringify(data.ro)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='javascript:clickUpdateStock(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
               "<a href='' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
