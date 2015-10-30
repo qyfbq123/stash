@@ -1,3 +1,8 @@
+clickBrandUpdate = (data)->
+  require ['localStorage'], (localStorage)->
+    localStorage.set 'tmpBrandInfo', data
+    window.location.hash = "#!home/stocksproducts/brandAdd/#{data.id}"
+
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
   brandList = new can.Map
 
@@ -24,7 +29,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
             field: 'op'
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickUserUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='javascript:clickBrandUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
               "<a href='' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'

@@ -30,11 +30,27 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           locationData.attr('companyVo', suggestion.data)
       });
 
+      # 新增
+      # 修改
+      isNewLocation = window.location.hash.endsWith('locationAdd')
+      if isNewLocation
+        for k, v of locationData.attr()
+          locationData.removeAttr(k)
+        localStorage.rm 'tmpLocationInfo'
+      else
+        tmpLocationInfo = localStorage.get 'tmpLocationInfo'
+        locationData.attr(tmpLocationInfo)
+        $('#warehouseSelector').attr('value', tmpLocationInfo.warehouseVo.name)
+        $('#companySelector').attr('value', tmpLocationInfo.companyVo.name)
+        $('#warehouseSelector').attr('disabled', 'disabled')
+        $('#companySelector').attr('disabled', 'disabled')
+
       $('#addLocation').unbind 'click'
       $('#addLocation').bind 'click', ()->
         return if !$('#locationAdd').valid()
 
-        url = Auth.apiHost +  'mywms2/location/create'
+        url = Auth.apiHost +  if isNewLocation then 'mywms2/location/create' else 'mywms2/location/update'
+
         $.postJSON(url, locationData.attr(),
           (data)->
             for k, v of locationData.attr()
@@ -42,7 +58,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
             if data.status == 0
               locationData.attr({})
-              jAlert "新增库位成功！", "提示"
+              if isNewLocation then jAlert "新增库位成功！", "提示" else jAlert "新增库位成功！", "提示"
             else
               jAlert "#{data.message}", "提示"
           (data)->

@@ -1,3 +1,8 @@
+clickLocationUpdate = (location)->
+  require ['localStorage'], (localStorage)->
+    localStorage.set 'tmpLocationInfo', location
+    window.location.hash = "#!home/location/locationAdd/#{location.id}"
+
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
   locationData = new can.Map
 
@@ -24,7 +29,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickCompanyUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='javascript:clickLocationUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
               "<a href='' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
