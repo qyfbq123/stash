@@ -43,3 +43,17 @@
 .gallery img {
   height: 100%;
 }
+
+.imgView {
+  height: 80px;
+}
+
+.btnImage{
+  height: 30px;
+  width: 30px;
+  background: transparent url('../images/directory.png') no-repeat center;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+  border-color: rgb(220, 220, 255);
+}

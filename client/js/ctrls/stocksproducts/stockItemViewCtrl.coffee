@@ -1,4 +1,11 @@
-define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imageView'], (Ctrl, can, Auth, base)->
+manageImgs = (data)->
+  require ['imageManageCtrl'], (imageManageCtrl)->
+    $('#stockItemList').attr('style', 'display:none;')
+    new imageManageCtrl '#imageManager', data
+
+clickUpdateStock = (data)->
+
+define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imageView', 'imageManageCtrl'], (Ctrl, can, Auth, base)->
   consigneeData = new can.Map
 
   return Ctrl.extend
@@ -7,7 +14,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         new base('', data)
       this.element.html can.view('../../public/view/home/stocksproducts/stockItemView.html', consigneeData)
 
-      imageIds =  []
+      itemIds =  []
       datagrid = $('#stockItemList').datagrid({
         url: Auth.apiHost + 'mywms2/goods/page',
         attr: "class": "table table-bordered table-striped"
@@ -15,10 +22,9 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         pager: "bootstrap"
         paramsDefault: {paging:10}
         onBefore: ()->
-          imageIds = []
+          itemIds = []
         onComplete: ()->
-          for id in imageIds
-            console.log "#photo#{id}"
+          for id in itemIds
             $("#photo#{id}").magnificPopup({
               delegate: 'a'
               type: 'image'
@@ -37,7 +43,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickCompanyUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='javascript:clickUpdateStock(#{JSON.stringify(data.ro)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
               "<a href='' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
@@ -49,12 +55,25 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
             field: 'photos'
             title: '商品图片'
             render: (data)->
-              imageIds.push data.row.id
-              imgs = _.map(data.value, (img)->"#{Auth.apiHost}mywms2/goods/photo/#{img}")
+              itemIds.push data.row.id
+              imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}mywms2/goods/photo?path=#{img.path}"; img)
+              itemImgsInfo = {id: data.row.id, imgs: imgs}
               html = ''
               for img in imgs
-                html += "<li><a href='#{img}'><img src='#{img}'></a></li>"
-              html = "<ul id='photo#{data.row.id}' class='gallery'>#{html}</ul>"
+                html += "<li><a href='#{img.path}'><img src='#{img.path}'></a></li>"
+
+              html = "<ul class='gallery'>
+                        <li>
+                          <a title='图片管理' href='javascript:manageImgs(#{JSON.stringify(itemImgsInfo)})'>
+                            <button class='btnImage'></button>
+                          </a>
+                        <li>
+                        <li>
+                          <ul id='photo#{data.row.id}' class='gallery'>
+                            #{html}
+                          </ul>
+                        </li>
+                      </ul>"
           },{
             field: 'hazardFlag'
             title: '危险品'
