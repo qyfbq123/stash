@@ -9,6 +9,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       this.element.html can.view('../../public/view/home/location/locationAdd.html', locationData)
 
       $('#warehouseSelector').autocomplete({
+        minChars:0
         serviceUrl: "#{Auth.apiHost}mywms2/location/warehouse/allbyname"
         paramName: 'name'
         dataType: 'json'
@@ -20,6 +21,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       });
 
       $('#companySelector').autocomplete({
+        minChars:0
         serviceUrl: "#{Auth.apiHost}mywms2/company/allbyname"
         paramName: 'name'
         dataType: 'json'

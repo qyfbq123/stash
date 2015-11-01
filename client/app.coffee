@@ -105,6 +105,8 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       require ['userViewCtrl'], (userViewCtrl)->
         new userViewCtrl('#rightWorkspace', {id:'company'})
 
+    'home/stocksproducts/stock route': (data)->
+
     'home/stocksproducts/stockItemAdd route': (data)->
       require ['stockItemCreateCtrl'], (stockItemCreateCtrl)->
         new stockItemCreateCtrl('#rightWorkspace', {id:'stocksproducts'})

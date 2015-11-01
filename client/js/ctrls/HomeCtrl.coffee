@@ -81,3 +81,8 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
       $('#menuList').empty()
       for menu in currentChildMenus
         $('#menuList').append "<li><a href='#!home/#{data.url}/#{menu.url}'>#{menu.name}</a></li>"
+
+      # 默认选中子菜单的第一个
+      if window.location.hash.split('/').length == 2
+        firstUrl = "#!home/#{data.url}/#{currentChildMenus?[0]?.url}"
+        window.location.hash = firstUrl

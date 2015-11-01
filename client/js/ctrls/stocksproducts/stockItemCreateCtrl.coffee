@@ -37,6 +37,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
         $('#locationSelector').attr('value', tmpStockItemData.locationVo.name)
 
       $('#brandSelector').autocomplete({
+        minChars:0
         serviceUrl: "#{Auth.apiHost}mywms2/goods/brand/allbyname"
         paramName: 'name'
         dataType: 'json'
@@ -48,6 +49,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
       });
 
       $('#categorySelector').autocomplete({
+        minChars:0
         serviceUrl: "#{Auth.apiHost}mywms2/goods/category/allbyname"
         paramName: 'name'
         dataType: 'json'
@@ -59,6 +61,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
       });
 
       $('#locationSelector').autocomplete({
+        minChars:0
         serviceUrl: "#{Auth.apiHost}mywms2/location/allbyname"
         paramName: 'name'
         dataType: 'json'
@@ -67,7 +70,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
           suggestions: _.map(response.data, (it)->{value:it.name, data: it})
         onSelect: (suggestion)->
           dataData.attr('locationVo', suggestion.data)
-      });
+      })
 
       doUpload = (id)->
         jConfirm '上传商品图片？', '提示', (yeOrNo)->
