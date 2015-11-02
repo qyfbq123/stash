@@ -13,6 +13,8 @@ require.config
     fileInput: 'bootstrap-fileinput/js/fileinput.min'
     fileInputZh: 'bootstrap-fileinput/js/fileinput_locale_zh'
     imageView: 'magnific-popup/dist/jquery.magnific-popup.min'
+    dateTimePicker: 'datetimepicker/jquery.datetimepicker'
+    printer: 'jQuery.print/jQuery.print'
 
     jqueryEx: '../public/js/servs/jQueryExtend'
     jAlert: '../public/js/plugins/jquery.alerts'
@@ -48,6 +50,10 @@ require.config
     locationAddCtrl:  '../public/js/ctrls/location/locationAddCtrl'
     locationViewCtrl:  '../public/js/ctrls/location/locationViewCtrl'
 
+    # 进货
+    goodsInViewCtrl: '../public/js/ctrls/goodsIn/goodsViewCtrl'
+    goodsInCreateCtrl: '../public/js/ctrls/goodsIn/goodsCreateCtrl'
+
   shim:
     can: ['$', 'jqueryEx']
     loading: ['$']
@@ -58,6 +64,7 @@ require.config
     autocomplete: ['$']
     validate: ['$']
     fileInputZh: ['fileInput', '$']
+    dateTimePicker: ['$']
 
 require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
   validRoute = (route, p)->
@@ -104,6 +111,26 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
     'home/company/userView route': (data)->
       require ['userViewCtrl'], (userViewCtrl)->
         new userViewCtrl('#rightWorkspace', {id:'company'})
+
+    'home/report route': (data)->
+    'home/report/exportReports route': (data)->
+
+    'home/system route': (data)->
+    'home/system/basicDataImport route': (data)->
+
+    'home/goodsOut/goodsOutAdd route': (data)->
+    'home/goodsOut/goodsOutAdd/:id route': (data)->
+    'home/goodsOut/goodsOutView route': (data)->
+
+    'home/goodsIn/goodsInAdd route': (data)->
+      require ['goodsInCreateCtrl'], (goodsInCreateCtrl)->
+        new goodsInCreateCtrl('#rightWorkspace', {id:'goodsIn'})
+    'home/goodsIn/goodsInAdd/:id route': (data)->
+      require ['goodsInViewCtrl'], (goodsInViewCtrl)->
+        new goodsInViewCtrl('#rightWorkspace', {id:'goodsIn'})
+    'home/goodsIn/goodsInView route': (data)->
+      require ['goodsInViewCtrl'], (goodsInViewCtrl)->
+        new goodsInViewCtrl('#rightWorkspace', {id:'goodsIn'})
 
     'home/stocksproducts/stock route': (data)->
 

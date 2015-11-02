@@ -84,5 +84,8 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
 
       # 默认选中子菜单的第一个
       if window.location.hash.split('/').length == 2
-        firstUrl = "#!home/#{data.url}/#{currentChildMenus?[0]?.url}"
+        if currentChildMenus.length == 1
+          firstUrl = "#!home/#{data.url}/#{currentChildMenus?[0]?.url}"
+        else
+          firstUrl = "#!home/#{data.url}/#{currentChildMenus?[1]?.url}"
         window.location.hash = firstUrl
