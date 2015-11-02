@@ -92,6 +92,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
         getRole(Auth.user().companyVo.id)
       else
         $('#companySelector').autocomplete({
+          minChars:0
           serviceUrl: "#{Auth.apiHost}mywms2/company/allbyname"
           paramName: 'name'
           dataType: 'json'
