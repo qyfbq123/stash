@@ -33,6 +33,7 @@ require.config
     userViewCtrl: '../public/js/ctrls/company/userViewCtrl'
 
     # 库存 & 商品
+    stockViewCtrl: '../public/js/ctrls/stocksproducts/stock'
     brandViewCtrl: '../public/js/ctrls/stocksproducts/brandViewCtrl'
     brandCreateCtrl: '../public/js/ctrls/stocksproducts/brandCreateCtrl'
     categoryViewCtrl: '../public/js/ctrls/stocksproducts/categoryViewCtrl'
@@ -57,6 +58,13 @@ require.config
     # 出货
     goodsOutViewCtrl: '../public/js/ctrls/goodsOut/goodsViewCtrl'
     goodsOutCreateCtrl: '../public/js/ctrls/goodsOut/goodsCreateCtrl'
+
+    # 系统
+    basicDataImportCtrl: '../public/js/ctrls/system/basicDataImportCtrl'
+
+    # 报告
+    exportReportsCtrl: '../public/js/ctrls/report/exportReportsCtrl'
+
 
   shim:
     can: ['$', 'jqueryEx']
@@ -116,11 +124,15 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       require ['userViewCtrl'], (userViewCtrl)->
         new userViewCtrl('#rightWorkspace', {id:'company'})
 
-    'home/report route': (data)->
+    # 'home/report route': (data)->
     'home/report/exportReports route': (data)->
+      require ['exportReportsCtrl'], (exportReportsCtrl)->
+        new exportReportsCtrl('#rightWorkspace', {id:'report'})
 
-    'home/system route': (data)->
+    # 'home/system route': (data)->
     'home/system/basicDataImport route': (data)->
+      require ['basicDataImportCtrl'], (basicDataImportCtrl)->
+        new basicDataImportCtrl('#rightWorkspace', {id:'system'})
 
     'home/goodsOut/goodsOutAdd route': (data)->
       require ['goodsOutCreateCtrl'], (goodsOutCreateCtrl)->
@@ -143,6 +155,8 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
         new goodsInViewCtrl('#rightWorkspace', {id:'goodsIn'})
 
     'home/stocksproducts/stock route': (data)->
+      require ['stockViewCtrl'], (stockViewCtrl)->
+        new stockViewCtrl('#rightWorkspace', {id:'stocksproducts'})
 
     'home/stocksproducts/stockItemAdd route': (data)->
       require ['stockItemCreateCtrl'], (stockItemCreateCtrl)->

@@ -43,6 +43,79 @@ clickOutItemToEnd = (data)->
           jAlert data.responseText, "错误"
         )
 
+clickListDetail1 = (data)->
+  require ['Auth', '$', 'datagrid_plugin', 'imageView'], (Auth)->
+    $('#goodsOutList').attr('style', 'display:none;')
+    $('#listDetail').attr('style', 'display:block;')
+
+    data = _.map(data.entries, (it)->
+        it.goodsVo ?={}
+        it.goodsVo.quantity = it.quantity
+        it.goodsVo
+      )
+
+    itemIds =  []
+    datagrid = $('#gridDetail').datagrid({
+      data: data
+      attr: "class": "table table-bordered table-striped"
+      sorter: "bootstrap",
+      # pager: "bootstrap",
+      noData: '无数据'
+      paramsDefault: {paging:10}
+      onBefore: ()->
+        itemIds = []
+      onComplete: ()->
+        for id in itemIds
+          $("#photo#{id}").magnificPopup({
+            delegate: 'a'
+            type: 'image'
+            gallery:
+              enabled: true
+          })
+      col:[{
+          attrHeader: { "style": "width:200px;"},
+          field: 'name'
+          title: '商品名称'
+        }, {
+          attrHeader: { "style": "width:100px;"},
+          field: 'barcode'
+          title: '商品编号'
+        },{
+          field: 'photos'
+          title: '商品图片'
+          attrHeader: {'class': 'notPrint'}
+          attr: {'class': 'notPrint'}
+          render: (data)->
+            itemIds.push data.row.id
+            imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}mywms2/goods/photo?path=#{img.path}"; img)
+            itemImgsInfo = {id: data.row.id, imgs: imgs}
+            html = ''
+            for img in imgs
+              html += "<li><a href='#{img.path}'><img src='#{img.path}'></a></li>"
+
+            html = "<ul class='gallery'>
+                      <li>
+                        <ul id='photo#{data.row.id}' class='gallery'>
+                          #{html}
+                        </ul>
+                      </li>
+                    </ul>"
+        },{
+          attrHeader: { "style": "width:30px;"},
+          field: 'count'
+          title: '数量'
+          render: (data)->
+            "<input type='number' value=#{data.row.quantity} id=itemId#{data.row.id} min:'1', disabled>"
+        }
+      ]
+    })
+
+    $('#backList').unbind 'click'
+    $('#backList').bind 'click', ()->
+      $('#listDetail').attr('style', 'display:none;')
+      $('#goodsOutList').attr('style', 'display:block;')
+
+
 define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], (Ctrl, can, Auth, base)->
   return Ctrl.extend
     init: (el, data)->
@@ -68,6 +141,8 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
           }, {
             field: 'billnumber'
             title: '订单编号'
+            render: (data)->
+              "<a href='javascript:clickListDetail1(#{JSON.stringify(data.row)})'>#{data.value || '订单详情'}</a>"
           }, {
             field: ''
             title: '操作'
