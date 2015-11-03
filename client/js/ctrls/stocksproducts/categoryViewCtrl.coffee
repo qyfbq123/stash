@@ -16,7 +16,8 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
         url: Auth.apiHost + 'mywms2/goods/category/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
-        pager: "bootstrap"
+        pager: "bootstrap",
+        noData: '无数据'
         paramsDefault: {paging:10}
         parse: (data)->
           return {total:data.total, data: data.rows}

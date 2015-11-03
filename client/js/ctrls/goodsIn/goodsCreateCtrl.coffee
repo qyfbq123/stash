@@ -44,7 +44,8 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         data: []
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
-        # pager: "bootstrap"
+        # pager: "bootstrap",
+        noData: '无数据'
         paramsDefault: {paging:10}
         onBefore: ()->
           itemIds = []
@@ -128,7 +129,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#createGoodsList').bind 'click', ()->
         return if !$('#goodsInCreate').valid()
 
-        goodsData.attr('date', Date.parse(goodsData.attr('date')) / 1000)
+        goodsData.attr('date', Date.parse(goodsData.attr('date')))
         goodsData.attr('companyVo', Auth.user().companyVo)
         goodsData.attr('creatorVo', Auth.user())
         goodsData.attr('entries', _.map(_.values(listData.attr()), (it)->

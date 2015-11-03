@@ -33,7 +33,8 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
       datagrid = $('#imageList').datagrid({
         data: data.imgs
         attr: "class": "table table-bordered table-striped"
-        pager: "bootstrap"
+        pager: "bootstrap",
+        noData: '无数据'
         sorter: "bootstrap"
         paramsDefault: {paging:10}
         col:[{

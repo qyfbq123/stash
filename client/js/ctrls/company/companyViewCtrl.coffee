@@ -15,7 +15,8 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
         url: Auth.apiHost + 'mywms2/company/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
-        pager: "bootstrap"
+        pager: "bootstrap",
+        noData: '无数据'
         paramsDefault: {paging:10}
         parse: (data)->
           return {total:data.total, data: data.rows}
