@@ -1,9 +1,9 @@
-clickDeleteGoodList = (data)->
+clickDeleteGoodOutList = (data)->
   require ['Auth', '$', 'jAlert'], (Auth)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/stock/in/delete', {inId:data.id}
+      $.getJSON(Auth.apiHost + 'mywms2/stock/out/delete', {outId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -19,10 +19,10 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
       if !can.base
         new base('', data)
 
-      this.element.html can.view('../../public/view/home/goodsIn/goodsView.html', {})
+      this.element.html can.view('../../public/view/home/goodsOut/goodsView.html', {})
 
-      datagrid = $('#goodsInList').datagrid({
-        url: Auth.apiHost + 'mywms2/stock/in/page',
+      datagrid = $('#goodsOutList').datagrid({
+        url: Auth.apiHost + 'mywms2/stock/out/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",
@@ -42,7 +42,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickDeleteGoodList(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
+              "<a href='javascript:clickDeleteGoodOutList(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'created'
             title: '创建时间'
@@ -78,20 +78,6 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
                 "<p>联系传真&nbsp;&nbsp;&nbsp;#{data?.value?.contactFax}</p>" +
                 "<p>联系MSN&nbsp;&nbsp;&nbsp;#{data?.value?.contactMsn}</p>"
               "<a href=\"javascript:jAlert('#{info}', '公司信息')\">#{data?.value?.name}</a>"
-          },{
-            field: 'supplierVo'
-            title: '供应商信息'
-            render: (data)->
-              info =
-                "<p>供应商名称　#{data?.value?.name}</p>" +
-                "<p>供应商地址　#{data?.value?.address}</p>" +
-                "<p>联系人　　　#{data?.value?.contactName}</p>" +
-                "<p>联系号码　　#{data?.value?.contactTel}</p>" +
-                "<p>联系邮箱　　#{data?.value?.contactEmail}</p>" +
-                "<p>联系QQ　　　#{data?.value?.contactQq}</p>" +
-                "<p>联系传真　　#{data?.value?.contactFax}</p>" +
-                "<p>联系MSN　　#{data?.value?.contactMsn}</p>"
-              "<a href=\"javascript:jAlert('#{info}', '供应商信息')\">#{data?.value?.name}</a>"
           },{
             field: 'creatorVo'
             title: '创建者信息'

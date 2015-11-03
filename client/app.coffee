@@ -54,6 +54,10 @@ require.config
     goodsInViewCtrl: '../public/js/ctrls/goodsIn/goodsViewCtrl'
     goodsInCreateCtrl: '../public/js/ctrls/goodsIn/goodsCreateCtrl'
 
+    # 出货
+    goodsOutViewCtrl: '../public/js/ctrls/goodsOut/goodsViewCtrl'
+    goodsOutCreateCtrl: '../public/js/ctrls/goodsOut/goodsCreateCtrl'
+
   shim:
     can: ['$', 'jqueryEx']
     loading: ['$']
@@ -119,8 +123,14 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
     'home/system/basicDataImport route': (data)->
 
     'home/goodsOut/goodsOutAdd route': (data)->
+      require ['goodsOutCreateCtrl'], (goodsOutCreateCtrl)->
+        new goodsOutCreateCtrl('#rightWorkspace', {id:'goodsOut'})
     'home/goodsOut/goodsOutAdd/:id route': (data)->
+      require ['goodsOutCreateCtrl'], (goodsOutCreateCtrl)->
+        new goodsOutCreateCtrl('#rightWorkspace', {id:'goodsOut'})
     'home/goodsOut/goodsOutView route': (data)->
+      require ['goodsOutViewCtrl'], (goodsOutViewCtrl)->
+        new goodsOutViewCtrl('#rightWorkspace', {id:'goodsOut'})
 
     'home/goodsIn/goodsInAdd route': (data)->
       require ['goodsInCreateCtrl'], (goodsInCreateCtrl)->

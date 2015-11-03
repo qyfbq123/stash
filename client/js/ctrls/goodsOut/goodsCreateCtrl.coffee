@@ -8,24 +8,11 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
     init: (el, data)->
       new base('', data) if !can.base
 
-      this.element.html can.view('../../public/view/home/goodsIn/goodsCreate.html', goodsData)
+      this.element.html can.view('../../public/view/home/goodsOut/goodsCreate.html', goodsData)
 
-      $('#goodsInDate').datetimepicker
+      $('#goodsOutDate').datetimepicker
         timepicker: false
         lang: 'zh'
-
-      $('#supplierSelector').autocomplete({
-        minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/goods/supplier/allbyname"
-        paramName: 'name'
-        dataType: 'json'
-        transformResult: (response, originalQuery)->
-          query: originalQuery
-          suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
-        onSelect: (suggestion)->
-          goodsData.attr('supplierVo', suggestion.data)
-          $('#supplierSelector').attr('value', suggestion.data.name)
-      })
 
       $('#goodSelector').autocomplete({
         minChars:0
@@ -40,7 +27,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       })
 
       itemIds = []
-      datagrid = $('#goodsInList').datagrid({
+      datagrid = $('#goodsOutList').datagrid({
         data: []
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
@@ -104,7 +91,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#addToGoodsList').unbind('click')
       $('#addToGoodsList').bind 'click', ()->
-        return if !$('#goodsInCreate').valid()
+        return if !$('#goodsOutCreate').valid()
 
         currentData.count = $('#goodCount')[0].value
         old = listData.attr(currentData.id)
@@ -116,7 +103,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           listData.attr(currentData.id, currentData)
         vs = _.values(listData.attr())
 
-        $('#goodsInList').datagrid('render', {total:vs.length, data:vs})
+        $('#goodsOutList').datagrid('render', {total:vs.length, data:vs})
 
         $('#goodSelector')[0].value = ''
         $('#goodCount')[0].value = 1
@@ -127,7 +114,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#createGoodsList').unbind 'click'
       $('#createGoodsList').bind 'click', ()->
-        return if !$('#goodsInCreate').valid()
+        return if !$('#goodsOutCreate').valid()
 
         goodsData.attr('date', Date.parse(goodsData.attr('date')))
         goodsData.attr('companyVo', Auth.user().companyVo)
@@ -141,13 +128,13 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }
         ))
 
-        url = Auth.apiHost + 'mywms2/stock/in/create'
+        url = Auth.apiHost + 'mywms2/stock/out/create'
         $.postJSON(url, goodsData.attr(),
           (data)->
             if data.status == 0
               goodsData.attr({})
               listData.attr({})
-              jAlert "新增进货单成功！", "提示"
+              jAlert "新增出货单成功！", "提示"
             else
               jAlert "#{data.message}", "提示"
           (data)->
