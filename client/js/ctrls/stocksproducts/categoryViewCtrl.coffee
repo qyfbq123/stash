@@ -22,7 +22,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
           return {total:data.total, data: data.rows}
         col:[{
             field: 'locked'
-            title: '启用'
+            title: '选择'
             render: (data)->
               "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
           },{
