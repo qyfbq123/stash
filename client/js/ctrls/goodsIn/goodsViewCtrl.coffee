@@ -13,6 +13,36 @@ clickDeleteGoodList = (data)->
           jAlert data.responseText, "错误"
         )
 
+clickItemToConfirm = (data)->
+  require ['Auth', '$', 'jAlert'], (Auth)->
+    jConfirm '将订单修改为【已经确认】？', '警告', (delete_)->
+      return if !delete_
+
+      $.getJSON(Auth.apiHost + 'mywms2/stock/in/confirm', {inId:data.id}
+        ,(data)->
+          if data.status == 0
+            jAlert '修改成功！', '提示'
+          else
+            jAlert data.message, '失败'
+        ,(data)->
+          jAlert data.responseText, "错误"
+        )
+
+clickItemToEnd = (data)->
+  require ['Auth', '$', 'jAlert'], (Auth)->
+    jConfirm '将订单修改为【已经完成】？', '警告', (delete_)->
+      return if !delete_
+
+      $.getJSON(Auth.apiHost + 'mywms2/stock/in/end', {inId:data.id}
+        ,(data)->
+          if data.status == 0
+            jAlert '修改成功！', '提示'
+          else
+            jAlert data.message, '失败'
+        ,(data)->
+          jAlert data.responseText, "错误"
+        )
+
 define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], (Ctrl, can, Auth, base)->
   return Ctrl.extend
     init: (el, data)->
@@ -57,10 +87,10 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
             render: (data)->
               tagInfo = {}
               switch data.value
-                when 'started' then tagInfo.class = 'bg-primary btn width100'; tagInfo.value = '等待确认'
-                when 'confirmed' then tagInfo.class = 'bg-info btn width100'; tagInfo.value = '已经确认'
-                when 'ended' then tagInfo.class = 'bg-success btn width100'; tagInfo.value = '已经完成'
-              "<span class='#{tagInfo.class}'>#{tagInfo.value}</span>"
+                when 'started' then tagInfo.class = 'bg-primary btn width100'; tagInfo.value = '等待确认'; tagInfo.fun = "clickItemToConfirm(#{JSON.stringify(data.row)})"
+                when 'confirmed' then tagInfo.class = 'bg-info btn width100'; tagInfo.value = '已经确认'; tagInfo.fun = "clickItemToEnd(#{JSON.stringify(data.row)})"
+                when 'ended' then tagInfo.class = 'bg-success btn width100'; tagInfo.value = '已经完成'; tagInfo.fun = 'void(0)'
+              "<a href='javascript:#{tagInfo.fun}' class='#{tagInfo.class}'>#{tagInfo.value}</a>"
           },{
             field: 'desc'
             title: '公司描述'

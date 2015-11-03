@@ -16,7 +16,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#goodSelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/goods/all"
+        serviceUrl: "#{Auth.apiHost}mywms2/goods/inventory/all"
         paramName: 'name'
         dataType: 'json'
         transformResult: (response, originalQuery)->
@@ -24,6 +24,9 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
         onSelect: (suggestion)->
           currentData = suggestion.data
+          $('#goodCount').bind('change', ()->
+            $('#goodCount')[0].value = currentData.quantity if $('#goodCount')[0].value > currentData.quantity
+          )
       })
 
       itemIds = []
