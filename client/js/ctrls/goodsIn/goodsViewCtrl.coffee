@@ -123,6 +123,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
         new base('', data)
 
       this.element.html can.view('../../public/view/home/goodsIn/goodsView.html', {})
+      $('#listDetail').attr('style', 'display:none;')
 
       datagrid = $('#goodsInList').datagrid({
         url: Auth.apiHost + 'mywms2/stock/in/page',

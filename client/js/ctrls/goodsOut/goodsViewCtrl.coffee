@@ -124,6 +124,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
 
       this.element.html can.view('../../public/view/home/goodsOut/goodsView.html', {})
 
+      $('#listDetail').attr('style', 'display:none;')
       datagrid = $('#goodsOutList').datagrid({
         url: Auth.apiHost + 'mywms2/stock/out/page',
         attr: "class": "table table-bordered table-striped"
