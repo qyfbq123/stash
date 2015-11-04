@@ -8,6 +8,21 @@ clickUpdateStock = (data)->
     localStorage.set 'tmpStockItemData', data
     window.location.hash = "#!home/stocksproducts/stockItemAdd/#{data.id}"
 
+clickDeleteStockItem = (data)->
+  require ['Auth', '$', 'jAlert'], (Auth)->
+    jConfirm '确认删除？', '警告', (delete_)->
+      return if !delete_
+
+      $.getJSON(Auth.apiHost + 'mywms2/goods/delete', {goodsId:data.id}
+        ,(data)->
+          if data.status == 0
+            jAlert '删除成功！', '提示'
+          else
+            jAlert data.message, '失败'
+        ,(data)->
+          jAlert data.responseText, "错误"
+        )
+
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imageView', 'imageManageCtrl'], (Ctrl, can, Auth, base)->
   consigneeData = new can.Map
 
@@ -22,7 +37,8 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         url: Auth.apiHost + 'mywms2/goods/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
-        pager: "bootstrap"
+        pager: "bootstrap",
+        noData: '无数据'
         paramsDefault: {paging:10}
         onBefore: ()->
           itemIds = []
@@ -47,7 +63,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
             title: '操作'
             render: (data)->
               "<a href='javascript:clickUpdateStock(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-              "<a href='' class='table-actions-button ic-table-delete'></a>"
+              "<a href='javascript:clickDeleteStockItem(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
             title: '商品名称'

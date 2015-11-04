@@ -3,6 +3,21 @@ clickBrandUpdate = (data)->
     localStorage.set 'tmpBrandInfo', data
     window.location.hash = "#!home/stocksproducts/brandAdd/#{data.id}"
 
+clickDeleteBrand = (data)->
+  require ['Auth', '$', 'jAlert'], (Auth)->
+    jConfirm '确认删除？', '警告', (delete_)->
+      return if !delete_
+
+      $.getJSON(Auth.apiHost + 'mywms2/goods/brand/delete', {brandId:data.id}
+        ,(data)->
+          if data.status == 0
+            jAlert '删除成功！', '提示'
+          else
+            jAlert data.message, '失败'
+        ,(data)->
+          jAlert data.responseText, "错误"
+        )
+
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
   brandList = new can.Map
 
@@ -16,7 +31,8 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
         url: Auth.apiHost + 'mywms2/goods/brand/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
-        pager: "bootstrap"
+        pager: "bootstrap",
+        noData: '无数据'
         paramsDefault: {paging:10}
         parse: (data)->
           return {total:data.total, data: data.rows}
@@ -30,7 +46,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
             title: '操作'
             render: (data)->
               "<a href='javascript:clickBrandUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-              "<a href='' class='table-actions-button ic-table-delete'></a>"
+              "<a href='javascript:clickDeleteBrand(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
             title: '商品名'

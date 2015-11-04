@@ -1,0 +1,36 @@
+
+#printArea
+  p &nbsp;&nbsp;&nbsp;&nbsp;
+  form#goodsOutCreate
+    .col-md-offset-1
+      table.form
+        tr
+          td
+            div.width80 预计入库：
+          td
+            input.round.default-width-input#goodsOutDate(type='text', can-value='date', name='date', required)
+          td
+            div.width80 进货单描述：
+          td
+            input.round.default-width-input#warehouseSelector(type='text', name='desc', rangelength='2,50', required)
+        tr
+          td(colspan=6)
+        tr
+          td
+            div.width80 商品
+          td
+            input.round.default-width-input#goodSelector(type='text')
+          td
+            div.width80 数量
+          td
+            input.round.default-width-input#goodCount(type='text', name='goodCount' ,value=1, min=1, number=true, required='true')
+
+  button.button.round.blue.image-right.ic-add.pull-right#addToGoodsList 添加到清单
+  p &nbsp;
+
+    #goodsOutList
+  p &nbsp;
+
+  .row
+    button.button.round.blue.image-right.ic-add.pull-right#createGoodsList 保存
+    button.button.round.blue.image-right.ic-add.pull-right#printGoodsList 打印进货单

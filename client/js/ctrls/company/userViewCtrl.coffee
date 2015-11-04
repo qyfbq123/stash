@@ -3,6 +3,21 @@ clickUserUpdate = (info)->
     localStorage.set 'tmpUserInfo', info
     window.location.hash = "#!home/company/userAdd/#{info.id}"
 
+clickDeleteUser = (data)->
+  require ['Auth', '$', 'jAlert'], (Auth)->
+    jConfirm '确认删除？', '警告', (delete_)->
+      return if !delete_
+
+      $.getJSON(Auth.apiHost + 'mywms2/user/delete', {userId:data.id}
+        ,(data)->
+          if data.status == 0
+            jAlert '删除成功！', '提示'
+          else
+            jAlert data.message, '失败'
+        ,(data)->
+          jAlert data.responseText, "错误"
+        )
+
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
   userList = new can.Map
 
@@ -17,7 +32,8 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
         url: Auth.apiHost + 'mywms2/user/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
-        pager: "bootstrap"
+        pager: "bootstrap",
+        noData: '无数据'
         paramsDefault: {paging:10}
         parse: (data)->
           return {total:data.total, data: data.rows}
@@ -31,7 +47,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
             title: '操作'
             render: (data)->
               "<a href='javascript:clickUserUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-              "<a href='' class='table-actions-button ic-table-delete'></a>"
+              "<a href='javascript:clickDeleteUser(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'username'
             title: '用户名'
