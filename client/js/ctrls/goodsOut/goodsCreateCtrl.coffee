@@ -1,6 +1,13 @@
+listData = new can.Map()
+goodsData = new can.Map()
+
+cliclDeleteGoodsOutItem = (item)->
+  listData.removeAttr(item.id)
+
+  vs = _.values(listData.attr())
+  $('#goodsOutList').datagrid('render', {total:vs.length, data:vs})
+
 define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'validate', 'autocomplete', 'dateTimePicker', 'datagrid_plugin', 'printer'], (base, can, Control, Auth, localStorage)->
-  listData = new can.Map()
-  goodsData = new can.Map()
   goodsData.attr('entries', listData)
   currentData = {}
 
@@ -87,7 +94,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='' class='table-actions-button ic-table-delete' alt='删除'></a>"
+              "<a href='javascript:cliclDeleteGoodsOutItem(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete' alt='删除'></a>"
           }
         ]
       })
