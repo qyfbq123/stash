@@ -61,6 +61,7 @@ require.config
 
     # 系统
     basicDataImportCtrl: '../public/js/ctrls/system/basicDataImportCtrl'
+    importComponent: '../public/js/ctrls/system/importComponent'
 
     # 报告
     exportReportsCtrl: '../public/js/ctrls/report/exportReportsCtrl'
@@ -129,10 +130,9 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       require ['exportReportsCtrl'], (exportReportsCtrl)->
         new exportReportsCtrl('#rightWorkspace', {id:'report'})
 
-    # 'home/system route': (data)->
-    'home/system/basicDataImport route': (data)->
+    'home/system/:id route': (data)->
       require ['basicDataImportCtrl'], (basicDataImportCtrl)->
-        new basicDataImportCtrl('#rightWorkspace', {id:'system'})
+        new basicDataImportCtrl('#rightWorkspace', {id:'system', subMenuId: data.id})
 
     'home/goodsOut/goodsOutAdd route': (data)->
       require ['goodsOutCreateCtrl'], (goodsOutCreateCtrl)->
