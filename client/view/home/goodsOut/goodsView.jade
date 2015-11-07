@@ -1,8 +1,28 @@
 #listDetail
   .col-md-offset-10.col-md-2
     button.pull-right.button.round.blue.image-right.ic-left-arrow#backList 返回列表
+    button.pull-right.button.round.blue.image-right.ic-left-arrow#printList 打印清单
 
   .col-md-12
+    p.text-center
+      font(size="4", color='black') 出货单
+    form.col-md-offset-1
+      table.form
+        tr
+          td
+            div.width80 下单时间：
+          td
+            label#createAt
+          td
+            div.width80 预计出库：
+          td
+            label#goodsInDate
+        tr
+          td
+            div.width80 出货单描述：
+          td
+            label#desc
+
     #gridDetail
 
 #goodsOutList
