@@ -8,6 +8,18 @@ html,body,.fullHeight {
   text-align:center;
 }
 
+.Center-Container.is-Table { display: table; }
+.is-Table .Table-Cell {
+  display: 'table-cell';
+  vertical-align: middle;
+}
+.is-Table .Center-Block {
+  width: 50%;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .width300 {
   width:300px;
 }
@@ -22,6 +34,10 @@ html,body,.fullHeight {
 
 .width60 {
   width:60px;
+}
+
+.height100 {
+  height: 100px;
 }
 
 .marginL50{

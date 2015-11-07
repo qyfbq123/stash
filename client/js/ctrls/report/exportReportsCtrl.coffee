@@ -51,18 +51,21 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           opt.goodsId = suggestion.data.id
       })
 
-      $('#startExport').unbind 'click'
-      $('#startExport').bind('click', ()->
+      $('#startExportBtn').unbind 'click'
+      $('#startExportBtn').bind('click', ()->
         return if !$('#stockItemCreate').valid()
 
         if $('#startAt')?[0] and $('#endAt')?[0]
-          opt.start = Date.parse($('#startAt')[0].value) / 1000
-          opt.end = Date.parse($('#endAt')[0].value) / 1000
-          return jAlert '开始时间必须小于结束时间！', '提示' if opt.end <= opt.start
+          opt.start = $('#startAt')[0].value || ''
+          opt.end = $('#endAt')[0].value || ''
+          return jAlert '开始时间必须小于结束时间！', '提示' if opt.end < opt.start
 
         url = Auth.apiHost + "mywms2#{apiSuffix}?"
+        el = $('<form></form>')
         for k, v of opt
-          url += "#{k}=#{v}&"
+          el.append($('<input/>').attr('name', k).val(v))
 
-        $('#startExport').attr('href', url)
+        el.attr('action', url)
+        el.attr('target', '_blank')
+        el.submit()
       )

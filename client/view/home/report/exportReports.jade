@@ -6,20 +6,20 @@ form#stockItemCreate
         td.company
           div.width80 公司名称：
         td.company
-          input.round.default-width-input#companySelector(type='text', name='companyId', rangelength='2,10', required)
+          input.round.default-width-input#companySelector(type='text', name='companyId')
         td.goods
           div.width80 商品名称：
         td.goods
-          input.round.default-width-input#goodSelector(type='text', name='goodsId', rangelength='2,10', required)
+          input.round.default-width-input#goodSelector(type='text', name='goodsId')
       tr
         td.startAt
           div.width80 开始时间：
         td.startAt
-          input.round.default-width-input#startAt(type='text', name='start', rangelength='2,50', required)
+          input.round.default-width-input#startAt(type='text', name='start')
         td.endAt
           div.width80 结束时间：
         td.endAt
-          input.round.default-width-input#endAt(type='text', name='end', rangelength='2,50', required)
+          input.round.default-width-input#endAt(type='text', name='end')
 
-  .col-md-offset-10.col-md-2
-    a.button.round.blue.image-right.ic-add#startExport(target='_blank') 导出报表
+.col-md-offset-10.col-md-2
+  button.button.round.blue.image-right.ic-add#startExportBtn 导出报表

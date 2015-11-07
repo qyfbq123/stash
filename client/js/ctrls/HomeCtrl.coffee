@@ -26,6 +26,14 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
       return 'button menu-settings image-left'
 
   genMenu = (array)->
+    array.push
+      id: 10000
+      index: 0
+      level: 2
+      name: "概览"
+      pid: 1
+      url: "dashboard"
+
     _.each array, (menu)->
       if menu.level == 1
         appendTopMenu menu
