@@ -61,7 +61,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }, {
             attrHeader: { "style": "width:100px;"},
             field: 'barcode'
-            title: '商品编号'
+            title: '条形码'
           },{
             field: 'photos'
             title: '商品图片'

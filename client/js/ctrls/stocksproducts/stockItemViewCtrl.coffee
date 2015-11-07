@@ -69,7 +69,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
             title: '商品名称'
           }, {
             field: 'barcode'
-            title: '商品编号'
+            title: '条形码'
           },{
             field: 'photos'
             title: '商品图片'

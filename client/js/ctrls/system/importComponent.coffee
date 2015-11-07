@@ -60,7 +60,6 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
                          "),
     viewModel: (attrs)->
       currentData = getImportInfo(attrs.submenuid)
-      console.log currentData.attr()
       currentData
     events: {
       inserted:()->

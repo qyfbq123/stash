@@ -44,15 +44,30 @@ clickItemToEnd = (data)->
         )
 
 clickListDetail = (data)->
-  require ['Auth', '$', 'datagrid_plugin', 'imageView'], (Auth)->
+  require ['Auth', '$', 'datagrid_plugin', 'imageView', 'printer'], (Auth)->
     $('#goodsInList').attr('style', 'display:none;')
     $('#listDetail').attr('style', 'display:block;')
+    $('#createAt').empty()
+    $('#goodsInDate').empty()
+    $('#supplier').empty()
+    $('#desc').empty()
+    $('#createAt').append(new Date(data.created).toLocaleString())
+    $('#goodsInDate').append(new Date(data.date).toLocaleString())
+    $('#supplier').append(data.supplierVo.name)
+    $('#desc').append(data.desc)
+
+    $('#printList').unbind 'click'
+    $('#printList').bind 'click', ()->
+      $('.col-md-12').print(noPrintSelector: 'a,button,.notPrint')
 
     data = _.map(data.entries, (it)->
         it.goodsVo ?={}
         it.goodsVo.quantity = it.quantity
         it.goodsVo
       )
+
+    if $('#gridDetail').data('plugin_datagrid')
+      return datagrid = $('#gridDetail').datagrid('render', {total:data.length, data:data})
 
     itemIds =  []
     datagrid = $('#gridDetail').datagrid({
@@ -65,6 +80,7 @@ clickListDetail = (data)->
       onBefore: ()->
         itemIds = []
       onComplete: ()->
+        $('#gridDetail > div > span').empty()
         for id in itemIds
           $("#photo#{id}").magnificPopup({
             delegate: 'a'
@@ -79,7 +95,7 @@ clickListDetail = (data)->
         }, {
           attrHeader: { "style": "width:100px;"},
           field: 'barcode'
-          title: '商品编号'
+          title: '条形码'
         },{
           field: 'photos'
           title: '商品图片'
@@ -101,11 +117,11 @@ clickListDetail = (data)->
                       </li>
                     </ul>"
         },{
-          attrHeader: { "style": "width:30px;"},
+          attrHeader: { "style": "width:100px;"},
           field: 'count'
           title: '数量'
           render: (data)->
-            "<input type='number' value=#{data.row.quantity} id=itemId#{data.row.id} min:'1', disabled>"
+            "<label id=itemId#{data.row.id}>#{data.row.quantity}</label>"
         }
       ]
     })
