@@ -125,10 +125,18 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       require ['userViewCtrl'], (userViewCtrl)->
         new userViewCtrl('#rightWorkspace', {id:'company'})
 
-    # 'home/report route': (data)->
-    'home/report/exportReports route': (data)->
+    'home/report/:id route': (data)->
       require ['exportReportsCtrl'], (exportReportsCtrl)->
-        new exportReportsCtrl('#rightWorkspace', {id:'report'})
+        new exportReportsCtrl('#rightWorkspace', {id:'report', subMenuId: data.id})
+    # 'home/report/operationsReport route': (data)->
+    #   require ['exportReportsCtrl'], (exportReportsCtrl)->
+    #     new exportReportsCtrl('#rightWorkspace', {id:'report'})
+    # 'home/report/settlementReportByDate route': (data)->
+    #   require ['exportReportsCtrl'], (exportReportsCtrl)->
+    #     new exportReportsCtrl('#rightWorkspace', {id:'report'})
+    # 'home/report/settlementReportByGoods route': (data)->
+    #   require ['exportReportsCtrl'], (exportReportsCtrl)->
+    #     new exportReportsCtrl('#rightWorkspace', {id:'report'})
 
     'home/system/:id route': (data)->
       require ['basicDataImportCtrl'], (basicDataImportCtrl)->
