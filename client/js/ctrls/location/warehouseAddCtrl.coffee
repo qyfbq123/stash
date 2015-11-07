@@ -29,7 +29,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
             if data.status == 0
               warehouseData.attr({})
-              if isNew then jAlert "新增仓库成功！", "提示" else "更新仓库成功！", "提示"
+              if isNew then jAlert "新增仓库成功！", "提示" else jAlert "更新仓库成功！", "提示"
             else
               jAlert "#{data.message}", "提示"
           (data)->
