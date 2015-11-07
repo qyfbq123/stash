@@ -26,6 +26,8 @@ require.config
     loginCtrl: '../public/js/ctrls/LoginCtrl'
     imageManageCtrl: '../public/js/ctrls/ImageManageCtrl'
 
+    dashboardCtrl: '../public/js/ctrls/dashboardCtrl'
+
     # 公司下的控制器
     companyNewCtrl: '../public/js/ctrls/company/companyNewCtrl'
     companyViewCtrl: '../public/js/ctrls/company/companyViewCtrl'
@@ -105,6 +107,10 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       require ['base'], (base)->
         new base('', data)
 
+    'home/dashboard/dashboard route': (data)->
+      require ['dashboardCtrl'], (dashboardCtrl)->
+        new dashboardCtrl('#rightWorkspace', {id:'dashboard'})
+
     'home/company/companyAdd route': (data)->
       require ['companyNewCtrl'], (companyNewCtrl)->
         new companyNewCtrl('#rightWorkspace', {id:'company'})
@@ -124,15 +130,6 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
     'home/company/userView route': (data)->
       require ['userViewCtrl'], (userViewCtrl)->
         new userViewCtrl('#rightWorkspace', {id:'company'})
-
-    # 'home/report route': (data)->
-    'home/report/exportReports route': (data)->
-      require ['exportReportsCtrl'], (exportReportsCtrl)->
-        new exportReportsCtrl('#rightWorkspace', {id:'report'})
-
-    'home/system/:id route': (data)->
-      require ['basicDataImportCtrl'], (basicDataImportCtrl)->
-        new basicDataImportCtrl('#rightWorkspace', {id:'system', subMenuId: data.id})
 
     'home/goodsOut/goodsOutAdd route': (data)->
       require ['goodsOutCreateCtrl'], (goodsOutCreateCtrl)->
@@ -227,6 +224,14 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
     'home/location/locationView route': (data)->
       require ['locationViewCtrl'], (locationViewCtrl)->
         new locationViewCtrl('#rightWorkspace', {id:'location'})
+
+    'home/report/:id route': (data)->
+      require ['exportReportsCtrl'], (exportReportsCtrl)->
+        new exportReportsCtrl('#rightWorkspace', {id:'report', subMenuId: data.id})
+
+    'home/system/:id route': (data)->
+      require ['basicDataImportCtrl'], (basicDataImportCtrl)->
+        new basicDataImportCtrl('#rightWorkspace', {id:'system', subMenuId: data.id})
   })
 
   new Router(window)

@@ -61,7 +61,6 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             field: 'goodsVo'
             title: '商品信息'
             render: (data)->
-              console.log data.value
               info =
                 "<p>商品名称　　#{data?.value?.name}</p>" +
                 "<p>商品编码　　#{data?.value?.barcode}</p>" +

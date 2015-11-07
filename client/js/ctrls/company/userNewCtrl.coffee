@@ -63,8 +63,6 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
         userInfo.attr('roleVoList', _.map(userInfo.attr('roleVoList'), (role)-> id:parseInt(role.id)))
         userInfo.attr('roleVoList', _.uniq(userInfo.attr('roleVoList'), (role)-> parseInt(role.id)))
 
-        console.log userInfo.attr()
-
         success = (data)->
           for k, v of userInfo.attr()
             userInfo.removeAttr(k)

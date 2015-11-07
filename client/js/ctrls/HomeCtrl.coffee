@@ -26,6 +26,14 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
       return 'button menu-settings image-left'
 
   genMenu = (array)->
+    array.push
+      id: 10000
+      index: 0
+      level: 2
+      name: "概览"
+      pid: 1
+      url: "dashboard"
+
     _.each array, (menu)->
       if menu.level == 1
         appendTopMenu menu
@@ -83,8 +91,12 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
         $('#menuList').append "<li><a href='#!home/#{data.url}/#{menu.url}'>#{menu.name}</a></li>"
 
       # 默认选中子菜单的第一个
-      if window.location.hash.split('/').length == 2
-        if currentChildMenus.length == 1
+      mm = window.location.hash.split('/')
+      last = mm[mm.length - 1]
+      excludes = ['dashboard', 'stocksproducts', 'report', 'system']
+
+      if mm.length == 2
+        if currentChildMenus.length == 1 or _.find(excludes, (it)-> it == last)
           firstUrl = "#!home/#{data.url}/#{currentChildMenus?[0]?.url}"
         else
           firstUrl = "#!home/#{data.url}/#{currentChildMenus?[1]?.url}"
