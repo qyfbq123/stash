@@ -3,7 +3,7 @@ clickDeleteGoodList = (data)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/stock/in/delete', {inId:data.id}
+      $.getJSON(Auth.apiHost + 'stock/in/delete', {inId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -18,7 +18,7 @@ clickItemToConfirm = (data)->
     jConfirm '将订单修改为【已经确认】？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/stock/in/confirm', {inId:data.id}
+      $.getJSON(Auth.apiHost + 'stock/in/confirm', {inId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '修改成功！', '提示'
@@ -33,7 +33,7 @@ clickItemToEnd = (data)->
     jConfirm '将订单修改为【已经完成】？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/stock/in/end', {inId:data.id}
+      $.getJSON(Auth.apiHost + 'stock/in/end', {inId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '修改成功！', '提示'
@@ -103,7 +103,7 @@ clickListDetail = (data)->
           attr: {'class': 'notPrint'}
           render: (data)->
             itemIds.push data.row.id
-            imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}mywms2/goods/photo?path=#{img.path}"; img)
+            imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
             itemImgsInfo = {id: data.row.id, imgs: imgs}
             html = ''
             for img in imgs
@@ -142,7 +142,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
       $('#listDetail').attr('style', 'display:none;')
 
       datagrid = $('#goodsInList').datagrid({
-        url: Auth.apiHost + 'mywms2/stock/in/page',
+        url: Auth.apiHost + 'stock/in/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",

@@ -17,7 +17,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
         return if !$('#newClient').valid()
 
-        url = Auth.apiHost + if tmpCompanyInfo then 'mywms2/company/update' else 'mywms2/company/create'
+        url = Auth.apiHost + if tmpCompanyInfo then 'company/update' else 'company/create'
 
         $.postJSON(url, userInfo.attr(),
           (data)->

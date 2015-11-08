@@ -13,7 +13,7 @@ clickDeleteStockItem = (data)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/goods/delete', {goodsId:data.id}
+      $.getJSON(Auth.apiHost + 'goods/delete', {goodsId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -34,7 +34,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
 
       itemIds =  []
       datagrid = $('#stockItemList').datagrid({
-        url: Auth.apiHost + 'mywms2/goods/page',
+        url: Auth.apiHost + 'goods/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",
@@ -75,7 +75,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
             title: '商品图片'
             render: (data)->
               itemIds.push data.row.id
-              imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}mywms2/goods/photo?path=#{img.path}"; img)
+              imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
               itemImgsInfo = {id: data.row.id, imgs: imgs}
               html = ''
               for img in imgs

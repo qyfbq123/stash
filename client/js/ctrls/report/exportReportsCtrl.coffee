@@ -29,7 +29,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#companySelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/company/allbyname"
+        serviceUrl: "#{Auth.apiHost}company/allbyname"
         paramName: 'name'
         dataType: 'json'
         transformResult: (response, originalQuery)->
@@ -41,7 +41,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#goodSelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/goods/all"
+        serviceUrl: "#{Auth.apiHost}goods/all"
         paramName: 'name'
         dataType: 'json'
         transformResult: (response, originalQuery)->
@@ -60,7 +60,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           opt.end = $('#endAt')[0].value || ''
           return jAlert '开始时间必须小于结束时间！', '提示' if opt.end < opt.start
 
-        url = Auth.apiHost + "mywms2#{apiSuffix}?"
+        url = Auth.apiHost + "#{apiSuffix}?"
         el = $('<form></form>')
         for k, v of opt
           el.append($('<input/>').attr('name', k).val(v))

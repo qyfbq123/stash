@@ -8,7 +8,7 @@ clickDeleteConsignee = (data)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/goods/consignee/delete', {consigneeId:data.id}
+      $.getJSON(Auth.apiHost + 'goods/consignee/delete', {consigneeId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -28,7 +28,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
       this.element.html can.view('../../public/view/home/stocksproducts/consigneeView.html', consigneeData)
 
       datagrid = $('#consigneeList').datagrid({
-        url: Auth.apiHost + 'mywms2/goods/consignee/page',
+        url: Auth.apiHost + 'goods/consignee/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",

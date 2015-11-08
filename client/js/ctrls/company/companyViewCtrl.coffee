@@ -7,7 +7,7 @@ clickDeleteCompany = (data)->
   require ['Auth', '$', 'jAlert'], (Auth)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
-      $.getJSON(Auth.apiHost + 'mywms2/company/delete', {companyId:data.id}
+      $.getJSON(Auth.apiHost + 'company/delete', {companyId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -26,7 +26,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
       this.element.html can.view('../../public/view/home/company/companyView.html', {})
 
       datagrid = $('#companyView').datagrid({
-        url: Auth.apiHost + 'mywms2/company/page',
+        url: Auth.apiHost + 'company/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",

@@ -24,7 +24,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#supplierSelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/goods/supplier/allbyname"
+        serviceUrl: "#{Auth.apiHost}goods/supplier/allbyname"
         paramName: 'name'
         dataType: 'json'
         transformResult: (response, originalQuery)->
@@ -37,7 +37,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#goodSelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/goods/all"
+        serviceUrl: "#{Auth.apiHost}goods/all"
         paramName: 'name'
         dataType: 'json'
         transformResult: (response, originalQuery)->
@@ -79,7 +79,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             attrHeader: {'class': 'notPrint'}
             attr: {'class': 'notPrint'}
             render: (data)->
-              imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}mywms2/goods/photo?path=#{img.path}"; img)
+              imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
               itemImgsInfo = {id: data.row.id, imgs: imgs}
               html = ''
               for img in imgs
@@ -149,7 +149,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }
         ))
 
-        url = Auth.apiHost + 'mywms2/stock/in/create'
+        url = Auth.apiHost + 'stock/in/create'
         $.postJSON(url, goodsData.attr(),
           (data)->
             if data.status == 0

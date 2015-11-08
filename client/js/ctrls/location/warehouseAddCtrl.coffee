@@ -21,7 +21,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#addWarehouse').bind 'click', ()->
         return if !$('#warehouseAdd').valid()
 
-        url = Auth.apiHost + if isNew then 'mywms2/location/warehouse/create' else 'mywms2/location/warehouse/update'
+        url = Auth.apiHost + if isNew then 'location/warehouse/create' else 'location/warehouse/update'
         $.postJSON(url, warehouseData.attr(),
           (data)->
             for k, v of warehouseData.attr()

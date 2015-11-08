@@ -7,7 +7,7 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
     login: (userinfo, done)->
       $('html').loading({message:'正在登录...'});
 
-      $.post(apiHost + 'mywms2/main/login', userinfo, (data, status)->
+      $.post(apiHost + 'main/login', userinfo, (data, status)->
 
         $('html').loading('stop');
 

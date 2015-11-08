@@ -8,7 +8,7 @@ clickDeleteWarehouse = (data)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/warehouse/delete', {warehouseId:data.id}
+      $.getJSON(Auth.apiHost + 'warehouse/delete', {warehouseId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -29,7 +29,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
       this.element.html can.view('../../public/view/home/location/warehouseView.html', warehouseData)
 
       datagrid = $('#warehouseList').datagrid({
-        url: Auth.apiHost + 'mywms2/location/warehouse/page',
+        url: Auth.apiHost + 'location/warehouse/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",

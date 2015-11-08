@@ -21,7 +21,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#createCategory').bind 'click', ()->
         return if !$('#categoryCreate').valid()
 
-        url = Auth.apiHost + if isNew then 'mywms2/goods/category/create' else 'mywms2/goods/category/update'
+        url = Auth.apiHost + if isNew then 'goods/category/create' else 'goods/category/update'
         $.postJSON(url, categoryData.attr(),
           (data)->
             for k, v of categoryData.attr()

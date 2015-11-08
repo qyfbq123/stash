@@ -38,7 +38,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
 
       $('#brandSelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/goods/brand/allbyname"
+        serviceUrl: "#{Auth.apiHost}goods/brand/allbyname"
         paramName: 'name'
         dataType: 'json'
         transformResult: (response, originalQuery)->
@@ -50,7 +50,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
 
       $('#categorySelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/goods/category/allbyname"
+        serviceUrl: "#{Auth.apiHost}goods/category/allbyname"
         paramName: 'name'
         dataType: 'json'
         transformResult: (response, originalQuery)->
@@ -62,7 +62,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
 
       $('#locationSelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/location/allbyname"
+        serviceUrl: "#{Auth.apiHost}location/allbyname"
         paramName: 'name'
         dataType: 'json'
         transformResult: (response, originalQuery)->
@@ -79,7 +79,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
             maxFileCount: 10
             minImageWidth: 10
             minImageHeight: 10
-            uploadUrl: "#{Auth.apiHost}mywms2/goods/photo/upload?goodsId=#{id}"
+            uploadUrl: "#{Auth.apiHost}goods/photo/upload?goodsId=#{id}"
             allowedFileExtensions: ["jpg", "png", "gif"]
             slugCallback: (name)-> name
           });
@@ -98,7 +98,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
         return if !$('#stockItemCreate').valid()
         dataData.attr('companyVo', Auth.user().companyVo)
 
-        url = Auth.apiHost + if isNew then 'mywms2/goods/create' else 'mywms2/goods/update'
+        url = Auth.apiHost + if isNew then 'goods/create' else 'goods/update'
         $.postJSON(url, dataData.attr(),
           (data)->
             for k, v of dataData.attr()

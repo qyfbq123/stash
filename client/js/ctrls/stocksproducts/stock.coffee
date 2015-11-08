@@ -10,7 +10,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       itemIds =  []
       $('#stockList').datagrid({
-        url: Auth.apiHost + 'mywms2/stock/inventory/page',
+        url: Auth.apiHost + 'stock/inventory/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",
@@ -33,12 +33,6 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             title: '选择'
             render: (data)->
               "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
-          }, {
-            field: 'op'
-            title: '操作'
-            render: (data)->
-              "<a href='javascript:clickBrandUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-              "<a href='javascript:clickDeleteBrand(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
           }, {
             field: 'lastOperator'
             title: '最后操作人信息'
@@ -81,7 +75,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             attrHeader: { "style": "width:40%;"},
             render: (data)->
               itemIds.push data.row.id
-              imgs = _.map(data?.value?.photos, (img)->img.path = "#{Auth.apiHost}mywms2/goods/photo?path=#{img.path}"; img)
+              imgs = _.map(data?.value?.photos, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
               html = ''
               for img in imgs
                 html += "<li><a href='#{img.path}'><img src='#{img.path}'></a></li>"
