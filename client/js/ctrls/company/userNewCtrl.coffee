@@ -32,7 +32,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
           userInfo.attr('roleVoList', selectedRole)
           el = $('#roleSelector').tokenize().clear()
           done?()
-        $.getJSON("#{Auth.apiHost}mywms2/company/rolelist", companyId: companyId, success, error)
+        $.getJSON("#{Auth.apiHost}company/rolelist", companyId: companyId, success, error)
 
       # 新增
       # 修改
@@ -58,7 +58,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
         return if !$('#userNew').valid()
 
         tmpUserInfo = localStorage.get 'tmpUserInfo'
-        url = Auth.apiHost + if tmpUserInfo then 'mywms2/user/update' else 'mywms2/user/create'
+        url = Auth.apiHost + if tmpUserInfo then 'user/update' else 'user/create'
 
         userInfo.attr('roleVoList', _.map(userInfo.attr('roleVoList'), (role)-> id:parseInt(role.id)))
         userInfo.attr('roleVoList', _.uniq(userInfo.attr('roleVoList'), (role)-> parseInt(role.id)))
@@ -91,7 +91,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
       else
         $('#companySelector').autocomplete({
           minChars:0
-          serviceUrl: "#{Auth.apiHost}mywms2/company/allbyname"
+          serviceUrl: "#{Auth.apiHost}company/allbyname"
           paramName: 'name'
           dataType: 'json'
           transformResult: (response, originalQuery)->

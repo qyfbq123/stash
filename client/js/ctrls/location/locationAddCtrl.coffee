@@ -10,7 +10,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#warehouseSelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/location/warehouse/allbyname"
+        serviceUrl: "#{Auth.apiHost}location/warehouse/allbyname"
         paramName: 'name'
         dataType: 'json'
         transformResult: (response, originalQuery)->
@@ -22,7 +22,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#companySelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}mywms2/company/allbyname"
+        serviceUrl: "#{Auth.apiHost}company/allbyname"
         paramName: 'name'
         dataType: 'json'
         transformResult: (response, originalQuery)->
@@ -51,7 +51,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#addLocation').bind 'click', ()->
         return if !$('#locationAdd').valid()
 
-        url = Auth.apiHost +  if isNewLocation then 'mywms2/location/create' else 'mywms2/location/update'
+        url = Auth.apiHost +  if isNewLocation then 'location/create' else 'location/update'
 
         $.postJSON(url, locationData.attr(),
           (data)->

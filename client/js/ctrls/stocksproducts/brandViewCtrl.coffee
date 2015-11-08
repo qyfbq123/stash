@@ -8,7 +8,7 @@ clickDeleteBrand = (data)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/goods/brand/delete', {brandId:data.id}
+      $.getJSON(Auth.apiHost + 'goods/brand/delete', {brandId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -28,7 +28,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
       this.element.html can.view('../../public/view/home/stocksproducts/brandView.html', brandList)
 
       datagrid = $('#brandList').datagrid({
-        url: Auth.apiHost + 'mywms2/goods/brand/page',
+        url: Auth.apiHost + 'goods/brand/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",

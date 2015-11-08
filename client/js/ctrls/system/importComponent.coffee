@@ -11,39 +11,39 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
       when 'companyDataImport'
         pageData.attr('title', '公司')
         pageData.attr('downloadUrl', '公司.xls')
-        pageData.attr('uploadUrl', '/basicdata/company')
+        pageData.attr('uploadUrl', 'basicdata/company')
       when 'warehouseDataImport'
         pageData.attr('title', '仓库')
         pageData.attr('downloadUrl', '仓库.xls')
-        pageData.attr('uploadUrl', '/basicdata/warehouse')
+        pageData.attr('uploadUrl', 'basicdata/warehouse')
       when 'locationDataImport'
         pageData.attr('title', '库位')
         pageData.attr('downloadUrl', '库位.xls')
-        pageData.attr('uploadUrl', '/basicdata/location')
+        pageData.attr('uploadUrl', 'basicdata/location')
       when 'categoryDataImport'
         pageData.attr('title', '种类')
         pageData.attr('downloadUrl', '种类.xlsx')
-        pageData.attr('uploadUrl', '/basicdata/category')
+        pageData.attr('uploadUrl', 'basicdata/category')
       when 'userDataImport'
         pageData.attr('title', '用户')
         pageData.attr('downloadUrl', '用户.xls')
-        pageData.attr('uploadUrl', '/basicdata/user')
+        pageData.attr('uploadUrl', 'basicdata/user')
       when 'brandDataImport'
         pageData.attr('title', '品牌')
         pageData.attr('downloadUrl', '品牌.xls')
-        pageData.attr('uploadUrl', '/basicdata/brand')
+        pageData.attr('uploadUrl', 'basicdata/brand')
       when 'supplierDataImport'
         pageData.attr('title', '供应商')
         pageData.attr('downloadUrl', '供应商.xlsx')
-        pageData.attr('uploadUrl', '/basicdata/supplier')
+        pageData.attr('uploadUrl', 'basicdata/supplier')
       when 'consigneeDataImport'
         pageData.attr('title', '收货人')
         pageData.attr('downloadUrl', '收货人.xlsx')
-        pageData.attr('uploadUrl', '/basicdata/consignee')
+        pageData.attr('uploadUrl', 'basicdata/consignee')
       when 'goodsDataImport'
         pageData.attr('title', '商品')
         pageData.attr('downloadUrl', '商品.xls')
-        pageData.attr('uploadUrl', '/basicdata/goods')
+        pageData.attr('uploadUrl', 'basicdata/goods')
 
   return can.Component.extend({
     tag: "DataImport",
@@ -69,7 +69,7 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
           maxFileCount: 10
           minImageWidth: 10
           minImageHeight: 10
-          uploadUrl: "#{Auth.apiHost}mywms2#{pageData.attr('uploadUrl')}"
+          uploadUrl: "#{Auth.apiHost}#{pageData.attr('uploadUrl')}"
           uploadExtraData: ()->
             isCover: pageData.attr('isCover')
           allowedFileExtensions: ["xls", "xlsx"]

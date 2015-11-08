@@ -91,5 +91,5 @@ define ['can/control', 'can/view/mustache', 'base', 'Auth', '_', 'datagrid_plugi
         })
       failed = (data)->
         pageData.attr({})
-      $.getJSON "#{Auth.apiHost}mywms2/main/dashboard", {}, success, failed
+      $.getJSON "#{Auth.apiHost}main/dashboard", {}, success, failed
 

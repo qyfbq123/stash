@@ -8,7 +8,7 @@ clickDeleteSupplier = (data)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/goods/supplier/delete', {supplierId:data.id}
+      $.getJSON(Auth.apiHost + 'goods/supplier/delete', {supplierId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -28,7 +28,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
       this.element.html can.view('../../public/view/home/stocksproducts/supplierView.html', supplierList)
 
       datagrid = $('#supplierList').datagrid({
-        url: Auth.apiHost + 'mywms2/goods/supplier/page',
+        url: Auth.apiHost + 'goods/supplier/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",

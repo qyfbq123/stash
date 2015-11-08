@@ -8,7 +8,7 @@ clickDeleteUser = (data)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/user/delete', {userId:data.id}
+      $.getJSON(Auth.apiHost + 'user/delete', {userId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -29,7 +29,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
       this.element.html can.view('../../public/view/home/company/userView.html', userList)
 
       datagrid = $('#userList').datagrid({
-        url: Auth.apiHost + 'mywms2/user/page',
+        url: Auth.apiHost + 'user/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",

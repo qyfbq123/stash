@@ -22,7 +22,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         return if !$('#brandNew').valid()
 
         brandData.attr('companyVo', Auth.user().companyVo)
-        url = Auth.apiHost + if isNew then 'mywms2/goods/brand/create' else 'mywms2/goods/brand/update'
+        url = Auth.apiHost + if isNew then 'goods/brand/create' else 'goods/brand/update'
         $.postJSON(url, brandData.attr(),
           (data)->
             for k, v of brandData.attr()

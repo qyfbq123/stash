@@ -8,7 +8,7 @@ clickDeleteLocation = (data)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'mywms2/location/delete', {locationId:data.id}
+      $.getJSON(Auth.apiHost + 'location/delete', {locationId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -29,7 +29,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
       this.element.html can.view('../../public/view/home/location/locationView.html', locationData)
 
       datagrid = $('#locationList').datagrid({
-        url: Auth.apiHost + 'mywms2/location/page',
+        url: Auth.apiHost + 'location/page',
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",

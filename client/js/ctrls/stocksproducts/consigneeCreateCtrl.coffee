@@ -22,7 +22,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         return if !$('#consigneeCreate').valid()
 
         supplierData.attr('companyVo', Auth.user().companyVo)
-        url = Auth.apiHost +  if isNew then 'mywms2/goods/consignee/create' else 'mywms2/goods/consignee/update'
+        url = Auth.apiHost +  if isNew then 'goods/consignee/create' else 'goods/consignee/update'
 
         $.postJSON(url, supplierData.attr(),
           (data)->

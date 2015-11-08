@@ -6,7 +6,7 @@ deleteImages = (image)->
       jAlert '删除图片失败！', '警告'
 
     image.path = image.path.substring(image.path.indexOf('=') + 1)
-    $.postJSON "#{Auth.apiHost}mywms2/goods/photo/delete", [image], success, failed
+    $.postJSON "#{Auth.apiHost}goods/photo/delete", [image], success, failed
 
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imageView', 'fileInputZh'], (Ctrl, can, Auth, base)->
   return Ctrl.extend
@@ -18,7 +18,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         maxFileCount: 10
         minImageWidth: 10
         minImageHeight: 10
-        uploadUrl: "#{Auth.apiHost}mywms2/goods/photo/upload?goodsId=#{data.id}"
+        uploadUrl: "#{Auth.apiHost}goods/photo/upload?goodsId=#{data.id}"
         allowedFileExtensions: ["jpg", "png", "gif"]
         slugCallback: (name)-> name
       });
