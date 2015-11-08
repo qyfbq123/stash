@@ -83,6 +83,7 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
       ).fail ()->
 
     updateChildMenu: (data)->
+      data ?= {}
       currentChildMenus = data.childMenu || []
       homePageData.attr('menuName', data.name)
 
