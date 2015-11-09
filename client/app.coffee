@@ -99,7 +99,7 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       Auth.logout()
       delete can.home
     'route': ()->
-      window.location.hash = '#!home'
+      window.location.hash = '!login'
     'home route': (data)->
       require ['base'], (base)->
         new base('', {id:'dashboard'})

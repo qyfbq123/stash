@@ -78,3 +78,5 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
           }
         ]
       })
+
+      $('#warehouseList').datagrid( "filters", $('#filterSelector'));

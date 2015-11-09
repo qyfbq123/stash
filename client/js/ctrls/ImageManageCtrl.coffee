@@ -2,6 +2,7 @@ deleteImages = (image)->
   require ['Auth', 'jAlert'], (Auth)->
     success = (data)->
       jAlert '删除图片成功！', '提示'
+      $("#imageManager#{image.id}").parent().parent().remove()
     failed = (data)->
       jAlert '删除图片失败！', '警告'
 
@@ -19,7 +20,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         minImageWidth: 10
         minImageHeight: 10
         uploadUrl: "#{Auth.apiHost}goods/photo/upload?goodsId=#{data.id}"
-        allowedFileExtensions: ["jpg", "png", "gif"]
+        allowedFileExtensions: ["jpeg", "jpg", "png", "gif"]
         slugCallback: (name)-> name
       });
 
@@ -40,7 +41,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         col:[{
             field: 'path'
             title: '路径'
-            render: (data)-> "<a href=#{data.value}><img class='imgView' src=#{data.value}></img></a>"
+            render: (data)-> "<a href=#{data.value} id='imageManager#{data.row.id}'><img class='imgView' src=#{data.value}></img></a>"
           },{
             field: 'uploadDate'
             title: '上传日期'

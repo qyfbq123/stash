@@ -75,3 +75,5 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
           }
         ]
       })
+
+      $('#brandList').datagrid( "fetch", {factor:$('#factor')[0].value});

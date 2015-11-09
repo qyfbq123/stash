@@ -73,16 +73,18 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
         childMenuName = if hit and hit.name then hit.name else '工作区域'
         homePageData.attr('childMenuName', childMenuName)
 
-      $.get(Auth.apiHost + 'user/menu', (data, status)->
+      $.get(Auth.apiHost + 'user/menu', (data, status)=>
         if parseInt(data.status) != 0
           jAlert('获取菜单失败 ' + data.message, '错误');
           Auth.logout()
           return;
 
         genMenu(data.data);
+        window.location.hash = '!home/dashboard/dashboard'
       ).fail ()->
 
     updateChildMenu: (data)->
+      data ?= {}
       currentChildMenus = data.childMenu || []
       homePageData.attr('menuName', data.name)
 

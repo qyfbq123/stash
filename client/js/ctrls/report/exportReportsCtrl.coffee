@@ -8,16 +8,16 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       apiSuffix = ''
       if data.subMenuId == 'operationsReport'
-        apiSuffix = '/report/settlementbycompany'
+        apiSuffix = 'report/settlementbycompany'
       else if data.subMenuId == 'settlementReportByDate'
         $('.company').remove()
         $('.goods').remove()
-        apiSuffix = '/report/settlementbydate'
+        apiSuffix = 'report/settlementbydate'
       else if data.subMenuId == 'settlementReportByGoods'
         $('.startAt').remove()
         $('.endAt').remove()
         $('.company').remove()
-        apiSuffix = '/report/settlementbygoods'
+        apiSuffix = 'report/settlementbygoods'
 
       $('#startAt').datetimepicker
         timepicker: false

@@ -131,7 +131,7 @@ clickListDetail1 = (data)->
       $('#goodsOutList').attr('style', 'display:block;')
 
 
-define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], (Ctrl, can, Auth, base)->
+define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', 'autocomplete'], (Ctrl, can, Auth, base)->
   return Ctrl.extend
     init: (el, data)->
       if !can.base
@@ -170,7 +170,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
             render: (data)-> new Date(data.value).toLocaleString()
           }, {
             field: 'date'
-            title: '预计入库时间'
+            title: '预计出库时间'
             render: (data)-> new Date(data.value).toLocaleString()
           }, {
             field: 'status'
@@ -217,3 +217,28 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
           }
         ]
       })
+      $('#goodsOutList').datagrid( "filters", $('#filterSelector'));
+
+      $('#consigneeId').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}goods/consignee/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
+        onSelect: (suggestion)->
+          $('#goodsOutList').datagrid( "fetch", {consigneeId:suggestion.data, factor:$('#factor')[0].value});
+      })
+
+      $('#companyId').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}company/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
+        onSelect: (suggestion)->
+          $('#goodsOutList').datagrid( "fetch", {companyId:suggestion.data, factor:$('#factor')[0].value});
+      });

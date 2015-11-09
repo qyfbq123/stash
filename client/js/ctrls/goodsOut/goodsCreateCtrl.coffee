@@ -21,6 +21,19 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         timepicker: false
         lang: 'zh'
 
+      $('#consigneeSelector').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}goods/consignee/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
+        onSelect: (suggestion)->
+          goodsData.attr('consigneeVo', suggestion.data)
+          $('#consigneeSelector').attr('value', suggestion.data.name)
+      })
+
       $('#goodSelector').autocomplete({
         minChars:0
         serviceUrl: "#{Auth.apiHost}goods/inventory/all"

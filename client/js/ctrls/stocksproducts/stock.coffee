@@ -1,5 +1,5 @@
 
-define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'validate', 'datagrid_plugin', 'imageView'], (base, can, Control, Auth, localStorage)->
+define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'validate', 'datagrid_plugin', 'imageView', 'autocomplete'], (base, can, Control, Auth, localStorage)->
   brandData = new can.Map()
 
   return Control.extend
@@ -90,3 +90,31 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }
         ]
       })
+
+      $('#goodSel').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}goods/all"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
+        onSelect: (suggestion)->
+          $('#stockList').datagrid( "fetch", {goodsId: suggestion.data, companyId:$('#companySel')[0].value});
+      })
+      $('#goodSel').bind 'change', ()->
+        $('#stockList').datagrid( "fetch", {goodsId: '', companyId:$('#companySel')[0].value}) if !$('#goodSel')[0].value
+
+      $('#companySel').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}company/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
+        onSelect: (suggestion)->
+          $('#stockList').datagrid( "fetch", {goodsId:$('#goodSel')[0].value, companyId:suggestion.data});
+      });
+      $('#companySel').bind 'change', ()->
+        $('#stockList').datagrid( "fetch", {goodsId: $('#goodSel')[0].value, companyId: ''}) if !$('#companySel')[0].value
