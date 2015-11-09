@@ -22,7 +22,7 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
         pageData.attr('uploadUrl', 'basicdata/location')
       when 'categoryDataImport'
         pageData.attr('title', '种类')
-        pageData.attr('downloadUrl', '种类.xlsx')
+        pageData.attr('downloadUrl', '种类.xls')
         pageData.attr('uploadUrl', 'basicdata/category')
       when 'userDataImport'
         pageData.attr('title', '用户')
@@ -34,11 +34,11 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
         pageData.attr('uploadUrl', 'basicdata/brand')
       when 'supplierDataImport'
         pageData.attr('title', '供应商')
-        pageData.attr('downloadUrl', '供应商.xlsx')
+        pageData.attr('downloadUrl', '供应商.xls')
         pageData.attr('uploadUrl', 'basicdata/supplier')
       when 'consigneeDataImport'
         pageData.attr('title', '收货人')
-        pageData.attr('downloadUrl', '收货人.xlsx')
+        pageData.attr('downloadUrl', '收货人.xls')
         pageData.attr('uploadUrl', 'basicdata/consignee')
       when 'goodsDataImport'
         pageData.attr('title', '商品')

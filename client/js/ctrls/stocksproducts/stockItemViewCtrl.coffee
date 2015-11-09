@@ -129,6 +129,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
             field: 'locationVo'
             title: '库位信息'
             render: (data)->
+              return '无' if !data.value
               info =
                 "<p>库位名称&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
                 "<p>库位创建&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.created}</p>" +

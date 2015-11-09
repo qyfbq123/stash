@@ -32,9 +32,9 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
         dataData.attr('brandVo', tmpStockItemData.brandVo)
         dataData.attr('categoryVo', tmpStockItemData.categoryVo)
         dataData.attr('locationVo', tmpStockItemData.locationVo)
-        $('#brandSelector').attr('value', tmpStockItemData.brandVo.name)
-        $('#categorySelector').attr('value', tmpStockItemData.categoryVo.name)
-        $('#locationSelector').attr('value', tmpStockItemData.locationVo.name)
+        $('#brandSelector').attr('value', tmpStockItemData.brandVo?.name)
+        $('#categorySelector').attr('value', tmpStockItemData.categoryVo?.name)
+        $('#locationSelector').attr('value', tmpStockItemData.locationVo?.name)
 
       $('#brandSelector').autocomplete({
         minChars:0
@@ -80,7 +80,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
             minImageWidth: 10
             minImageHeight: 10
             uploadUrl: "#{Auth.apiHost}goods/photo/upload?goodsId=#{id}"
-            allowedFileExtensions: ["jpg", "png", "gif"]
+            allowedFileExtensions: ["jpeg", "jpg", "png", "gif"]
             slugCallback: (name)-> name
           });
           $('#filePicker').on 'filebatchuploadsuccess', ()->

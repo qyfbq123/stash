@@ -170,7 +170,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
             render: (data)-> new Date(data.value).toLocaleString()
           }, {
             field: 'date'
-            title: '预计入库时间'
+            title: '预计出库时间'
             render: (data)-> new Date(data.value).toLocaleString()
           }, {
             field: 'status'
