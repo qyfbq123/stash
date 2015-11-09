@@ -59,3 +59,5 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
           }
         ]
       })
+
+      $('#categoryList').datagrid( "filters", $('#filterSelector'));

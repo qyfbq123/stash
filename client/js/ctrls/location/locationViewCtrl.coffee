@@ -19,7 +19,7 @@ clickDeleteLocation = (data)->
         )
 
 
-define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
+define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'autocomplete'], (Ctrl, can, Auth, base)->
   locationData = new can.Map
 
   return Ctrl.extend
@@ -102,3 +102,17 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
           }
         ]
       })
+
+      $('#locationList').datagrid( "filters", $('#filterSelector'));
+
+      $('#warehouseSelector').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}location/warehouse/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
+        onSelect: (suggestion)->
+          $('#locationList').datagrid( "fetch", {warehouseId:suggestion.data.id, factor:$('#factor')[0].value, unused:!!$('#unusedSelector')[0].value});
+      });

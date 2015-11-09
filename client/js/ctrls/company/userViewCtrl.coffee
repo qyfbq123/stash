@@ -18,7 +18,7 @@ clickDeleteUser = (data)->
           jAlert data.responseText, "错误"
         )
 
-define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctrl, can, Auth, base)->
+define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'autocomplete'], (Ctrl, can, Auth, base)->
   userList = new can.Map
 
   return Ctrl.extend
@@ -87,3 +87,17 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
           }
         ]
       })
+
+      $('#userList').datagrid( "filters", $('#filterSelector'));
+
+      $('#companySelector').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}company/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
+        onSelect: (suggestion)->
+          $('#userList').datagrid( "fetch", {companyId:suggestion.data, factor:$('#factor')[0].value});
+      });

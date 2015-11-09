@@ -23,7 +23,7 @@ clickDeleteStockItem = (data)->
           jAlert data.responseText, "错误"
         )
 
-define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imageView', 'imageManageCtrl'], (Ctrl, can, Auth, base)->
+define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imageView', 'imageManageCtrl', 'autocomplete'], (Ctrl, can, Auth, base)->
   consigneeData = new can.Map
 
   return Ctrl.extend
@@ -142,4 +142,42 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
               "<a href=\"javascript:jAlert('#{info}', '库位信息')\">#{data?.value?.name}</a>"
           }
         ]
+      })
+
+      $('#stockItemList').datagrid( "filters", $('#filterSelector'));
+
+      $('#brandSelector').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}goods/brand/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)->{value:it.name, data: it})
+        onSelect: (suggestion)->
+          $('#stockItemList').datagrid( "fetch", {brandId:suggestion.data.id, factor:$('#factor')[0].value});
+      });
+
+      $('#categorySelector').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}goods/category/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)->{value:it.name, data: it})
+        onSelect: (suggestion)->
+          $('#stockItemList').datagrid( "fetch", {categoryId:suggestion.data.id, factor:$('#factor')[0].value});
+      });
+
+      $('#locationSelector').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}location/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)->{value:it.name, data: it})
+        onSelect: (suggestion)->
+          $('#stockItemList').datagrid( "fetch", {locationId:suggestion.data.id, factor:$('#factor')[0].value});
       })

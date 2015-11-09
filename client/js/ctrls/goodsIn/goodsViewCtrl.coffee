@@ -132,7 +132,7 @@ clickListDetail = (data)->
       $('#goodsInList').attr('style', 'display:block;')
 
 
-define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], (Ctrl, can, Auth, base)->
+define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', 'autocomplete'], (Ctrl, can, Auth, base)->
   return Ctrl.extend
     init: (el, data)->
       if !can.base
@@ -232,3 +232,27 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
           }
         ]
       })
+
+      $('#supplierId').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}goods/supplier/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
+        onSelect: (suggestion)->
+          $('#goodsInList').datagrid( "fetch", {supplierId:suggestion.data, factor:$('#factor')[0].value});
+      })
+
+      $('#companyId').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}company/allbyname"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
+        onSelect: (suggestion)->
+          $('#goodsInList').datagrid( "fetch", {companyId:suggestion.data, factor:$('#factor')[0].value});
+      });

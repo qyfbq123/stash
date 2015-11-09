@@ -17,7 +17,7 @@ clickDeleteCompany = (data)->
           jAlert data.responseText, "错误"
         )
 
-define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], (Ctrl, can, Auth, base)->
+define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', 'autocomplete'], (Ctrl, can, Auth, base)->
   return Ctrl.extend
     init: (el, data)->
       if !can.base
@@ -75,3 +75,5 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin'], 
           }
         ]
       })
+
+      $('#companyView').datagrid( "filters", $('#filterSelector'));
