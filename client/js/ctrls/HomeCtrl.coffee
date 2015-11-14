@@ -23,7 +23,7 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
     else if url == 'report'
       return 'report-tab'
     else if url == 'system'
-      return 'button menu-settings image-left'
+      return 'setting-tab'
 
   genMenu = (array)->
     _.each array, (menu)->
@@ -45,7 +45,7 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
 
   appendTopMenu = (menu)->
     icon = getIcon menu.url
-    $('#tabs').append("<li><a href=#!home/#{menu.url} class='navItem text-center #{icon}'> #{menu.name}</li>")
+    $('#tabs').append("<li><a href=#!home/#{menu.url} class='navItem text-center #{icon}'>#{menu.name}</a></li>")
 
   appendChildMenu = (fatherId, child)->
     return if !father
