@@ -107,7 +107,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:cliclDeleteGoodsOutItem(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete' alt='删除'></a>"
+              "<a href='javascript:cliclDeleteGoodsOutItem(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete' alt='删除'></a>"
           }
         ]
       })

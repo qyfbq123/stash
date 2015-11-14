@@ -45,7 +45,7 @@ a img {	border: none; } /* Gets rid of IE's blue borders */
 
 a { text-decoration: none; }
 
-body { font-size: 1em; /* Prevents an IE bug where em's scale out of proportion */ }
+body { font-size: 16px; /* Prevents an IE bug where em's scale out of proportion */ }
 
 
 

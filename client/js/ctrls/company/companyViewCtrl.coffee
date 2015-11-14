@@ -43,8 +43,8 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickCompanyUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-              "<a href='javascript:clickDeleteCompany(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
+              "<a href='javascript:clickCompanyUpdate(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='javascript:clickDeleteCompany(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
             title: '公司名称'

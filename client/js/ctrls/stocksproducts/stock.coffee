@@ -46,7 +46,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
                 "<p>所属公司　　#{data?.value?.companyVo?.name || '无'}</p>" +
                 "<p>创建时间　　#{if data?.value?.created then new Date(data.value.created).toLocaleString() else '无'}</p>" +
                 "<p>电话号码　　#{data?.value?.tel || ''}</p>"
-              "<a href=\"javascript:jAlert('#{info}', '最后操作人信息')\">#{data?.value?.username}</a>"
+              "<a href=\"javascript:jAlert('#{info}', '最后操作人信息');void(0);\">#{data?.value?.username}</a>"
           }, {
             field: 'modified'
             title: '最后修改时间'
@@ -65,7 +65,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
                 "<p>所属品牌　　#{data?.value?.brandVo?.name}</p>" +
                 "<p>所属种类　　#{data?.value?.categoryVo?.name}</p>" +
                 "<p>所属库位　　#{data?.value?.locationVo?.name}</p>"
-              "<a href=\"javascript:jAlert('#{info}', '商品信息')\">#{data?.value?.name}</a>"
+              "<a href=\"javascript:jAlert('#{info}', '商品信息');void(0);\">#{data?.value?.name}</a>"
           }, {
             field: 'quantity'
             title: '商品数量'

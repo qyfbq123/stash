@@ -1,6 +1,7 @@
 
 define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
-  apiHost = 'http://192.168.0.110:8080/';
+  # apiHost = 'http://192.168.0.110:8080/';
+  apiHost = '/';
 
   return {
     apiHost: apiHost
@@ -15,7 +16,8 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
           else
             localStorage.set('logined', true);
             localStorage.set('user', data.data);
-            window.location.hash = '!home'
+            window.location.hash = '!home/dashboard/dashboardView'
+
           done?()
       , (data, status)->
         window.location.hash = '!login'

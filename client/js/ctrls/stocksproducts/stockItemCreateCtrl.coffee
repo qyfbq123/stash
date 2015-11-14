@@ -79,6 +79,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
             maxFileCount: 10
             minImageWidth: 10
             minImageHeight: 10
+            maxFileSize: 5 * 1024
             uploadUrl: "#{Auth.apiHost}goods/photo/upload?goodsId=#{id}"
             allowedFileExtensions: ["jpeg", "jpg", "png", "gif"]
             slugCallback: (name)-> name

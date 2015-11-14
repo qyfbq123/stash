@@ -159,12 +159,12 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             field: 'billnumber'
             title: '订单编号'
             render: (data)->
-              "<a href='javascript:clickListDetail(#{JSON.stringify(data.row)})'>#{data.value || '订单详情'}</a>"
+              "<a href='javascript:clickListDetail(#{JSON.stringify(data.row)});void(0);'>#{data.value || '订单详情'}</a>"
           }, {
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickDeleteGoodList(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
+              "<a href='javascript:clickDeleteGoodList(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'created'
             title: '创建时间'
@@ -179,8 +179,8 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             render: (data)->
               tagInfo = {}
               switch data.value
-                when 'started' then tagInfo.class = 'bg-primary btn width100'; tagInfo.value = '等待确认'; tagInfo.fun = "clickItemToConfirm(#{JSON.stringify(data.row)})"
-                when 'confirmed' then tagInfo.class = 'bg-info btn width100'; tagInfo.value = '已经确认'; tagInfo.fun = "clickItemToEnd(#{JSON.stringify(data.row)})"
+                when 'started' then tagInfo.class = 'bg-primary btn width100'; tagInfo.value = '等待确认'; tagInfo.fun = "clickItemToConfirm(#{JSON.stringify(data.row)});void(0);"
+                when 'confirmed' then tagInfo.class = 'bg-info btn width100'; tagInfo.value = '已经确认'; tagInfo.fun = "clickItemToEnd(#{JSON.stringify(data.row)});void(0);"
                 when 'ended' then tagInfo.class = 'bg-success btn width100'; tagInfo.value = '已经完成'; tagInfo.fun = 'void(0)'
               "<a href='javascript:#{tagInfo.fun}' class='#{tagInfo.class}'>#{tagInfo.value}</a>"
           },{
@@ -199,7 +199,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
                 "<p>联系QQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactQq}</p>" +
                 "<p>联系传真&nbsp;&nbsp;&nbsp;#{data?.value?.contactFax}</p>" +
                 "<p>联系MSN&nbsp;&nbsp;&nbsp;#{data?.value?.contactMsn}</p>"
-              "<a href=\"javascript:jAlert('#{info}', '公司信息')\">#{data?.value?.name}</a>"
+              "<a href=\"javascript:jAlert('#{info}', '公司信息');void(0);\">#{data?.value?.name}</a>"
           },{
             field: 'supplierVo'
             title: '供应商信息'
@@ -213,7 +213,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
                 "<p>联系QQ　　　#{data?.value?.contactQq}</p>" +
                 "<p>联系传真　　#{data?.value?.contactFax}</p>" +
                 "<p>联系MSN　　#{data?.value?.contactMsn}</p>"
-              "<a href=\"javascript:jAlert('#{info}', '供应商信息')\">#{data?.value?.name}</a>"
+              "<a href=\"javascript:jAlert('#{info}', '供应商信息');void(0);\">#{data?.value?.name}</a>"
           },{
             field: 'creatorVo'
             title: '创建者信息'
@@ -228,7 +228,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
                 "<p>创建时间　　#{if data?.value?.created then new Date(data.value.created).toLocaleString() else '无'}</p>" +
                 "<p>最新修改　　#{if data?.value?.modified then new Date(data.value.modified).toLocaleString() else '无'}</p>" +
                 "<p>电话号码　　#{data?.value?.tel || ''}</p>"
-              "<a href=\"javascript:jAlert('#{info}', '创建者信息')\">#{data?.value?.username}</a>"
+              "<a href=\"javascript:jAlert('#{info}', '创建者信息');void(0);\">#{data?.value?.username}</a>"
           }
         ]
       })

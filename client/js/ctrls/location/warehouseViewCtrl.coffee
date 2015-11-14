@@ -46,8 +46,8 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickWarehouseUpdate(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-              "<a href='javascript:clickDeleteWarehouse(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
+              "<a href='javascript:clickWarehouseUpdate(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='javascript:clickDeleteWarehouse(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
             title: '仓库名称'

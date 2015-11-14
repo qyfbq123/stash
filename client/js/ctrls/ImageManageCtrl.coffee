@@ -49,7 +49,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
           },{
             field: ''
             title: '删除'
-            render: (data)-> "<a href='javascript:deleteImages(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
+            render: (data)-> "<a href='javascript:deleteImages(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           }
         ]
       })

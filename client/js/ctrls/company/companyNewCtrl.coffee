@@ -6,9 +6,17 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
     init: (el, data)->
       new base('', data) if !can.base
 
-      tmpCompanyInfo = localStorage.get 'tmpCompanyInfo'
-      if tmpCompanyInfo
-        userInfo.attr(tmpCompanyInfo);
+      # 新增
+      # 修改
+      @isNewUser = window.location.hash.endsWith('companyAdd')
+      if @isNewUser
+        for k, v of userInfo.attr()
+          userInfo.removeAttr(k)
+        localStorage.rm 'tmpCompanyInfo'
+      else
+        tmpCompanyInfo = localStorage.get 'tmpCompanyInfo'
+        if tmpCompanyInfo
+          userInfo.attr(tmpCompanyInfo);
 
       this.element.html can.view('../../public/view/home/company/companyNew.html', userInfo)
 
