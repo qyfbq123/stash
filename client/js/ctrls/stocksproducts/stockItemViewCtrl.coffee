@@ -62,11 +62,14 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickUpdateStock(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-              "<a href='javascript:clickDeleteStockItem(#{JSON.stringify(data.row)})' class='table-actions-button ic-table-delete'></a>"
+              "<a href='javascript:clickUpdateStock(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+              "<a href='javascript:clickDeleteStockItem(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
             title: '商品名称'
+          }, {
+            field: 'sku'
+            title: 'SKU'
           }, {
             field: 'barcode'
             title: '条形码'
@@ -83,7 +86,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
 
               html = "<ul class='gallery'>
                         <li>
-                          <a title='图片管理' href='javascript:manageImgs(#{JSON.stringify(itemImgsInfo)})'>
+                          <a title='图片管理' href='javascript:manageImgs(#{JSON.stringify(itemImgsInfo)});void(0);'>
                             <button class='btnImage'></button>
                           </a>
                         <li>
@@ -115,7 +118,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
                 "<p>创建时间&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.created}</p>" +
                 "<p>最近修改&nbsp;&nbsp;&nbsp;&nbsp;#{if data?.value?.modfied then new Date(data?.value?.modfied).toLocaleString() else '无'}</p>"
 
-              "<a href=\"javascript:jAlert('#{info}', '品牌信息')\">#{data?.value?.name}</a>"
+              "<a href=\"javascript:jAlert('#{info}', '品牌信息');void(0);\">#{data?.value?.name}</a>"
           },{
             field: 'categoryVo'
             title: '种类信息'
@@ -124,7 +127,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
                 "<p>种类名称&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
                 "<p>种类描述&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.desc}</p>"
 
-              "<a href=\"javascript:jAlert('#{info}', '种类信息')\">#{data?.value?.name}</a>"
+              "<a href=\"javascript:jAlert('#{info}', '种类信息');void(0);\">#{data?.value?.name}</a>"
           },{
             field: 'locationVo'
             title: '库位信息'
@@ -139,7 +142,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
                 "<p>所在列  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.ycoord}</p>" +
                 "<p>所在层  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.zcoord}</p>"
 
-              "<a href=\"javascript:jAlert('#{info}', '库位信息')\">#{data?.value?.name}</a>"
+              "<a href=\"javascript:jAlert('#{info}', '库位信息');void(0);\">#{data?.value?.name}</a>"
           }
         ]
       })

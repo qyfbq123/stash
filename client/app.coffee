@@ -107,133 +107,173 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       require ['base'], (base)->
         new base('', data)
 
-    'home/dashboard/dashboard route': (data)->
-      require ['dashboardCtrl'], (dashboardCtrl)->
+    'home/dashboard/dashboardView route': (data)->
+      require ['dashboardCtrl', 'base'], (dashboardCtrl, base)->
+        new base('', data) if !can.base
         new dashboardCtrl('#rightWorkspace', {id:'dashboard'})
 
     'home/company/companyAdd route': (data)->
-      require ['companyNewCtrl'], (companyNewCtrl)->
+      require ['companyNewCtrl', 'base'], (companyNewCtrl, base)->
+        new base('', data) if !can.base
         new companyNewCtrl('#rightWorkspace', {id:'company'})
     'home/company/companyAdd/:id route': (data)->
-      require ['companyNewCtrl'], (companyNewCtrl)->
+      require ['companyNewCtrl', 'base'], (companyNewCtrl, base)->
+        new base('', data) if !can.base
         new companyNewCtrl('#rightWorkspace', {id:'company'})
     'home/company/companyView route': (data)->
-      require ['companyViewCtrl'], (companyViewCtrl)->
+      require ['companyViewCtrl', 'base'], (companyViewCtrl, base)->
+        new base('', data) if !can.base
         new companyViewCtrl('#rightWorkspace', {id:'company'})
 
     'home/company/userAdd route': (data)->
-      require ['userNewCtrl'], (userNewCtrl)->
+      require ['userNewCtrl', 'base'], (userNewCtrl, base)->
+        new base('', data) if !can.base
         new userNewCtrl('#rightWorkspace', {id:'company'})
     'home/company/userAdd/:id route': (data)->
-      require ['userNewCtrl'], (userNewCtrl)->
+      require ['userNewCtrl', 'base'], (userNewCtrl, base)->
+        new base('', data) if !can.base
         new userNewCtrl('#rightWorkspace', {id:'company'})
     'home/company/userView route': (data)->
-      require ['userViewCtrl'], (userViewCtrl)->
+      require ['userViewCtrl', 'base'], (userViewCtrl, base)->
+        new base('', data) if !can.base
         new userViewCtrl('#rightWorkspace', {id:'company'})
 
     'home/goodsOut/goodsOutAdd route': (data)->
-      require ['goodsOutCreateCtrl'], (goodsOutCreateCtrl)->
+      require ['goodsOutCreateCtrl', 'base'], (goodsOutCreateCtrl, base)->
+        new base('', data) if !can.base
         new goodsOutCreateCtrl('#rightWorkspace', {id:'goodsOut'})
     'home/goodsOut/goodsOutAdd/:id route': (data)->
-      require ['goodsOutCreateCtrl'], (goodsOutCreateCtrl)->
+      require ['goodsOutCreateCtrl', 'base'], (goodsOutCreateCtrl, base)->
+        new base('', data) if !can.base
         new goodsOutCreateCtrl('#rightWorkspace', {id:'goodsOut'})
     'home/goodsOut/goodsOutView route': (data)->
-      require ['goodsOutViewCtrl'], (goodsOutViewCtrl)->
+      require ['goodsOutViewCtrl', 'base'], (goodsOutViewCtrl, base)->
+        new base('', data) if !can.base
         new goodsOutViewCtrl('#rightWorkspace', {id:'goodsOut'})
 
     'home/goodsIn/goodsInAdd route': (data)->
-      require ['goodsInCreateCtrl'], (goodsInCreateCtrl)->
+      require ['goodsInCreateCtrl', 'base'], (goodsInCreateCtrl, base)->
+        new base('', data) if !can.base
         new goodsInCreateCtrl('#rightWorkspace', {id:'goodsIn'})
     'home/goodsIn/goodsInAdd/:id route': (data)->
-      require ['goodsInViewCtrl'], (goodsInViewCtrl)->
+      require ['goodsInViewCtrl', 'base'], (goodsInViewCtrl, base)->
+        new base('', data) if !can.base
         new goodsInViewCtrl('#rightWorkspace', {id:'goodsIn'})
     'home/goodsIn/goodsInView route': (data)->
-      require ['goodsInViewCtrl'], (goodsInViewCtrl)->
+      require ['goodsInViewCtrl', 'base'], (goodsInViewCtrl, base)->
+        new base('', data) if !can.base
         new goodsInViewCtrl('#rightWorkspace', {id:'goodsIn'})
 
     'home/stocksproducts/stock route': (data)->
-      require ['stockViewCtrl'], (stockViewCtrl)->
+      require ['stockViewCtrl', 'base'], (stockViewCtrl, base)->
+        new base('', data) if !can.base
         new stockViewCtrl('#rightWorkspace', {id:'stocksproducts'})
 
     'home/stocksproducts/stockItemAdd route': (data)->
-      require ['stockItemCreateCtrl'], (stockItemCreateCtrl)->
+      require ['stockItemCreateCtrl', 'base'], (stockItemCreateCtrl, base)->
+        new base('', data) if !can.base
         new stockItemCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
     'home/stocksproducts/stockItemAdd/:id route': (data)->
-      require ['stockItemCreateCtrl'], (stockItemCreateCtrl)->
+      require ['stockItemCreateCtrl', 'base'], (stockItemCreateCtrl, base)->
+        new base('', data) if !can.base
         new stockItemCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
     'home/stocksproducts/stockItemView route': (data)->
-      require ['stockItemViewCtrl'], (stockItemViewCtrl)->
+      require ['stockItemViewCtrl', 'base'], (stockItemViewCtrl, base)->
+        new base('', data) if !can.base
         new stockItemViewCtrl('#rightWorkspace', {id:'stocksproducts'})
 
     'home/stocksproducts/brandAdd route': (data)->
-      require ['brandCreateCtrl'], (brandCreateCtrl)->
+      require ['brandCreateCtrl', 'base'], (brandCreateCtrl, base)->
+        new base('', data) if !can.base
         new brandCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
     'home/stocksproducts/brandAdd/:id route': (data)->
-      require ['brandCreateCtrl'], (brandCreateCtrl)->
+      require ['brandCreateCtrl', 'base'], (brandCreateCtrl, base)->
+        new base('', data) if !can.base
         new brandCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
     'home/stocksproducts/brandView route': (data)->
-      require ['brandViewCtrl'], (brandViewCtrl)->
+      require ['brandViewCtrl', 'base'], (brandViewCtrl, base)->
+        new base('', data) if !can.base
         new brandViewCtrl('#rightWorkspace', {id:'stocksproducts'})
 
     'home/stocksproducts/categoryAdd route': (data)->
-      require ['categoryCreateCtrl'], (categoryCreateCtrl)->
+      require ['categoryCreateCtrl', 'base'], (categoryCreateCtrl, base)->
+        new base('', data) if !can.base
         new categoryCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
     'home/stocksproducts/categoryAdd/:id route': (data)->
-      require ['categoryCreateCtrl'], (categoryCreateCtrl)->
+      require ['categoryCreateCtrl', 'base'], (categoryCreateCtrl, base)->
+        new base('', data) if !can.base
         new categoryCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
     'home/stocksproducts/categoryView route': (data)->
-      require ['categoryViewCtrl'], (categoryViewCtrl)->
+      require ['categoryViewCtrl', 'base'], (categoryViewCtrl, base)->
+        new base('', data) if !can.base
         new categoryViewCtrl('#rightWorkspace', {id:'stocksproducts'})
 
     'home/stocksproducts/supplierAdd route': (data)->
-      require ['supplierNewCtrl'], (supplierNewCtrl)->
+      require ['supplierNewCtrl', 'base'], (supplierNewCtrl, base)->
+        new base('', data) if !can.base
         new supplierNewCtrl('#rightWorkspace', {id:'stocksproducts'})
     'home/stocksproducts/supplierAdd/:id route': (data)->
-      require ['supplierNewCtrl'], (supplierNewCtrl)->
+      require ['supplierNewCtrl', 'base'], (supplierNewCtrl, base)->
+        new base('', data) if !can.base
         new supplierNewCtrl('#rightWorkspace', {id:'stocksproducts'})
     'home/stocksproducts/supplierView route': (data)->
-      require ['supplierViewCtrl'], (supplierViewCtrl)->
+      require ['supplierViewCtrl', 'base'], (supplierViewCtrl, base)->
+        new base('', data) if !can.base
         new supplierViewCtrl('#rightWorkspace', {id:'stocksproducts'})
 
     'home/stocksproducts/consigneeAdd route': (data)->
-      require ['consigneeCreateCtrl'], (consigneeCreateCtrl)->
+      require ['consigneeCreateCtrl', 'base'], (consigneeCreateCtrl, base)->
+        new base('', data) if !can.base
         new consigneeCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
     'home/stocksproducts/consigneeAdd/:id route': (data)->
-      require ['consigneeCreateCtrl'], (consigneeCreateCtrl)->
+      require ['consigneeCreateCtrl', 'base'], (consigneeCreateCtrl, base)->
+        new base('', data) if !can.base
         new consigneeCreateCtrl('#rightWorkspace', {id:'stocksproducts'})
     'home/stocksproducts/consigneeView route': (data)->
-      require ['consigneeViewCtrl'], (consigneeViewCtrl)->
+      require ['consigneeViewCtrl', 'base'], (consigneeViewCtrl, base)->
+        new base('', data) if !can.base
         new consigneeViewCtrl('#rightWorkspace', {id:'stocksproducts'})
 
     'home/location/warehouseAdd route': (data)->
-      require ['warehouseAddCtrl'], (warehouseAddCtrl)->
+      require ['warehouseAddCtrl', 'base'], (warehouseAddCtrl, base)->
+        new base('', data) if !can.base
         new warehouseAddCtrl('#rightWorkspace', {id:'location'})
     'home/location/warehouseAdd/:id route': (data)->
-      require ['warehouseAddCtrl'], (warehouseAddCtrl)->
+      require ['warehouseAddCtrl', 'base'], (warehouseAddCtrl, base)->
+        new base('', data) if !can.base
         new warehouseAddCtrl('#rightWorkspace', {id:'location'})
     'home/location/warehouseView route': (data)->
-      require ['warehouseViewCtrl'], (warehouseViewCtrl)->
+      require ['warehouseViewCtrl', 'base'], (warehouseViewCtrl, base)->
+        new base('', data) if !can.base
         new warehouseViewCtrl('#rightWorkspace', {id:'location'})
 
     'home/location/locationAdd route': (data)->
-      require ['locationAddCtrl'], (locationAddCtrl)->
+      require ['locationAddCtrl', 'base'], (locationAddCtrl, base)->
+        new base('', data) if !can.base
         new locationAddCtrl('#rightWorkspace', {id:'location'})
     'home/location/locationAdd/:id route': (data)->
-      require ['locationAddCtrl'], (locationAddCtrl)->
+      require ['locationAddCtrl', 'base'], (locationAddCtrl, base)->
+        new base('', data) if !can.base
         new locationAddCtrl('#rightWorkspace', {id:'location'})
     'home/location/locationView route': (data)->
-      require ['locationViewCtrl'], (locationViewCtrl)->
+      require ['locationViewCtrl', 'base'], (locationViewCtrl, base)->
+        new base('', data) if !can.base
         new locationViewCtrl('#rightWorkspace', {id:'location'})
 
     'home/report/:id route': (data)->
-      require ['exportReportsCtrl'], (exportReportsCtrl)->
+      require ['exportReportsCtrl', 'base'], (exportReportsCtrl, base)->
+        new base('', data) if !can.base
         new exportReportsCtrl('#rightWorkspace', {id:'report', subMenuId: data.id})
 
     'home/system/:id route': (data)->
-      require ['basicDataImportCtrl'], (basicDataImportCtrl)->
+      require ['basicDataImportCtrl', 'base'], (basicDataImportCtrl, base)->
+        new base('', data) if !can.base
         new basicDataImportCtrl('#rightWorkspace', {id:'system', subMenuId: data.id})
   })
 
   new Router(window)
 
   can.route.ready()
+
+String.prototype.endsWith = (flag = '')->
+  return @indexOf(flag) + flag.length == @length

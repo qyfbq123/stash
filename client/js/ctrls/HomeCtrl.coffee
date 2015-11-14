@@ -26,14 +26,6 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
       return 'button menu-settings image-left'
 
   genMenu = (array)->
-    array.push
-      id: 10000
-      index: 0
-      level: 2
-      name: "概览"
-      pid: 1
-      url: "dashboard"
-
     _.each array, (menu)->
       if menu.level == 1
         appendTopMenu menu
@@ -53,7 +45,7 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
 
   appendTopMenu = (menu)->
     icon = getIcon menu.url
-    $('#tabs').append("<li><a href=#!home/#{menu.url} class='width100 text-center #{icon}'> #{menu.name}</li>")
+    $('#tabs').append("<li><a href=#!home/#{menu.url} class='navItem text-center #{icon}'> #{menu.name}</li>")
 
   appendChildMenu = (fatherId, child)->
     return if !father
@@ -80,7 +72,6 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
           return;
 
         genMenu(data.data);
-        window.location.hash = '!home/dashboard/dashboard'
       ).fail ()->
 
     updateChildMenu: (data)->
@@ -102,4 +93,7 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
           firstUrl = "#!home/#{data.url}/#{currentChildMenus?[0]?.url}"
         else
           firstUrl = "#!home/#{data.url}/#{currentChildMenus?[1]?.url}"
-        window.location.hash = firstUrl
+
+        setTimeout ()->
+          window.location.hash = firstUrl
+        , 100

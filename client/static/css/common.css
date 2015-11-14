@@ -8,6 +8,10 @@ html,body,.fullHeight {
   text-align:center;
 }
 
+.navItem {
+  width:115px;
+}
+
 .Center-Container.is-Table { display: table; }
 .is-Table .Table-Cell {
   display: 'table-cell';
