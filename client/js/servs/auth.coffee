@@ -2,14 +2,18 @@
 define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
   # apiHost = 'http://192.168.0.110:8080/';
   apiHost = '/';
+  isLogining = false
 
   return {
     apiHost: apiHost
     login: (userinfo, done)->
+      return if isLogining
+      isLogining = true
       $('html').loading({message:'正在登录...'});
 
       $.getJSON(apiHost + 'main/login', userinfo
         , (data)->
+          isLogining = false
           $('html').loading('stop');
           if parseInt(data.status) != 0
             jAlert(data.message, '登陆失败');
@@ -20,6 +24,7 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
 
           done?()
       , (data, status)->
+        isLogining = false
         window.location.hash = '!login'
         $('html').loading('stop');
         jAlert('http error:' + status + ' ' + data.statusText, '登陆失败');

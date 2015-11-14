@@ -11,8 +11,11 @@ define ['can/control', 'can/view/mustache', 'Auth'], (Control, can, Auth)->
     init: ()->
       this.element.html can.view('../../public/view/login.html', userInfo)
 
-    '.login_button click': ()->
-      Auth.login userInfo.attr()
-    '.reset_botton click': ()->
-      userInfo.attr 'username', ''
-      userInfo.attr 'password', ''
+      $('.login_button').unbind 'click', ()->
+      $('.login_button').bind 'click', ()->
+        Auth.login userInfo.attr()
+
+      $('.reset_botton').unbind 'click', ()->
+      $('.reset_botton').bind 'click', ()->
+        userInfo.attr 'username', ''
+        userInfo.attr 'password', ''

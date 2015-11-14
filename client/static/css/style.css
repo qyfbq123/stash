@@ -557,7 +557,10 @@ ul#tabs li a.active-tab, ul#tabs li a.active-tab:hover {
 	font-weight: bold;
 	color: #2a2e36;
 }
-
+ul#tabs li a.setting-tab {
+	background: transparent url('../images/setting-icon.png') no-repeat 0.833em center /* 10/12 */;
+	padding-left: 3em; /* 36/12 */
+}
 
 
 

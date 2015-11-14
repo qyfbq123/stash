@@ -96,6 +96,10 @@ clickListDetail = (data)->
           attrHeader: { "style": "width:100px;"},
           field: 'barcode'
           title: '条形码'
+        }, {
+          attrHeader: { "style": "width:150px;"},
+          field: 'sku'
+          title: 'SKU'
         },{
           field: 'photos'
           title: '商品图片'
