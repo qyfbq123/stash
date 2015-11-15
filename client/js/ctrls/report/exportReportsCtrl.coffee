@@ -61,11 +61,15 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           return jAlert '开始时间必须小于结束时间！', '提示' if opt.end < opt.start
 
         url = Auth.apiHost + "#{apiSuffix}?"
-        el = $('<form></form>')
+        el = $('<form>')
         for k, v of opt
           el.append($('<input/>').attr('name', k).val(v))
 
         el.attr('action', url)
         el.attr('target', '_blank')
+
+        btn = $ '<input type="submit"/>'
+        el.hide()
+        el.appendTo($ 'body')
         el.submit()
       )

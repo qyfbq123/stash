@@ -81,6 +81,8 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
             jAlert "#{data.response.message}，请下载模板文件查看格式！", "错误"
           else
             jAlert "#{pageData.attr('title')}导入成功！", "成功"
+          $('#filePicker').fileinput('clear');
+          $('#filePicker').fileinput('enable');
 
         $("#filePicker").on('fileuploaderror', done)
         $("#filePicker").on('filebatchuploaderror', done)

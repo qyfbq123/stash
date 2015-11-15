@@ -6,28 +6,34 @@
       table.form
         tr
           td
-            div.width80 预计入库：
+            div.width100 预计入库：
           td
             input.round.default-width-input#goodsInDate(type='text', can-value='date', name='date', required)
           td
-            div.width80 供应商：
+            div.width100 供应商　：
           td
             input.round.default-width-input#supplierSelector(type='text', name='supplierVo', rangelength='2,10', required)
           td
-            div.width80 进货单描述：
+            div.width100 进货单描述：
           td
-            input.round.default-width-input#warehouseSelector(type='text', can-value='desc', name='desc', rangelength='2,50', required)
+            input.round.default-width-input(type='text', can-value='desc', name='desc', rangelength='2,50', required)
+        tr
+          td(colspan=6)
         tr
           td(colspan=6)
         tr
           td
-            div.width80 商品
+            div.width100 商品　　：
           td
             input.round.default-width-input#goodSelector(type='text')
           td
-            div.width80 数量
+            div.width100 放置库位：
           td
-            input.round.default-width-input#goodCount(type='text', name='goodCount' ,value=1, min=1, number=true, required='true')
+            input.round.default-width-input#locationSelector(type='text', name='location')
+          td
+            div.width100 数量　　　：
+          td
+            input.round.default-width-input#goodCount(type='text', name='goodCount' ,value=1, min=1, number=true)
 
   button.button.round.blue.image-right.ic-add.pull-right#addToGoodsList 添加到清单
   p &nbsp;
