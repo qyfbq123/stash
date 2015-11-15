@@ -58,13 +58,14 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
               info =
                 "<p>商品名称　　#{data?.value?.name}</p>" +
                 "<p>商品编码　　#{data?.value?.barcode}</p>" +
+                "<p>SKU&nbsp;　　　#{data?.value?.barcode}</p>" +
                 "<p>危险品　　　#{if data?.value?.hazardFlag then '是' else '否'}</p>" +
-                "<p>商品体积　　#{data?.value?.volume}</p>" +
-                "<p>商品重量　　#{data?.value?.weight}</p>" +
-                "<p>计量单位　　#{data?.value?.uom}</p>" +
-                "<p>所属品牌　　#{data?.value?.brandVo?.name}</p>" +
-                "<p>所属种类　　#{data?.value?.categoryVo?.name}</p>" +
-                "<p>所属库位　　#{data?.value?.locationVo?.name}</p>"
+                "<p>商品体积　　#{data?.value?.volume || '无'}</p>" +
+                "<p>商品重量　　#{data?.value?.weight || '无'}</p>" +
+                "<p>计量单位　　#{data?.value?.uom || '无'}</p>" +
+                "<p>所属品牌　　#{data?.value?.brandVo?.name || '无'}</p>" +
+                "<p>所属种类　　#{data?.value?.categoryVo?.name || '无'}</p>" +
+                "<p>所属库位　　#{data?.value?.locationVo?.name || '无'}</p>"
               "<a href=\"javascript:jAlert('#{info}', '商品信息');void(0);\">#{data?.value?.name}</a>"
           }, {
             field: 'quantity'

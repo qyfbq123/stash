@@ -42,17 +42,32 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
+          suggestions: _.map(response.data, (it)-> {value:"#{it.sku} --- #{it.name}", data: it})
+        onSelect: (suggestion)->
+          currentData.good = suggestion.data
+      })
+
+      $('#locationSelector').autocomplete({
+        minChars:0
+        noCache: true
+        serviceUrl: "#{Auth.apiHost}location/allbyname"
+        paramName: 'name'
+        params: {goodsId:()-> currentData?.good?.id || ''}
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
           suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
         onSelect: (suggestion)->
-          currentData = suggestion.data
+          currentData.location = suggestion.data
       })
+      $('#goodSelector').bind 'change', ()->
+        currentData.good = {} if !$('#goodSelector')[0].value
 
       itemIds = []
       datagrid = $('#goodsInList').datagrid({
         data: []
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
-        # pager: "bootstrap",
         noData: '无数据'
         paramsDefault: {paging:10}
         onBefore: ()->
@@ -66,46 +81,57 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
               listData.attr id, old
           $('.datagrid-page').empty()
         col:[{
+            attrHeader: { "style": "width:150px;"},
+            field: 'good'
+            title: 'SKU'
+            render: (data)-> data.value.sku
+          }, {
             attrHeader: { "style": "width:200px;"},
-            field: 'name'
+            field: 'good'
             title: '商品名称'
+            render: (data)-> data.value.name
           }, {
             attrHeader: { "style": "width:100px;"},
-            field: 'barcode'
+            field: 'good'
             title: '条形码'
-          },{
-            field: 'photos'
+            render: (data)-> data.value.barcode
+          }, {
+            field: 'location'
+            title: '放置库位'
+            render: (data)-> data.value.name
+          }, {
+            field: 'good'
             title: '商品图片'
             attrHeader: {'class': 'notPrint'}
             attr: {'class': 'notPrint'}
             render: (data)->
-              imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
-              itemImgsInfo = {id: data.row.id, imgs: imgs}
+              imgs = _.map(data.value.photos, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
+              itemImgsInfo = {id: data.value.id, imgs: imgs}
               html = ''
               for img in imgs
                 html += "<li><a href='#{img.path}'><img src='#{img.path}'></a></li>"
 
               html = "<ul class='gallery'>
                         <li>
-                          <ul id='photo#{data.row.id}' class='gallery'>
+                          <ul id='photo#{data.value.id}' class='gallery'>
                             #{html}
                           </ul>
                         </li>
                       </ul>"
           },{
             attrHeader: { "style": "width:30px;"},
-            field: 'count'
+            field: 'good'
             title: '数量'
             render: (data)->
-              itemIds.push data.row.id
-              "<input type='number' value=#{data.value} id=itemId#{data.row.id} min:'1', required>"
+              itemIds.push data.value.id
+              "<input type='number' value=#{data.value.count} id=itemId#{data.value.id} min:'1', required>"
           },{
             attrHeader: { "style": "width:50px;", 'class': 'notPrint'},
             attr: {'class': 'notPrint'}
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:deleteGoodsInListItem(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete' alt='删除'></a>"
+              "<a href='javascript:deleteGoodsInListItem(#{JSON.stringify(data.row.good)});void(0);' class='table-actions-button ic-table-delete' alt='删除'></a>"
           }
         ]
       })
@@ -114,19 +140,21 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#addToGoodsList').bind 'click', ()->
         return if !$('#goodsInCreate').valid()
 
-        currentData.count = $('#goodCount')[0].value
-        old = listData.attr(currentData.id)
+        currentData.good.count = $('#goodCount')[0].value
+        newId = "#{currentData.good.id}|#{currentData.location.id}"
+        old = listData.attr(newId)
 
-        if old
-          currentData.count = parseInt(old.count) + parseInt(currentData.count)
-          listData.attr(currentData.id, currentData)
+        if old and old.location.id == currentData.location.id
+          currentData.good.count = parseInt(old.good.count) + parseInt(currentData.good.count)
+          listData.attr(newId, currentData)
         else
-          listData.attr(currentData.id, currentData)
+          listData.attr(newId, currentData)
         vs = _.values(listData.attr())
 
         $('#goodsInList').datagrid('render', {total:vs.length, data:vs})
 
         $('#goodSelector')[0].value = ''
+        $('#locationSelector')[0].value = ''
         $('#goodCount')[0].value = 1
 
       $('#printGoodsList').unbind 'click'
@@ -144,8 +172,9 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           count = it.count
           delete it.count
           return {
-            goodsVo: it,
-            quantity: count
+            goodsVo: it.good,
+            locationVo: it.location
+            quantity: it.good.count
           }
         ))
 
