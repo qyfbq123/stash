@@ -45,7 +45,6 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         $('#warehouseSelector').attr('value', tmpLocationInfo.warehouseVo.name)
         $('#companySelector').attr('value', tmpLocationInfo.companyVo.name)
         $('#warehouseSelector').attr('disabled', 'disabled')
-        $('#companySelector').attr('disabled', 'disabled')
 
       $('#addLocation').unbind 'click'
       $('#addLocation').bind 'click', ()->
@@ -60,7 +59,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
             if data.status == 0
               locationData.attr({})
-              if isNewLocation then jAlert "新增库位成功！", "提示" else jAlert "新增库位成功！", "提示"
+              if isNewLocation then jAlert "新增库位成功！", "提示" else jAlert "修改库位成功！", "提示"
             else
               jAlert "#{data.message}", "提示"
           (data)->

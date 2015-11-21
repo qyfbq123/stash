@@ -2,7 +2,7 @@
 #printArea
   p &nbsp;&nbsp;&nbsp;&nbsp;
   form#goodsOutCreate
-    .col-md-offset-1
+    div
       table.form
         tr
           td
@@ -14,18 +14,18 @@
           td
             input.round.default-width-input#consigneeSelector(type='text', name='desc', rangelength='2,50', required)
           td
-            div.width80 出货单描述：
+            div.width80 备注：
           td
             input.round.default-width-input#warehouseSelector(type='text', can-value='desc', name='desc', rangelength='2,50', required)
         tr
           td(colspan=6)
         tr
           td
-            div.width80 商品
+            div.width80 库　　存：
+          td(colspan=3)
+            input.round#inventorySelector(type='text', style="width: 40em;")
           td
-            input.round.default-width-input#goodSelector(type='text')
-          td
-            div.width80 数量
+            div.width80 数量：
           td
             input.round.default-width-input#goodCount(type='text', name='goodCount' ,value=1, min=1, number=true, required='true')
 

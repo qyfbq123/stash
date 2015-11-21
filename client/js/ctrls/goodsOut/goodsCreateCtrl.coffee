@@ -34,20 +34,34 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           $('#consigneeSelector').attr('value', suggestion.data.name)
       })
 
-      $('#goodSelector').autocomplete({
+      $('#inventorySelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}goods/inventory/all"
-        paramName: 'name'
+        serviceUrl: "#{Auth.apiHost}inventory/all"
+        paramName: 'factor'
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
-          suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
+          suggestions: _.map(response.data, (it)-> {value:"#{it.goodsVo.sku} --- #{it.goodsVo.name} --- #{it.locationVo.name}", data: it})
         onSelect: (suggestion)->
           currentData = suggestion.data
           $('#goodCount').bind('change', ()->
             $('#goodCount')[0].value = currentData.quantity if $('#goodCount')[0].value > currentData.quantity
           )
       })
+      # $('#goodSelector').autocomplete({
+      #   minChars:0
+      #   serviceUrl: "#{Auth.apiHost}goods/inventory/all"
+      #   paramName: 'factor'
+      #   dataType: 'json'
+      #   transformResult: (response, originalQuery)->
+      #     query: originalQuery
+      #     suggestions: _.map(response.data, (it)-> {value:"#{it.sku} --- #{it.name}", data: it})
+      #   onSelect: (suggestion)->
+      #     currentData = suggestion.data
+      #     $('#goodCount').bind('change', ()->
+      #       $('#goodCount')[0].value = currentData.quantity if $('#goodCount')[0].value > currentData.quantity
+      #     )
+      # })
 
       itemIds = []
       datagrid = $('#goodsOutList').datagrid({
@@ -67,26 +81,32 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
               old.attr 'count', parseInt($(idSel)[0].value)
               listData.attr id, old
           $('.datagrid-page').empty()
-        col:[{
+        col:[ {
+            attrHeader: { "style": "width:150px;"},
+            field: 'goodsVo'
+            title: 'SKU'
+            render: (data)->
+              return data?.value?.sku
+          }, {
             attrHeader: { "style": "width:200px;"},
-            field: 'name'
+            field: 'goodsVo'
             title: '商品名称'
+            render: (data)->
+              return data?.value?.name
           }, {
             attrHeader: { "style": "width:100px;"},
-            field: 'barcode'
+            field: 'goodsVo'
             title: '条形码'
-          }, {
-            attrHeader: { "style": "width:150px;"},
-            field: 'sku'
-            title: 'SKU'
+            render: (data)->
+              return data?.value?.barcode
           },{
-            field: 'photos'
+            field: 'goodsVo'
             title: '商品图片'
             attrHeader: {'class': 'notPrint'}
             attr: {'class': 'notPrint'}
             render: (data)->
-              imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
-              itemImgsInfo = {id: data.row.id, imgs: imgs}
+              imgs = _.map(data.value?.photos, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
+              itemImgsInfo = {id: data.value.id, imgs: imgs}
               html = ''
               for img in imgs
                 html += "<li><a href='#{img.path}'><img src='#{img.path}'></a></li>"
@@ -104,7 +124,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             title: '数量'
             render: (data)->
               itemIds.push data.row.id
-              "<input type='number' value=#{data.value} id=itemId#{data.row.id} min:'1', required>"
+              "<input type='number' value=#{data.value} id=itemId#{data.row.id} min=1 max=#{data.row.quantity}, required>"
           },{
             attrHeader: { "style": "width:50px;", 'class': 'notPrint'},
             attr: {'class': 'notPrint'}
@@ -125,6 +145,8 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
         if old
           currentData.count = parseInt(old.count) + parseInt(currentData.count)
+          if currentData.count > currentData.quantity
+            currentData.count = currentData.quantity
           listData.attr(currentData.id, currentData)
         else
           listData.attr(currentData.id, currentData)
@@ -132,7 +154,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
         $('#goodsOutList').datagrid('render', {total:vs.length, data:vs})
 
-        $('#goodSelector')[0].value = ''
+        # $('#goodSelector')[0].value = ''
         $('#goodCount')[0].value = 1
 
       $('#printGoodsList').unbind 'click'
@@ -150,7 +172,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           count = it.count
           delete it.count
           return {
-            goodsVo: it,
+            inventoryVo: it,
             quantity: count
           }
         ))
