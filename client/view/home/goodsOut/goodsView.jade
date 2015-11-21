@@ -1,15 +1,16 @@
 form#filterSelector
   input.round.default-width-input#factor(type='text', name='factor', placeholder='搜索...')
-
-  span 　　　　公司选择：
-  input.round.default-width-input#companyId(type='text', name='companyId')
-
-  span 　　　　收货人选择：
+  .companySel(style="display:inline")
+    span.width40 　　 
+    span 公司：
+    input.round.default-width-input#companyId(type='text', name='companyId')
+  span.width40 　　 
+  span 收货人：
   input.round.default-width-input#consigneeId(type='text', name='consigneeId')
 
 
 #listDetail
-  .col-md-offset-10.col-md-2
+  .col-md-offset-7.col-md-5
     button.pull-right.button.round.blue.image-right.ic-left-arrow#backList 返回列表
     button.pull-right.button.round.blue.image-right.ic-left-arrow#printList 打印清单
 
@@ -20,16 +21,25 @@ form#filterSelector
       table.form
         tr
           td
+            div.width80 订单编号：
+          td
+            label#billnumber
+        tr
+          td
             div.width80 下单时间：
           td
             label#createAt
           td
             div.width80 预计出库：
           td
-            label#goodsInDate
+            label#goodsOutDate
         tr
           td
-            div.width80 出货单描述：
+            div.width80 收货人：
+          td
+            label#consignee
+          td
+            div.width80 备注：
           td
             label#desc
 

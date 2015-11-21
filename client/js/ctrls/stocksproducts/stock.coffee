@@ -1,6 +1,7 @@
 
 define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'validate', 'datagrid_plugin', 'imageView', 'autocomplete'], (base, can, Control, Auth, localStorage)->
   brandData = new can.Map()
+  selCompanyId = ''
 
   return Control.extend
     init: (el, data)->
@@ -34,39 +35,20 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             render: (data)->
               "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
           }, {
-            field: 'lastOperator'
-            title: '最后操作人信息'
+            field: 'goodsVo'
+            title: 'SKU'
             render: (data)->
-              roleNameList = _.pluck data.roleVoList, 'name'
               info =
-                "<p>用户名　　　#{data?.value?.username}</p>" +
-                "<p>用户别名　　#{data?.value?.cname}</p>" +
-                "<p>用户地址　　#{data?.value?.address}</p>" +
-                "<p>用户角色　　#{roleNameList}</p>" +
-                "<p>所属公司　　#{data?.value?.companyVo?.name || '无'}</p>" +
-                "<p>创建时间　　#{if data?.value?.created then new Date(data.value.created).toLocaleString() else '无'}</p>" +
-                "<p>电话号码　　#{data?.value?.tel || ''}</p>"
-              "<a href=\"javascript:jAlert('#{info}', '最后操作人信息');void(0);\">#{data?.value?.username}</a>"
-          }, {
-            field: 'modified'
-            title: '最后修改时间'
-            render: (data)-> if data.value then new Date(data.value).toLocaleString() else '无'
+                "<p>SKU&nbsp;　　　#{data?.value?.sku}</p>" +
+                "<p>商品名称　　#{data?.value?.name}</p>" +
+                "<p>条形码　　#{data?.value?.barcode}</p>" +
+                "<p>危险品　　　#{if data?.value?.hazardFlag then '是' else '否'}</p>"
+              "<a href=\"javascript:jAlert('#{info}', '商品信息');void(0);\">#{data?.value?.sku}</a>"
           }, {
             field: 'goodsVo'
-            title: '商品信息'
+            title: '商品名称'
             render: (data)->
-              info =
-                "<p>商品名称　　#{data?.value?.name}</p>" +
-                "<p>商品编码　　#{data?.value?.barcode}</p>" +
-                "<p>SKU&nbsp;　　　#{data?.value?.barcode}</p>" +
-                "<p>危险品　　　#{if data?.value?.hazardFlag then '是' else '否'}</p>" +
-                "<p>商品体积　　#{data?.value?.volume || '无'}</p>" +
-                "<p>商品重量　　#{data?.value?.weight || '无'}</p>" +
-                "<p>计量单位　　#{data?.value?.uom || '无'}</p>" +
-                "<p>所属品牌　　#{data?.value?.brandVo?.name || '无'}</p>" +
-                "<p>所属种类　　#{data?.value?.categoryVo?.name || '无'}</p>" +
-                "<p>所属库位　　#{data?.value?.locationVo?.name || '无'}</p>"
-              "<a href=\"javascript:jAlert('#{info}', '商品信息');void(0);\">#{data?.value?.name}</a>"
+              return data?.value?.name
           }, {
             field: 'quantity'
             title: '商品数量'
@@ -88,34 +70,79 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
                           </ul>
                         </li>
                       </ul>"
+          }, {
+            field: 'lastOperator'
+            title: '最后操作人'
+            render: (data)->
+              roleNameList = _.pluck data.roleVoList, 'name'
+              info =
+                "<p>用户名　　　#{data?.value?.username}</p>" +
+                "<p>用户别名　　#{data?.value?.cname}</p>" +
+                "<p>用户地址　　#{data?.value?.address}</p>" +
+                "<p>用户角色　　#{roleNameList}</p>" +
+                "<p>所属公司　　#{data?.value?.companyVo?.name || '无'}</p>" +
+                "<p>创建时间　　#{if data?.value?.created then new Date(data.value.created).toLocaleString() else '无'}</p>" +
+                "<p>电话号码　　#{data?.value?.tel || ''}</p>"
+              "<a href=\"javascript:jAlert('#{info}', '最后操作人信息');void(0);\">#{data?.value?.username}</a>"
+          }, {
+            field: 'modified'
+            title: '最后修改时间'
+            render: (data)-> if data.value then new Date(data.value).toLocaleString() else '无'
+          }, {
+            field: 'locationVo'
+            title: '库位信息'
+            render: (data)->
+              return '无' if !data.value
+              info =
+                "<p>库位名称&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
+                "<p>XCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.xcoord}</p>" +
+                "<p>YCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.ycoord}</p>" +
+                "<p>ZCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.zcoord}</p>"
+
+              "<a href=\"javascript:jAlert('#{info}', '库位信息');void(0);\">#{data?.value?.name}</a>"
           }
         ]
       })
 
+      $('#stockList').datagrid( "filters", $('#filterSelector'));
+
       $('#goodSel').autocomplete({
         minChars:0
         serviceUrl: "#{Auth.apiHost}goods/all"
-        paramName: 'name'
+        paramName: 'factor'
+        params:{companyId:()->selCompanyId || ''}
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
-          suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
+          suggestions: _.map(response.data, (it)-> {value:"#{it.sku} --- #{it.name}", data: it.id})
         onSelect: (suggestion)->
-          $('#stockList').datagrid( "fetch", {goodsId: suggestion.data, companyId:$('#companySel')[0].value});
+          $('#stockList').datagrid( "fetch", {goodsId: suggestion.data});
       })
-      $('#goodSel').bind 'change', ()->
-        $('#stockList').datagrid( "fetch", {goodsId: '', companyId:$('#companySel')[0].value}) if !$('#goodSel')[0].value
-
-      $('#companySel').autocomplete({
+      if(Auth.user().companyVo.issystem)
+        $('#companySel').autocomplete({
+          minChars:0
+          serviceUrl: "#{Auth.apiHost}company/allbyname"
+          paramName: 'name'
+          dataType: 'json'
+          transformResult: (response, originalQuery)->
+            query: originalQuery
+            suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
+          onSelect: (suggestion)->
+            $('#stockList').datagrid( "fetch", {companyId:suggestion.data});
+            selCompanyId = suggestion.data
+        });
+        $('#companySel').bind 'change',  ()->
+          selCompanyId = '' if !$('#companySel')[0].value
+      else $('#filterSelector .companySel').empty()
+      $('#locationSelector').autocomplete({
         minChars:0
-        serviceUrl: "#{Auth.apiHost}company/allbyname"
+        serviceUrl: "#{Auth.apiHost}location/allbyname"
         paramName: 'name'
+        params:{companyId:()->selCompanyId || ''}
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
           suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
         onSelect: (suggestion)->
-          $('#stockList').datagrid( "fetch", {goodsId:$('#goodSel')[0].value, companyId:suggestion.data});
-      });
-      $('#companySel').bind 'change', ()->
-        $('#stockList').datagrid( "fetch", {goodsId: $('#goodSel')[0].value, companyId: ''}) if !$('#companySel')[0].value
+          $('#stockList').datagrid( "fetch", {locationId:suggestion.data});
+      })

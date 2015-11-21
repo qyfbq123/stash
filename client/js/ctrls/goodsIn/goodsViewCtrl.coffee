@@ -7,6 +7,7 @@ clickDeleteGoodList = (data)->
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
+            $('#goodsInList').datagrid( "fetch")
           else
             jAlert data.message, '失败'
         ,(data)->
@@ -15,13 +16,14 @@ clickDeleteGoodList = (data)->
 
 clickItemToConfirm = (data)->
   require ['Auth', '$', 'jAlert'], (Auth)->
-    jConfirm '将订单修改为【已经确认】？', '警告', (delete_)->
+    jConfirm '是否确认入库单？', '警告', (delete_)->
       return if !delete_
 
       $.getJSON(Auth.apiHost + 'stock/in/confirm', {inId:data.id}
         ,(data)->
           if data.status == 0
-            jAlert '修改成功！', '提示'
+            jAlert '成功！', '提示'
+            $('#goodsInList').datagrid( "fetch")
           else
             jAlert data.message, '失败'
         ,(data)->
@@ -37,6 +39,7 @@ clickItemToEnd = (data)->
         ,(data)->
           if data.status == 0
             jAlert '修改成功！', '提示'
+            $('#goodsInList').datagrid( "fetch")
           else
             jAlert data.message, '失败'
         ,(data)->
@@ -45,12 +48,18 @@ clickItemToEnd = (data)->
 
 clickListDetail = (data)->
   require ['Auth', '$', 'datagrid_plugin', 'imageView', 'printer'], (Auth)->
+    $('#filterSelector').attr('style', 'display:none;')
     $('#goodsInList').attr('style', 'display:none;')
+    if data.status == 'started'
+      $('#printList').attr('style', 'display:block;')
+    else $('#printList').attr('style', 'display:none;')
     $('#listDetail').attr('style', 'display:block;')
+    $('#billnumber').empty()
     $('#createAt').empty()
     $('#goodsInDate').empty()
     $('#supplier').empty()
     $('#desc').empty()
+    $('#billnumber').append(data.billnumber)
     $('#createAt').append(new Date(data.created).toLocaleString())
     $('#goodsInDate').append(new Date(data.date).toLocaleString())
     $('#supplier').append(data.supplierVo.name)
@@ -89,6 +98,10 @@ clickListDetail = (data)->
               enabled: true
           })
       col:[{
+          attrHeader: { "style": "width:150px;"},
+          field: 'sku'
+          title: 'SKU'
+        }, {
           attrHeader: { "style": "width:200px;"},
           field: 'name'
           title: '商品名称'
@@ -97,10 +110,6 @@ clickListDetail = (data)->
           field: 'barcode'
           title: '条形码'
         }, {
-          attrHeader: { "style": "width:150px;"},
-          field: 'sku'
-          title: 'SKU'
-        },{
           field: 'photos'
           title: '商品图片'
           attrHeader: {'class': 'notPrint'}
@@ -133,10 +142,12 @@ clickListDetail = (data)->
     $('#backList').unbind 'click'
     $('#backList').bind 'click', ()->
       $('#listDetail').attr('style', 'display:none;')
+      $('#filterSelector').attr('style', 'display:block;')
       $('#goodsInList').attr('style', 'display:block;')
 
 
 define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', 'autocomplete'], (Ctrl, can, Auth, base)->
+  selCompanyId = ''
   return Ctrl.extend
     init: (el, data)->
       if !can.base
@@ -241,22 +252,33 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
         minChars:0
         serviceUrl: "#{Auth.apiHost}goods/supplier/allbyname"
         paramName: 'name'
+        params: {companyId:()->selCompanyId || ''}
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
-          suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
+          suggestions: _.map(response.data, (it)-> {value:it.name, data: it.id})
         onSelect: (suggestion)->
           $('#goodsInList').datagrid( "fetch", {supplierId:suggestion.data, factor:$('#factor')[0].value});
       })
 
-      $('#companyId').autocomplete({
-        minChars:0
-        serviceUrl: "#{Auth.apiHost}company/allbyname"
-        paramName: 'name'
-        dataType: 'json'
-        transformResult: (response, originalQuery)->
-          query: originalQuery
-          suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
-        onSelect: (suggestion)->
-          $('#goodsInList').datagrid( "fetch", {companyId:suggestion.data, factor:$('#factor')[0].value});
-      });
+      if(Auth.user().companyVo.issystem)
+        $('#companyId').autocomplete({
+          minChars:0
+          serviceUrl: "#{Auth.apiHost}company/allbyname"
+          paramName: 'name'
+          dataType: 'json'
+          transformResult: (response, originalQuery)->
+            query: originalQuery
+            suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
+          onSelect: (suggestion)->
+            $('#goodsInList').datagrid( "fetch", {companyId:suggestion.data, factor:$('#factor')[0].value});
+            selCompanyId = suggestion.data
+            $('#supplierId').autocomplete()
+        });
+
+        $('#companyId').bind 'change',  ()->
+          selCompanyId = '' if !$('#companyId')[0].value
+          $('#supplierId').autocomplete()
+      else $('#filterSelector .companySel').empty()
+
+      $('#goodsInList').datagrid( "filters", $('#filterSelector'));

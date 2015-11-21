@@ -53,9 +53,6 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
           },{
             field: 'desc'
             title: '描述'
-          },{
-            field: 'pid'
-            title: 'pid'
           }
         ]
       })

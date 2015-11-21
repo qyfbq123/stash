@@ -2,7 +2,7 @@
 #printArea
   p &nbsp;&nbsp;&nbsp;&nbsp;
   form#goodsInCreate
-    .col-md-offset-1
+    div
       table.form
         tr
           td
@@ -14,16 +14,16 @@
           td
             input.round.default-width-input#supplierSelector(type='text', name='supplierVo', rangelength='2,10', required)
           td
-            div.width100 进货单描述：
+            div.width60 备注：
           td
-            input.round.default-width-input(type='text', can-value='desc', name='desc', rangelength='2,50', required)
+            input.round.default-width-input(type='text', can-value='desc', name='desc', rangelength='2,50')
         tr
           td(colspan=6)
         tr
           td(colspan=6)
         tr
           td
-            div.width100 商品　　：
+            div.width100 商　　品：
           td
             input.round.default-width-input#goodSelector(type='text')
           td
@@ -31,7 +31,7 @@
           td
             input.round.default-width-input#locationSelector(type='text', name='location')
           td
-            div.width100 数量　　　：
+            div.width60 数量：
           td
             input.round.default-width-input#goodCount(type='text', name='goodCount' ,value=1, min=1, number=true)
 
@@ -43,4 +43,4 @@
 
   .row
     button.button.round.blue.image-right.ic-add.pull-right#createGoodsList 保存
-    button.button.round.blue.image-right.ic-add.pull-right#printGoodsList 打印进货单
+    //- button.button.round.blue.image-right.ic-add.pull-right#printGoodsList 打印进货单

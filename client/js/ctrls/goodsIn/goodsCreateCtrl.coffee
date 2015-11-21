@@ -38,7 +38,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#goodSelector').autocomplete({
         minChars:0
         serviceUrl: "#{Auth.apiHost}goods/all"
-        paramName: 'name'
+        paramName: 'factor'
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
@@ -50,7 +50,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#locationSelector').autocomplete({
         minChars:0
         noCache: true
-        serviceUrl: "#{Auth.apiHost}location/allbyname"
+        serviceUrl: "#{Auth.apiHost}location/findusable"
         paramName: 'name'
         params: {goodsId:()-> currentData?.good?.id || ''}
         dataType: 'json'
@@ -169,12 +169,12 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         goodsData.attr('companyVo', Auth.user().companyVo)
         goodsData.attr('creatorVo', Auth.user())
         goodsData.attr('entries', _.map(_.values(listData.attr()), (it)->
-          count = it.count
-          delete it.count
+          count = it.good.count
+          delete it.good.count
           return {
             goodsVo: it.good,
             locationVo: it.location
-            quantity: it.good.count
+            quantity: count
           }
         ))
 

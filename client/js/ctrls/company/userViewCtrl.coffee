@@ -90,14 +90,17 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
 
       $('#userList').datagrid( "filters", $('#filterSelector'));
 
-      $('#companySelector').autocomplete({
-        minChars:0
-        serviceUrl: "#{Auth.apiHost}company/allbyname"
-        paramName: 'name'
-        dataType: 'json'
-        transformResult: (response, originalQuery)->
-          query: originalQuery
-          suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
-        onSelect: (suggestion)->
-          $('#userList').datagrid( "fetch", {companyId:suggestion.data, factor:$('#factor')[0].value});
-      });
+      if(Auth.user().companyVo.issystem)
+        $('#companySelector').autocomplete({
+          minChars:0
+          serviceUrl: "#{Auth.apiHost}company/allbyname"
+          paramName: 'name'
+          dataType: 'json'
+          transformResult: (response, originalQuery)->
+            query: originalQuery
+            suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
+          onSelect: (suggestion)->
+            $('#userList').datagrid( "fetch", {companyId:suggestion.data, factor:$('#factor')[0].value});
+        });
+      else
+        $('#filterSelector .companySel').empty()
