@@ -65,11 +65,11 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
               "<a href='javascript:clickUpdateStock(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
               "<a href='javascript:clickDeleteStockItem(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
-            field: 'name'
-            title: '商品名称'
-          }, {
             field: 'sku'
             title: 'SKU'
+          }, {
+            field: 'name'
+            title: '商品名称'
           }, {
             field: 'barcode'
             title: '条形码'
@@ -128,21 +128,6 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
                 "<p>种类描述&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.desc}</p>"
 
               "<a href=\"javascript:jAlert('#{info}', '种类信息');void(0);\">#{data?.value?.name}</a>"
-          },{
-            field: 'locationVo'
-            title: '库位信息'
-            render: (data)->
-              return '无' if !data.value
-              info =
-                "<p>库位名称&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
-                "<p>库位创建&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.created}</p>" +
-                "<p>最近修改&nbsp;&nbsp;&nbsp;&nbsp;#{if data?.value?.modfied then new Date(data?.value?.modfied).toLocaleString() else '无'}</p>" +
-                "<p>已经使用&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.locked}</p>" +
-                "<p>所在行  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.xcoord}</p>" +
-                "<p>所在列  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.ycoord}</p>" +
-                "<p>所在层  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.zcoord}</p>"
-
-              "<a href=\"javascript:jAlert('#{info}', '库位信息');void(0);\">#{data?.value?.name}</a>"
           }
         ]
       })
@@ -172,15 +157,3 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         onSelect: (suggestion)->
           $('#stockItemList').datagrid( "fetch", {categoryId:suggestion.data.id, factor:$('#factor')[0].value});
       });
-
-      $('#locationSelector').autocomplete({
-        minChars:0
-        serviceUrl: "#{Auth.apiHost}location/allbyname"
-        paramName: 'name'
-        dataType: 'json'
-        transformResult: (response, originalQuery)->
-          query: originalQuery
-          suggestions: _.map(response.data, (it)->{value:it.name, data: it})
-        onSelect: (suggestion)->
-          $('#stockItemList').datagrid( "fetch", {locationId:suggestion.data.id, factor:$('#factor')[0].value});
-      })
