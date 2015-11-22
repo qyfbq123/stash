@@ -10,6 +10,8 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       this.element.html can.view('../../public/view/home/stocksproducts/stock.html', brandData)
 
       itemIds =  []
+      originItems = []
+      selectedItems = []
       $('#stockList').datagrid({
         url: Auth.apiHost + 'stock/inventory/page',
         attr: "class": "table table-bordered table-striped"
@@ -29,11 +31,24 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
               gallery:
                 enabled: true
             })
+
+            check = (id)->
+              $("#check#{id}").bind 'change', ()->
+                checked = $("#check#{id}")[0].checked
+                if checked
+                  it = _.find(originItems, (it)-> it.id == id)
+                  it.checkQuantity = it.quantity
+                  arr = [it]
+                  selectedItems = _.union selectedItems, arr
+                else
+                  selectedItems = _.reject selectedItems, (it)-> it.id == id
+            check id
         col:[{
-            field: 'locked'
+            field: ''
             title: '选择'
             render: (data)->
-              "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
+              originItems.push data.row
+              "<input style='width:50px;' type='checkbox' id=\"check#{data.row.id}\"}>"
           }, {
             field: 'goodsVo'
             title: 'SKU'
@@ -146,3 +161,14 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         onSelect: (suggestion)->
           $('#stockList').datagrid( "fetch", {locationId:suggestion.data});
       })
+
+      $('#addCheck').unbind 'click'
+      $('#addCheck').bind 'click', ()->
+        return jAlert '未选择任何商品！', '提示' if selectedItems.length == 0
+
+        oldCheckList = localStorage.get 'checkList'
+        newCheckList = _.union(oldCheckList, selectedItems)
+        newCheckList = _.uniq newCheckList, (it)-> it.id
+        localStorage.set 'checkList', newCheckList
+        console.log newCheckList
+
