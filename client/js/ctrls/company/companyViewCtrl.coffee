@@ -65,7 +65,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             title: '联系人邮箱'
           },{
             field: 'contactMsn'
-            title: '联系人MSN'
+            title: '联系人Skype'
           },{
             field: 'contactFax'
             title: '联系人传真'

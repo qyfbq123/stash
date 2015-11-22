@@ -70,7 +70,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }, {
             field: 'goodsVo'
             title: '商品图片'
-            attrHeader: { "style": "width:40%;"},
+            attrHeader: { "style": "width:30%;"},
             render: (data)->
               itemIds.push data.row.id
               imgs = _.map(data?.value?.photos, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
@@ -103,6 +103,20 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             field: 'modified'
             title: '最后修改时间'
             render: (data)-> if data.value then new Date(data.value).toLocaleString() else '无'
+          }, {
+            field: 'companyVo'
+            title: '公司信息'
+            render: (data)->
+              info =
+                "<p>公司名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
+                "<p>公司地址&nbsp;&nbsp;&nbsp;#{data?.value?.address}</p>" +
+                "<p>联系人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactName}</p>" +
+                "<p>联系号码&nbsp;&nbsp;&nbsp;#{data?.value?.contactTel}</p>" +
+                "<p>联系邮箱&nbsp;&nbsp;&nbsp;#{data?.value?.contactEmail}</p>" +
+                "<p>联系QQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactQq}</p>" +
+                "<p>联系传真&nbsp;&nbsp;&nbsp;#{data?.value?.contactFax}</p>" +
+                "<p>联系MSN&nbsp;&nbsp;&nbsp;#{data?.value?.contactMsn}</p>"
+              "<a href=\"javascript:jAlert('#{info}', '公司信息');void(0);\">#{data?.value?.name}</a>"
           }, {
             field: 'locationVo'
             title: '库位信息'

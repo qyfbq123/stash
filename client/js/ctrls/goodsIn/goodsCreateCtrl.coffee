@@ -96,6 +96,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             title: '条形码'
             render: (data)-> data.value.barcode
           }, {
+            attrHeader: { "style": "width:100px;"}
             field: 'location'
             title: '放置库位'
             render: (data)-> data.value.name
@@ -124,7 +125,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             title: '数量'
             render: (data)->
               itemIds.push data.value.id
-              "<input type='number' value=#{data.value.count} id=itemId#{data.value.id} min:'1', required>"
+              "<input class='width60' type='number' value=#{data.value.count} id=itemId#{data.value.id} min:'1' required>"
           },{
             attrHeader: { "style": "width:50px;", 'class': 'notPrint'},
             attr: {'class': 'notPrint'}

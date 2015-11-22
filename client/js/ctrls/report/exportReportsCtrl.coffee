@@ -12,12 +12,50 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       else if data.subMenuId == 'settlementReportByDate'
         $('.company').remove()
         $('.goods').remove()
+        $('.billnumber').remove()
+        $('.factor').remove()
         apiSuffix = 'report/settlementbydate'
       else if data.subMenuId == 'settlementReportByGoods'
         $('.startAt').remove()
         $('.endAt').remove()
         $('.company').remove()
+        $('.billnumber').remove()
+        $('.factor').remove()
         apiSuffix = 'report/settlementbygoods'
+      else if data.subMenuId == 'inReportAll'
+        $('.goods').remove()
+        $('.billnumber').remove()
+        $('.factor').remove()
+        apiSuffix = 'report/inall'
+      else if data.subMenuId == 'inReportDetail'
+        $('.goods').remove()
+        $('.startAt').remove()
+        $('.endAt').remove()
+        $('.company').remove()
+        $('.factor').remove()
+        apiSuffix = 'report/indetail'
+      else if data.subMenuId == 'outReportAll'
+        $('.goods').remove()
+        $('.billnumber').remove()
+        $('.factor').remove()
+        apiSuffix = 'report/outall'
+      else if data.subMenuId == 'outReportDetail'
+        $('.goods').remove()
+        $('.startAt').remove()
+        $('.endAt').remove()
+        $('.company').remove()
+        $('.factor').remove()
+        apiSuffix = 'report/outdetail'
+      else if data.subMenuId == 'inventoryReport'
+        $('.goods').remove()
+        $('.startAt').remove()
+        $('.endAt').remove()
+        $('.company').remove()
+        $('.billnumber').remove()
+        apiSuffix = 'report/inventory'
+
+      if !Auth.user().companyVo.issystem
+        $('.company').remove()
 
       $('#startAt').datetimepicker
         timepicker: false
@@ -59,6 +97,12 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           opt.start = $('#startAt')[0].value || ''
           opt.end = $('#endAt')[0].value || ''
           return jAlert '开始时间必须小于结束时间！', '提示' if opt.end < opt.start
+
+        if $('#billnumber')?[0]
+          opt.billnumber = $('#billnumber')[0].value
+          return  jAlert '订单编号不可为空！', '提示' if !opt.billnumber
+        if $('#factor')?[0]
+          opt.factor = $('#factor')[0].value
 
         url = Auth.apiHost + "#{apiSuffix}?"
         el = $('<form>')
