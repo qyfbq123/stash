@@ -1,26 +1,37 @@
 
-define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'validate', 'datagrid_plugin', 'imageView', 'autocomplete'], (base, can, Control, Auth, localStorage)->
-  brandData = new can.Map()
-  selCompanyId = ''
-
-  return Control.extend
+define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin', 'jAlert', 'autocomplete', 'imageView'], (Ctrl, can, Auth, base, localStorage)->
+  return Ctrl.extend
     init: (el, data)->
       new base('', data) if !can.base
+      this.element.html can.view('../../public/view/home/stocksproducts/check.html', {})
 
-      this.element.html can.view('../../public/view/home/stocksproducts/stock.html', brandData)
-
+      startAt = Date.now()
+      checkList = localStorage.get 'checkList'
       itemIds =  []
-      originItems = []
-      selectedItems = []
-      $('#stockList').datagrid({
-        url: Auth.apiHost + 'stock/inventory/page',
+
+      $('#addCheck').unbind 'click'
+      $('#addCheck').bind 'click', ()->
+        entries = _.map checkList, (it)-> {inventoryId: it.id, quantity: it.quantity, checkQuantity: it.checkQuantity}
+        data = {startAt, entries}
+        $.postJSON("#{Auth.apiHost}inventory/check", data,
+          (data)->
+            if data.status == 0
+              localStorage.remove 'checkList'
+              jAlert "盘点完毕！", "提示"
+              window.location.hash = '#!home/stocksproducts/stock'
+            else
+              jAlert "#{data.message}", "提示"
+          (data)->
+            jAlert "错误", data.responseText
+        )
+
+      $('#checkGrid').datagrid({
+        data: checkList
         attr: "class": "table table-bordered table-striped"
         sorter: "bootstrap",
         pager: "bootstrap",
         noData: '无数据'
         paramsDefault: {paging:10}
-        parse: (data)->
-          return {total:data.total, data: data.rows}
         onBefore: ()->
           itemIds = []
         onComplete: ()->
@@ -32,24 +43,17 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
                 enabled: true
             })
 
-            check = (id)->
+            doCheck = (id)->
               $("#check#{id}").bind 'change', ()->
-                checked = $("#check#{id}")[0].checked
-                if checked
-                  it = _.find(originItems, (it)-> it.id == id)
-                  it.checkQuantity = it.quantity
-                  arr = [it]
-                  selectedItems = _.union selectedItems, arr
-                else
-                  selectedItems = _.reject selectedItems, (it)-> it.id == id
-            check id
+                checkQuantity = parseInt($("#check#{id}")[0].value)
+                checkList = _.map checkList, (it)->
+                  return it if it.id != id
+
+                  it.checkQuantity = checkQuantity
+                  return it
+
+            doCheck id
         col:[{
-            field: ''
-            title: '选择'
-            render: (data)->
-              originItems.push data.row
-              "<input style='width:50px;' type='checkbox' id=\"check#{data.row.id}\"}>"
-          }, {
             field: 'goodsVo'
             title: 'SKU'
             render: (data)->
@@ -68,12 +72,17 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             field: 'quantity'
             title: '商品数量'
           }, {
+            field: 'quantity'
+            title: '盘点数量',
+            render: (data)->
+              "<input type='number' value=#{data.row.quantity} id=\"check#{data.row.id}\">"
+          }, {
             field: 'goodsVo'
             title: '商品图片'
             attrHeader: { "style": "width:40%;"},
             render: (data)->
               itemIds.push data.row.id
-              imgs = _.map(data?.value?.photos, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
+              imgs = _.map(data?.value?.photos, (img)->img.path = "#{img.path}"; img)
               html = ''
               for img in imgs
                 html += "<li><a href='#{img.path}'><img src='#{img.path}'></a></li>"
@@ -118,57 +127,3 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }
         ]
       })
-
-      $('#stockList').datagrid( "filters", $('#filterSelector'));
-
-      $('#goodSel').autocomplete({
-        minChars:0
-        serviceUrl: "#{Auth.apiHost}goods/all"
-        paramName: 'factor'
-        params:{companyId:()->selCompanyId || ''}
-        dataType: 'json'
-        transformResult: (response, originalQuery)->
-          query: originalQuery
-          suggestions: _.map(response.data, (it)-> {value:"#{it.sku} --- #{it.name}", data: it.id})
-        onSelect: (suggestion)->
-          $('#stockList').datagrid( "fetch", {goodsId: suggestion.data});
-      })
-      if(Auth.user().companyVo.issystem)
-        $('#companySel').autocomplete({
-          minChars:0
-          serviceUrl: "#{Auth.apiHost}company/allbyname"
-          paramName: 'name'
-          dataType: 'json'
-          transformResult: (response, originalQuery)->
-            query: originalQuery
-            suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
-          onSelect: (suggestion)->
-            $('#stockList').datagrid( "fetch", {companyId:suggestion.data});
-            selCompanyId = suggestion.data
-        });
-        $('#companySel').bind 'change',  ()->
-          selCompanyId = '' if !$('#companySel')[0].value
-      else $('#filterSelector .companySel').empty()
-      $('#locationSelector').autocomplete({
-        minChars:0
-        serviceUrl: "#{Auth.apiHost}location/allbyname"
-        paramName: 'name'
-        params:{companyId:()->selCompanyId || ''}
-        dataType: 'json'
-        transformResult: (response, originalQuery)->
-          query: originalQuery
-          suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
-        onSelect: (suggestion)->
-          $('#stockList').datagrid( "fetch", {locationId:suggestion.data});
-      })
-
-      $('#addCheck').unbind 'click'
-      $('#addCheck').bind 'click', ()->
-        return jAlert '未选择任何商品！', '提示' if selectedItems.length == 0
-
-        oldCheckList = localStorage.get 'checkList'
-        newCheckList = _.union(oldCheckList, selectedItems)
-        newCheckList = _.uniq newCheckList, (it)-> it.id
-        localStorage.set 'checkList', newCheckList
-        console.log newCheckList
-

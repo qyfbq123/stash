@@ -46,6 +46,8 @@ require.config
     consigneeCreateCtrl:  '../public/js/ctrls/stocksproducts/consigneeCreateCtrl'
     stockItemCreateCtrl:  '../public/js/ctrls/stocksproducts/stockItemCreateCtrl'
     stockItemViewCtrl:  '../public/js/ctrls/stocksproducts/stockItemViewCtrl'
+    migrateCtrl:  '../public/js/ctrls/stocksproducts/migrateCtrl'
+    checkCtrl:  '../public/js/ctrls/stocksproducts/checkCtrl'
 
     # 仓库 & 库位
     warehouseAddCtrl:  '../public/js/ctrls/location/warehouseAddCtrl'
@@ -233,6 +235,16 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       require ['consigneeViewCtrl', 'base'], (consigneeViewCtrl, base)->
         new base('', data) if !can.base
         new consigneeViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/stocksproducts/inventoryMigrate route': (data)->
+      require ['migrateCtrl', 'base'], (migrateCtrl, base)->
+        new base('', data) if !can.base
+        new migrateCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/stocksproducts/inventoryCheck route': (data)->
+      require ['checkCtrl', 'base'], (checkCtrl, base)->
+        new base('', data) if !can.base
+        new checkCtrl('#rightWorkspace', {id:'stocksproducts'})
 
     'home/location/warehouseAdd route': (data)->
       require ['warehouseAddCtrl', 'base'], (warehouseAddCtrl, base)->
