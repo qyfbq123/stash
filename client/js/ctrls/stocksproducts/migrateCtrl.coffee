@@ -68,7 +68,10 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
         $.postJSON(url, pageData.attr(),
           (data)->
             if data.status == 0
-              pageData.attr({})
+              pageData.attr(original, {})
+              pageData.attr(target, {})
+              $('#originalSelector')[0].value=''
+              $('#targetSelector')[0].value=''
               jAlert "转移库位成功！", "提示"
             else
               jAlert "#{data.message}", "提示"

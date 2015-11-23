@@ -99,7 +99,12 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             title: '条形码'
             render: (data)->
               return data?.value?.barcode
-          },{
+          }, {
+            attrHeader: { "style": "width:100px;"}
+            field: 'locationVo'
+            title: '出货库位'
+            render: (data)-> data?.value?.name
+          }, {
             field: 'goodsVo'
             title: '商品图片'
             attrHeader: {'class': 'notPrint'}
@@ -124,7 +129,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             title: '数量'
             render: (data)->
               itemIds.push data.row.id
-              "<input type='number' value=#{data.value} id=itemId#{data.row.id} min=1 max=#{data.row.quantity}, required>"
+              "<input class='width60' type='number' value=#{data.value} id=itemId#{data.row.id} min=1 max=#{data.row.quantity} required>"
           },{
             attrHeader: { "style": "width:50px;", 'class': 'notPrint'},
             attr: {'class': 'notPrint'}

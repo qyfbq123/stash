@@ -74,6 +74,7 @@ clickListDetail1 = (data)->
       console.log it
       it.goodsVo ?=it.inventoryVo?.goodsVo
       it.goodsVo.quantity = it.quantity
+      it.goodsVo.locationVo = it.inventoryVo.locationVo
       it.goodsVo
     )
 
@@ -131,7 +132,20 @@ clickListDetail1 = (data)->
                         </ul>
                       </li>
                     </ul>"
-        },{
+        }, {
+            attrHeader: { "style": "width:100px;"}
+            field: 'locationVo'
+            title: '出货库位'
+            render: (data)->
+              return '无' if !data.value
+              info =
+                "<p>库位名称&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
+                "<p>XCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.xcoord}</p>" +
+                "<p>YCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.ycoord}</p>" +
+                "<p>ZCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.zcoord}</p>"
+
+              "<a href=\"javascript:jAlert('#{info}', '库位信息');void(0);\">#{data?.value?.name}</a>"
+        }, {
           attrHeader: { "style": "width:100px;"},
           field: 'count'
           title: '数量'
@@ -202,7 +216,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
               "<a href='javascript:#{tagInfo.fun}' class='#{tagInfo.class}'>#{tagInfo.value}</a>"
           },{
             field: 'desc'
-            title: '公司描述'
+            title: '备注'
           },{
             field: 'companyVo'
             title: '公司信息'
@@ -215,9 +229,23 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
                 "<p>联系邮箱&nbsp;&nbsp;&nbsp;#{data?.value?.contactEmail}</p>" +
                 "<p>联系QQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactQq}</p>" +
                 "<p>联系传真&nbsp;&nbsp;&nbsp;#{data?.value?.contactFax}</p>" +
-                "<p>联系MSN&nbsp;&nbsp;&nbsp;#{data?.value?.contactMsn}</p>"
+                "<p>联系Skype&nbsp;&nbsp;&nbsp;#{data?.value?.contactMsn}</p>"
               "<a href=\"javascript:jAlert('#{info}', '公司信息');void(0);\">#{data?.value?.name}</a>"
-          },{
+          }, {
+            field: 'consigneeVo'
+            title: '收货人信息'
+            render: (data)->
+              info =
+                "<p>收货人名称　#{data?.value?.name}</p>" +
+                "<p>收货人地址　#{data?.value?.address}</p>" +
+                "<p>联系人　　　#{data?.value?.contactName}</p>" +
+                "<p>联系号码　　#{data?.value?.contactTel}</p>" +
+                "<p>联系邮箱　　#{data?.value?.contactEmail}</p>" +
+                "<p>联系QQ　　　#{data?.value?.contactQq}</p>" +
+                "<p>联系传真　　#{data?.value?.contactFax}</p>" +
+                "<p>联系Skype　　#{data?.value?.contactMsn}</p>"
+              "<a href=\"javascript:jAlert('#{info}', '收货人信息');void(0);\">#{data?.value?.name}</a>"
+          }, {
             field: 'creatorVo'
             title: '创建者信息'
             render: (data)->
