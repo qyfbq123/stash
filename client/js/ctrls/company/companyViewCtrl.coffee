@@ -11,6 +11,7 @@ clickDeleteCompany = (data)->
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
+            $('#companyView').datagrid( "fetch")
           else
             jAlert data.message, '失败'
         ,(data)->

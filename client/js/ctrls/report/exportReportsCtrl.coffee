@@ -8,6 +8,8 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       apiSuffix = ''
       if data.subMenuId == 'operationsReport'
+        $('.billnumber').remove()
+        $('.factor').remove()
         apiSuffix = 'report/settlementbycompany'
       else if data.subMenuId == 'settlementReportByDate'
         $('.company').remove()
