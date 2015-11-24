@@ -96,4 +96,4 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
 
         setTimeout ()->
           window.location.hash = firstUrl
-        , 100
+        , 50
