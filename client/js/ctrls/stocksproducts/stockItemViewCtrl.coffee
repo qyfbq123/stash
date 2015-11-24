@@ -59,6 +59,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
             render: (data)->
               "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
           },{
+            attrHeader: { "style": "width:67px;"}
             field: ''
             title: '操作'
             render: (data)->

@@ -90,6 +90,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
 
       if Auth.user().companyVo.issystem
         cols.splice 1, 0, {
+          attrHeader: { "style": "width:67px;"}
           field: ''
           title: '操作'
           render: (data)->
