@@ -41,6 +41,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             render: (data)->
               "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
           },{
+            attrHeader: { "style": "width:67px;"}
             field: ''
             title: '操作'
             render: (data)->
