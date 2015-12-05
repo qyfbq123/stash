@@ -10,6 +10,7 @@ require.config
     autocomplete: 'devbridge-autocomplete/dist/jquery.autocomplete.min'
     tokenize: 'jquery-tokenize/jquery.tokenize'
     validate: 'jquery-validation/dist/jquery.validate.min'
+    uploader: 'uploadify/jquery.uploadify.min'
     fileInput: 'bootstrap-fileinput/js/fileinput.min'
     fileInputZh: 'bootstrap-fileinput/js/fileinput_locale_zh'
     imageView: 'magnific-popup/dist/jquery.magnific-popup.min'
@@ -73,6 +74,7 @@ require.config
 
   shim:
     can: ['$', 'jqueryEx']
+    uploader: ['$']
     loading: ['$']
     jqueryEx: ['$']
     datagrid: ['$']

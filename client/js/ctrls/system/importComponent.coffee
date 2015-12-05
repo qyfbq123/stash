@@ -1,4 +1,4 @@
-define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', 'jAlert'], (can, component, stache, Auth, localStorage)->
+define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', 'jAlert', 'uploader'], (can, component, stache, Auth, localStorage)->
   pageData = new can.Map({
     title: ''
     downloadUrl: ''
@@ -48,7 +48,10 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
   return can.Component.extend({
     tag: "DataImport",
     template: can.stache("
+                         <div class='col-md-4'></div>
+                         <div class='col-md-2'>
                          <input id='filePicker' type='file' class='file-loading'/>
+                         </div>
                          <p>&nbsp;</p>
                          <div class='col-md-12'>
                            <a id='downloadUrl' href='./public/static/docs/{{downloadUrl}}' target='_blank' style='font-size:20px;' class='text-center pull-left'>{{title}}模板文件下载</a>
@@ -63,29 +66,43 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
       currentData
     events: {
       inserted:()->
-        $("#filePicker").fileinput({
-          dropZoneTitle: "上传#{pageData.attr('title')}表格文件"
-          language: 'zh'
-          maxFileCount: 10
-          minImageWidth: 10
-          minImageHeight: 10
-          uploadUrl: "#{Auth.apiHost}#{pageData.attr('uploadUrl')}"
-          uploadExtraData: ()->
-            isCover: pageData.attr('isCover')
-          allowedFileExtensions: ["xls", "xlsx"]
-          slugCallback: (name)-> name
+        $('#filePicker').uploadify({
+          'width': 200
+          'fileSizeLimit': '1024k'
+          'buttonText': "选择【#{pageData.attr('title')}】表格文件上传"
+          'fileTypeDesc' : '表格文件',
+          'fileTypeExts' : '*.xls; *.xlsx',
+          'swf': './lib/uploadify/uploadify.swf',
+          'uploader': "#{Auth.apiHost}#{pageData.attr('uploadUrl')}"
+          'onUploadSuccess': (file, data, response)->
+            jAlert "#{pageData.attr('title')}导入成功！", "成功"
+          'onUploadError': (file, errorCode, errorMsg, errorString)->
+            jAlert "#{errorString}，请下载模板文件查看格式！", "错误"
         });
 
-        done = (e, data)->
-          if data.response.status != 0
-            jAlert "#{data.response.message}，请下载模板文件查看格式！", "错误"
-          else
-            jAlert "#{pageData.attr('title')}导入成功！", "成功"
-          $('#filePicker').fileinput('clear');
-          $('#filePicker').fileinput('enable');
+        # $("#filePicker").fileinput({
+        #   dropZoneTitle: "上传#{pageData.attr('title')}表格文件"
+        #   language: 'zh'
+        #   maxFileCount: 10
+        #   minImageWidth: 10
+        #   minImageHeight: 10
+        #   uploadUrl: "#{Auth.apiHost}#{pageData.attr('uploadUrl')}"
+        #   uploadExtraData: ()->
+        #     isCover: pageData.attr('isCover')
+        #   allowedFileExtensions: ["xls", "xlsx"]
+        #   slugCallback: (name)-> name
+        # });
 
-        $("#filePicker").on('fileuploaderror', done)
-        $("#filePicker").on('filebatchuploaderror', done)
-        $("#filePicker").on('fileuploaded', done)
+        # done = (e, data)->
+        #   if data.response.status != 0
+        #     jAlert "#{data.response.message}，请下载模板文件查看格式！", "错误"
+        #   else
+        #     jAlert "#{pageData.attr('title')}导入成功！", "成功"
+        #   $('#filePicker').fileinput('clear');
+        #   $('#filePicker').fileinput('enable');
+
+        # $("#filePicker").on('fileuploaderror', done)
+        # $("#filePicker").on('filebatchuploaderror', done)
+        # $("#filePicker").on('fileuploaded', done)
     }
   });
