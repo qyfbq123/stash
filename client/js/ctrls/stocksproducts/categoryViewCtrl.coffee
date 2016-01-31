@@ -50,7 +50,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
               "<a href='javascript:clickDeleteCategory(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
-            title: '商品名'
+            title: '种类名'
           },{
             field: 'desc'
             title: '描述'
