@@ -133,7 +133,9 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         ]
       })
 
-      $('#stockItemList').datagrid( "filters", $('#filterSelector'));
+      # $('#stockItemList').datagrid( "filters", $('#filterSelector'));
+      $('#select').bind 'click', ()->
+        $('#stockItemList').datagrid 'fetch', $('#filterSelector').serializeObject()
 
       $('#brandSelector').autocomplete({
         minChars:0
@@ -143,8 +145,11 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         transformResult: (response, originalQuery)->
           query: originalQuery
           suggestions: _.map(response.data, (it)->{value:it.name, data: it})
+        onSearchStart: (query)->
+          $('#brandId').val ''
         onSelect: (suggestion)->
-          $('#stockItemList').datagrid( "fetch", {brandId:suggestion.data.id, factor:$('#factor')[0].value});
+          $('#brandId').val suggestion.data.id
+          # $('#stockItemList').datagrid( "fetch", {brandId:suggestion.data.id, factor:$('#factor')[0].value});
       });
 
       $('#categorySelector').autocomplete({
@@ -155,6 +160,9 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         transformResult: (response, originalQuery)->
           query: originalQuery
           suggestions: _.map(response.data, (it)->{value:it.name, data: it})
+        onSearchStart: (query)->
+          $('#categoryId').val ''
         onSelect: (suggestion)->
-          $('#stockItemList').datagrid( "fetch", {categoryId:suggestion.data.id, factor:$('#factor')[0].value});
+          $('#categoryId').val suggestion.data.id
+          # $('#stockItemList').datagrid( "fetch", {categoryId:suggestion.data.id, factor:$('#factor')[0].value});
       });

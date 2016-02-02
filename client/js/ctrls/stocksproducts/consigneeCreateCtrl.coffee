@@ -26,12 +26,14 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
         $.postJSON(url, supplierData.attr(),
           (data)->
-            for k, v of supplierData.attr()
-              supplierData.removeAttr(k)
 
             if data.status == 0
+              
+              for k, v of supplierData.attr()
+                supplierData.removeAttr(k)
               supplierData.attr({})
               if isNew then jAlert "新增收货人成功！", "提示" else jAlert "更新收货人成功！", "提示"
+              window.location.hash = '#!home/stocksproducts/consigneeView'
             else
               jAlert "#{data.message}", "提示"
           (data)->

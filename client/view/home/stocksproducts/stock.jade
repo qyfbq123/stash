@@ -1,13 +1,18 @@
 form#filterSelector
   .companySel(style="display:inline")
     span 公司：
-    input.round.default-width-input#companySel(type='text', name='companyId')
+    input.round.default-width-input#companySel(type='text', placeholder='请选择...')
+    input#companyId(type='hidden',name='companyId')
     span.width40　　
   span 商品：
-  input.round.default-width-input#goodSel(type='text', name='goodsId')
+  input.round.default-width-input#goodSel(type='text', placeholder='请选择...')
+  input#goodsId(type='hidden', name='goodsId')
   span.width40　　
   span 库位：
-  input.round.default-width-input#locationSelector(type='text', name='locationId')
+  input.round.default-width-input#locationSelector(type='text', placeholder='请选择...')
+  input#locationId(type='hidden',name='locationId')
+
+  input#select.my_button.round.blue.text-upper(type='button', name='select', value='搜索', style='margin-left:5px;')
 
 #stockList
 

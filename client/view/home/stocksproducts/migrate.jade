@@ -1,5 +1,5 @@
 form#migrateForm
-  .col-md-5
+  .col-md-4
     div.col-md-12.pull-right
       span 原始库位：
       input.default-width-input#originalSelector(type='text')
@@ -13,7 +13,7 @@ form#migrateForm
       label.col-md-12 库位列　：{{original.locationVo.ycoord}}
       label.col-md-12 库位层　：{{original.locationVo.zcoord}}
 
-  .col-md-5
+  .col-md-4
     div.col-md-12.pull-left
       span 目标库位：
       input.default-width-input#targetSelector(type='text')
@@ -27,9 +27,9 @@ form#migrateForm
       label.col-md-12 库位列　：{{target.locationVo.ycoord}}
       label.col-md-12 库位层　：{{target.locationVo.zcoord}}
 
-  .col-md-2
+  .col-md-4
     span 转移数量：
-    input.width60(type='number', can-value='quantity', min=1, max='{{original.quantity}}', number=true, required)
+    input.default-width-input(type='number', can-value='quantity', min=1, max='{{original.quantity}}', number=true, required,style='padding:.4em')
 
 .col-md-12
   .pull-right

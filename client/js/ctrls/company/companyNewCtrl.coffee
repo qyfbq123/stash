@@ -29,10 +29,11 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
         $.postJSON(url, userInfo.attr(),
           (data)->
-            for k, v of userInfo.attr()
-              userInfo.removeAttr(k)
 
             if data.status == 0
+              for k, v of userInfo.attr()
+                userInfo.removeAttr(k)
+                
               localStorage.rm 'tmpCompanyInfo'
               userInfo.attr({})
               if !tmpCompanyInfo

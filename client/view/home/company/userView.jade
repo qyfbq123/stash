@@ -1,8 +1,10 @@
 form#filterSelector
-  input.round.default-width-input#factor(type='text', name='factor', placeholder='搜索...')
+  input.round.default-width-input#factor(type='text', name='factor', placeholder='搜索名称、别名、号码、地址...')
 
   .companySel(style="display:inline")
     span 　公司：
-    input.round.default-width-input#companySelector(type='text', name='companyId', placeholder='公司...')
+    input.round.default-width-input#companySelector(type='text', placeholder='请选择...')
+    input#companyId(type='hidden', name='companyId')
+  input#select.my_button.round.blue.text-upper(type='button', name='select', value='搜索', style='margin-left:5px;')
 
 div#userList

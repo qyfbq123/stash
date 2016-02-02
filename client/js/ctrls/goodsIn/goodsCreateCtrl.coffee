@@ -1,8 +1,8 @@
 listData = new can.Map()
 goodsData = new can.Map()
 
-deleteGoodsInListItem = (item)->
-  listData.removeAttr(item.id)
+deleteGoodsInListItem = (gid, lid)->
+  listData.removeAttr("#{gid}|#{lid}")
 
   vs = _.values(listData.attr())
   $('#goodsInList').datagrid('render', {total:vs.length, data:vs})
@@ -14,6 +14,13 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
   return Control.extend
     init: (el, data)->
+
+      for k, v of goodsData.attr()
+        goodsData.removeAttr(k)
+
+      for k, v of listData.attr()
+        listData.removeAttr(k)
+      
       new base('', data) if !can.base
 
       this.element.html can.view('../../public/view/home/goodsIn/goodsCreate.html', goodsData)
@@ -132,7 +139,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:deleteGoodsInListItem(#{JSON.stringify(data.row.good)});void(0);' class='table-actions-button ic-table-delete' alt='删除'></a>"
+              "<a href='javascript:deleteGoodsInListItem(#{data.row.good.id}, #{data.row.location.id});void(0);' class='table-actions-button ic-table-delete' alt='删除'></a>"
           }
         ]
       })
@@ -166,6 +173,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#createGoodsList').bind 'click', ()->
         return if !$('#goodsInCreate').valid()
 
+        saveDate = goodsData.attr('date')
         goodsData.attr('date', Date.parse(goodsData.attr('date')))
         goodsData.attr('companyVo', Auth.user().companyVo)
         goodsData.attr('creatorVo', Auth.user())
@@ -183,10 +191,21 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         $.postJSON(url, goodsData.attr(),
           (data)->
             if data.status == 0
+
+              for k, v of goodsData.attr()
+                goodsData.removeAttr(k)
+
+              for k, v of listData.attr()
+                listData.removeAttr(k)
+
+              $('#supplierSelector').val ''
               goodsData.attr({})
               listData.attr({})
               jAlert "新增进货单成功！", "提示"
+
+              window.location.hash = '#!home/goodsIn/goodsInView'
             else
+              goodsData.attr 'date', saveDate
               jAlert "#{data.message}", "提示"
           (data)->
             jAlert "错误", data.responseText

@@ -24,11 +24,12 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         url = Auth.apiHost + if isNew then 'goods/category/create' else 'goods/category/update'
         $.postJSON(url, categoryData.attr(),
           (data)->
-            for k, v of categoryData.attr()
-              categoryData.removeAttr(k)
 
             if data.status == 0
+              for k, v of categoryData.attr()
+                categoryData.removeAttr(k)
               if isNew then jAlert "新增种类成功！", "提示" else jAlert "更新种类成功！", "提示"
+              window.location.hash = '#!home/stocksproducts/categoryView'
             else
               jAlert "#{data.message}", "提示"
           (data)->

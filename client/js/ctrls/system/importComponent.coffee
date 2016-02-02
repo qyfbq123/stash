@@ -73,9 +73,15 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
           'fileTypeDesc' : '表格文件',
           'fileTypeExts' : '*.xls; *.xlsx',
           'swf': './lib/uploadify/uploadify.swf',
-          'uploader': "#{Auth.apiHost}#{pageData.attr('uploadUrl')}"
+          'uploader': "#{Auth.apiHost}#{pageData.attr('uploadUrl')}",
+          'formData': (isCover: pageData.attr('isCover'))
+          'onUploadStart' : (file)->
+            $("#filePicker").uploadify "settings", "formData", (isCover: pageData.attr('isCover') )
           'onUploadSuccess': (file, data, response)->
-            jAlert "#{pageData.attr('title')}导入成功！", "成功"
+            data = JSON.parse data
+            if(data.status != 0)
+              jAlert "#{data.message}", "错误"
+            else jAlert "#{pageData.attr('title')}导入成功！", "成功"
           'onUploadError': (file, errorCode, errorMsg, errorString)->
             jAlert "#{errorString}，请下载模板文件查看格式！", "错误"
         });

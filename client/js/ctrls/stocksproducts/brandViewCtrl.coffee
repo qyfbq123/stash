@@ -77,4 +77,6 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
         ]
       })
 
-      $('#brandList').datagrid( "fetch", {factor:$('#factor')[0].value});
+      # $('#brandList').datagrid( "fetch", {factor:$('#factor')[0].value});
+      $('#select').bind 'click', ()->
+        $('#brandList').datagrid 'fetch', $('#filterSelector').serializeObject()

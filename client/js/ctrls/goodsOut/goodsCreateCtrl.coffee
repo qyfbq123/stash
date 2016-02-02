@@ -13,6 +13,12 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
   return Control.extend
     init: (el, data)->
+      for k, v of goodsData.attr()
+        goodsData.removeAttr(k)
+
+      for k, v of listData.attr()
+        listData.removeAttr(k)
+
       new base('', data) if !can.base
 
       this.element.html can.view('../../public/view/home/goodsOut/goodsCreate.html', goodsData)
@@ -146,7 +152,9 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         return if !$('#goodsOutCreate').valid()
 
         currentData.count = $('#goodCount')[0].value
+
         old = listData.attr(currentData.id)
+        console.log old
 
         if old
           currentData.count = parseInt(old.count) + parseInt(currentData.count)
@@ -159,7 +167,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
         $('#goodsOutList').datagrid('render', {total:vs.length, data:vs})
 
-        # $('#goodSelector')[0].value = ''
+        $('#inventorySelector')[0].value = ''
         $('#goodCount')[0].value = 1
 
       $('#printGoodsList').unbind 'click'
@@ -170,6 +178,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#createGoodsList').bind 'click', ()->
         return if !$('#goodsOutCreate').valid()
 
+        saveDate = goodsData.attr('date')
         goodsData.attr('date', Date.parse(goodsData.attr('date')))
         goodsData.attr('companyVo', Auth.user().companyVo)
         goodsData.attr('creatorVo', Auth.user())
@@ -186,10 +195,19 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         $.postJSON(url, goodsData.attr(),
           (data)->
             if data.status == 0
+              for k, v of goodsData.attr()
+                goodsData.removeAttr(k)
+
+              for k, v of listData.attr()
+                listData.removeAttr(k)
+
+              $('#consigneeSelector').val ''
               goodsData.attr({})
               listData.attr({})
               jAlert "新增出货单成功！", "提示"
+              window.location.hash = '#!home/goodsOut/goodsOutView'
             else
+              goodsData.attr 'date', saveDate
               jAlert "#{data.message}", "提示"
           (data)->
             jAlert "错误", data.responseText

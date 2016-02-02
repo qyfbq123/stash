@@ -1,7 +1,7 @@
 
 define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'validate', 'datagrid_plugin', 'imageView', 'autocomplete'], (base, can, Control, Auth, localStorage)->
   brandData = new can.Map()
-  selCompanyId = ''
+  # selCompanyId = ''
 
   return Control.extend
     init: (el, data)->
@@ -133,19 +133,24 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         ]
       })
 
-      $('#stockList').datagrid( "filters", $('#filterSelector'));
+      # $('#stockList').datagrid( "filters", $('#filterSelector'));
+      $('#select').bind 'click', ()->
+        $('#stockList').datagrid 'fetch', $('#filterSelector').serializeObject()
 
       $('#goodSel').autocomplete({
         minChars:0
         serviceUrl: "#{Auth.apiHost}goods/all"
         paramName: 'factor'
-        params:{companyId:()->selCompanyId || ''}
+        params:{companyId:()->$('#companyId').val() || ''}
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
           suggestions: _.map(response.data, (it)-> {value:"#{it.sku} --- #{it.name}", data: it.id})
+        onSearchStart: (query)->
+            $('#goodsId').val ''
         onSelect: (suggestion)->
-          $('#stockList').datagrid( "fetch", {goodsId: suggestion.data});
+          # $('#stockList').datagrid( "fetch", {goodsId: suggestion.data});
+          $('#goodsId').val suggestion.data
       })
       if(Auth.user().companyVo.issystem)
         $('#companySel').autocomplete({
@@ -156,24 +161,31 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           transformResult: (response, originalQuery)->
             query: originalQuery
             suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
+          onSearchStart: (query)->
+            $('#companyId').val ''
           onSelect: (suggestion)->
-            $('#stockList').datagrid( "fetch", {companyId:suggestion.data});
-            selCompanyId = suggestion.data
+            # $('#stockList').datagrid( "fetch", {companyId:suggestion.data});
+            $('#companyId').val suggestion.data
+            # selCompanyId = suggestion.data
         });
         $('#companySel').bind 'change',  ()->
-          selCompanyId = '' if !$('#companySel')[0].value
+          $('#locationSelector').autocomplete()
+        #   selCompanyId = '' if !$('#companySel')[0].value
       else $('#filterSelector .companySel').empty()
       $('#locationSelector').autocomplete({
         minChars:0
         serviceUrl: "#{Auth.apiHost}location/allbyname"
         paramName: 'name'
-        params:{companyId:()->selCompanyId || ''}
+        params:{companyId:()->$('#companyId').val() || ''}
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
           suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
+        onSearchStart: (query)->
+            $('#locationId').val ''
         onSelect: (suggestion)->
-          $('#stockList').datagrid( "fetch", {locationId:suggestion.data});
+          # $('#stockList').datagrid( "fetch", {locationId:suggestion.data});
+          $('#locationId').val suggestion.data
       })
 
       $('#addCheck').unbind 'click'
@@ -184,5 +196,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         newCheckList = _.union(oldCheckList, selectedItems)
         newCheckList = _.uniq newCheckList, (it)-> it.id
         localStorage.set 'checkList', newCheckList
+
+        jAlert '成功添加！'
         console.log newCheckList
 

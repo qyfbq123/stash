@@ -20,7 +20,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
           el = $('#roleSelector').tokenize({
             displayDropdownOnFocus: true
             onAddToken: (value, text, e)->
-              selectedRole = _.union selectedRole, [id:value]
+              selectedRole = _.uniq _.union(selectedRole, [id:value]), false, _.property('id')
               userInfo.attr('roleVoList', selectedRole)
             onRemoveToken: (value, e)->
               selectedRole = _.reject selectedRole, (it)-> it.id == value
@@ -41,11 +41,14 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
           userInfo.removeAttr(k)
         localStorage.rm 'tmpUserInfo'
       else
+        $('input[name="password"').removeAttr 'required'
+        $('input[name="password"').attr 'placeholder', '留空不修改'
         tmpUserInfo = localStorage.get 'tmpUserInfo'
 
         if tmpUserInfo
           $('#companySelector').attr('disabled', 'disabled')
-          selectedRole = _.map(tmpUserInfo.roleVoList, (it)->id: it.id)
+          $('#companySelector').val(tmpUserInfo.companyVo.name)
+          selectedRole = _.map(tmpUserInfo.roleVoList, (it)->id: (it.id + '') )
           userInfo.attr(tmpUserInfo);
           userInfo.attr('companyVo', {id:tmpUserInfo.companyVo.id})
 
@@ -64,17 +67,16 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
         userInfo.attr('roleVoList', _.uniq(userInfo.attr('roleVoList'), (role)-> parseInt(role.id)))
 
         success = (data)->
-          for k, v of userInfo.attr()
-            userInfo.removeAttr(k)
-
           if data.status == 0
+            for k, v of userInfo.attr()
+              userInfo.removeAttr(k)
             localStorage.rm 'tmpUserInfo'
             userInfo.attr({})
             if !tmpUserInfo
               jAlert "新增用户成功！", "提示"
             else
               jAlert "更新用户成功！", "提示"
-            window.location.hash = '#!home/company/userAdd'
+            window.location.hash = '#!home/company/userView'
           else
             jAlert "#{data.message}", "提示"
 
@@ -86,6 +88,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
       # 非系统用户只可以使用本公司
       if Auth.user().companyVo.issystem != 1
         $('#companySelector').attr('disabled', 'disabled')
+        $('#companySelector').val(Auth.user().companyVo.name)
         userInfo.attr('companyVo', {id:Auth.user().companyVo.id})
         getRole(Auth.user().companyVo.id)
       else

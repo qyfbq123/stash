@@ -54,12 +54,13 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
         $.postJSON(url, locationData.attr(),
           (data)->
-            for k, v of locationData.attr()
-              locationData.removeAttr(k)
 
             if data.status == 0
+              for k, v of locationData.attr()
+                locationData.removeAttr(k)
               locationData.attr({})
               if isNewLocation then jAlert "新增库位成功！", "提示" else jAlert "修改库位成功！", "提示"
+              window.location.hash = '#!home/location/locationView'
             else
               jAlert "#{data.message}", "提示"
           (data)->

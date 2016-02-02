@@ -74,25 +74,30 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
 
       doUpload = (id)->
         jConfirm '上传商品图片？', '提示', (yeOrNo)->
-          $("#filePicker").fileinput({
-            language: 'zh'
-            maxFileCount: 10
-            minImageWidth: 10
-            minImageHeight: 10
-            maxFileSize: 5 * 1024
-            uploadUrl: "#{Auth.apiHost}goods/photo/upload?goodsId=#{id}"
-            allowedFileExtensions: ["jpeg", "jpg", "png", "gif"]
-            slugCallback: (name)-> name
-          });
-          $('#filePicker').on 'filebatchuploadsuccess', ()->
-            dataData.attr({})
-            jAlert '图片上传成功！', '提示'
-            # switchStep 1
 
-          $('#filePicker').on 'filebatchuploaderror', ()->
-            jAlert '图片上传失败！', '提示'
+          if yeOrNo
+            $("#filePicker").fileinput({
+              language: 'zh'
+              maxFileCount: 10
+              minImageWidth: 10
+              minImageHeight: 10
+              maxFileSize: 5 * 1024
+              uploadUrl: "#{Auth.apiHost}goods/photo/upload?goodsId=#{id}"
+              allowedFileExtensions: ["jpeg", "jpg", "png", "gif"]
+              slugCallback: (name)-> name
+            });
+            $('#filePicker').on 'filebatchuploadsuccess', ()->
+              dataData.attr({})
+              jAlert '图片上传成功！', '提示'
+              window.location.hash = '#!home/stocksproducts/stockItemView'
+              # switchStep 1
 
-          switchStep 2
+            $('#filePicker').on 'filebatchuploaderror', ()->
+              jAlert '图片上传失败！', '提示'
+
+            switchStep 2
+          else
+            window.location.hash = '#!home/stocksproducts/stockItemView'
 
       $('#createStockItem').unbind 'click'
       $('#createStockItem').bind 'click', ()->
@@ -102,16 +107,17 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
         url = Auth.apiHost + if isNew then 'goods/create' else 'goods/update'
         $.postJSON(url, dataData.attr(),
           (data)->
-            for k, v of dataData.attr()
-              dataData.removeAttr(k)
 
             if data.status == 0
+              for k, v of dataData.attr()
+                dataData.removeAttr(k)
               dataData.attr({})
               if isNew
                 jAlert "新增商品成功！", "提示"
                 doUpload(data.data.id)
               else
                 jAlert "更新商品成功！", "提示"
+                window.location.hash = '#!home/stocksproducts/stockItemView'
             else
               jAlert "#{data.message}", "提示"
           (data)->
