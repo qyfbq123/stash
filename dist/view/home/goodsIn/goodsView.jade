@@ -1,0 +1,50 @@
+form#filterSelector
+  input.round.default-width-input#factor(type='text', name='factor', placeholder='搜索订单编号、备注...')
+  .companySel(style="display:inline")
+    span.width40 　　 
+    span 公司：
+    input.round.default-width-input#companyId(type='text', placeholder='请选择...')
+    input#companyIdVal(type='hidden', name='companyId')
+  span.width40 　　 
+  span 供应商：
+  input.round.default-width-input#supplierId(type='text', placeholder='请选择...')
+  input#supplierIdVal(type='hidden', name='supplierId')
+  input#select.my_button.round.blue.text-upper(type='button', name='select', value='搜索', style='margin-left:5px;')
+
+#listDetail
+  .col-md-offset-7.col-md-5
+    button.pull-right.button.round.blue.image-right.ic-left-arrow#backList 返回列表
+    button.pull-right.button.round.blue.image-right.ic-left-arrow#printList 打印清单
+
+  .col-md-12
+    p.text-center
+      font(size="4", color='black') 进货单
+    form.col-md-offset-1
+      table.form
+        tr
+          td
+            div.width80 订单编号：
+          td
+            label#billnumber
+        tr
+          td
+            div.width80 下单时间：
+          td
+            label#createAt
+          td
+            div.width80 预计入库：
+          td
+            label#goodsInDate
+        tr
+          td
+            div.width80 供应商：
+          td
+            label#supplier
+          td
+            div.width80 备注：
+          td
+            label#desc
+
+    #gridDetail
+
+#goodsInList

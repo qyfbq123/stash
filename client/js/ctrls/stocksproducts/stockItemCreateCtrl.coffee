@@ -85,14 +85,13 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
               uploadUrl: "#{Auth.apiHost}goods/photo/upload?goodsId=#{id}"
               allowedFileExtensions: ["jpeg", "jpg", "png", "gif"]
               slugCallback: (name)-> name
-            });
-            $('#filePicker').on 'filebatchuploadsuccess', ()->
+            })
+            .on 'filebatchuploadsuccess', ()->
               dataData.attr({})
               jAlert '图片上传成功！', '提示'
               window.location.hash = '#!home/stocksproducts/stockItemView'
               # switchStep 1
-
-            $('#filePicker').on 'filebatchuploaderror', ()->
+            .on 'filebatchuploaderror', ()->
               jAlert '图片上传失败！', '提示'
 
             switchStep 2

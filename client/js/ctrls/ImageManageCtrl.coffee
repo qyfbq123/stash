@@ -11,7 +11,7 @@ deleteImages = (image)->
 
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imageView', 'fileInputZh'], (Ctrl, can, Auth, base)->
   return Ctrl.extend
-    init: (el, data)->
+    init: (el, imageData)->
       this.element.html can.view('../../public/view/home/ImageManager.html', {})
 
       $("#uploadImg").fileinput({
@@ -19,42 +19,48 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         maxFileCount: 10
         minImageWidth: 10
         minImageHeight: 10
-        uploadUrl: "#{Auth.apiHost}goods/photo/upload?goodsId=#{data.id}"
+        uploadAsync: false
+        uploadUrl: "#{Auth.apiHost}goods/photo/upload?goodsId=#{imageData.id}"
         allowedFileExtensions: ["jpeg", "jpg", "png", "gif"]
         slugCallback: (name)-> name
-      });
-
-      $('#filePicker').on 'filebatchuploadsuccess', ()->
-        dataData.attr({})
+      })
+      .on 'filebatchuploadsuccess', (event, data)->
+        id = data.jqXHR.responseJSON.data.id
+        path = "#{Auth.apiHost}goods/photo?path=#{data.jqXHR.responseJSON.data.path}"
+        imageData.imgs.push {id, path, uploadDate: Date.now()}
+        $('#imageList').datagrid('render', {data: imageData.imgs})
+        $("#uploadImg").fileinput('clear')
         jAlert '图片上传成功！', '提示'
-
-      $('#filePicker').on 'filebatchuploaderror', ()->
+      .on 'filebatchuploaderror', ()->
         jAlert '图片上传失败！', '提示'
 
-      datagrid = $('#imageList').datagrid({
-        data: data.imgs
-        attr: "class": "table table-bordered table-striped"
-        pager: "bootstrap",
-        noData: '无数据'
-        sorter: "bootstrap"
-        paramsDefault: {paging:10}
-        col:[{
-            field: 'path'
-            title: '路径'
-            render: (data)-> "<a href=#{data.value} id='imageManager#{data.row.id}'><img class='imgView' src=#{data.value}></img></a>"
-          },{
-            field: 'uploadDate'
-            title: '上传日期'
-            render: (data)-> new Date(data.value).toLocaleString()
-          },{
-            field: ''
-            title: '删除'
-            render: (data)-> "<a href='javascript:deleteImages(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
-          }
-        ]
-      })
+      render = ()->
+        datagrid = $('#imageList').datagrid({
+          data: imageData.imgs
+          attr: "class": "table table-bordered table-striped"
+          pager: "bootstrap",
+          noData: '无数据'
+          sorter: "bootstrap"
+          paramsDefault: {paging:10}
+          col:[{
+              field: 'path'
+              title: '路径'
+              render: (data)-> "<a href=#{data.value} id='imageManager#{data.row.id}'><img class='imgView' src=#{data.value}></img></a>"
+            },{
+              field: 'uploadDate'
+              title: '上传日期'
+              render: (data)-> new Date(data.value).toLocaleString()
+            },{
+              field: ''
+              title: '删除'
+              render: (data)-> "<a href='javascript:deleteImages(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+            }
+          ]
+        })
+      render()
 
       $('#backToStockView').unbind 'click'
       $('#backToStockView').bind 'click', ()=>
         $('#imageManager').empty()
         $('#stockItemList').attr('style', 'display:block;')
+        $('#filterSelector').attr('style', 'display:block;')

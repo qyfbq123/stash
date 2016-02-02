@@ -1,0 +1,59 @@
+
+.item {
+  width:100px;
+  height: 30px;
+  min-height: 30px;
+  min-width: 100px;
+  text-align:center;
+  color: rgb(23, 132, 105);
+  background-color: rgb(23, 132, 105);
+}
+
+/*.itemCur {
+  width:100px;
+  height: 30px;
+  min-height: 30px;
+  min-width: 100px;
+}*/
+
+.height320{
+  height: 320px;
+}
+
+/* autoComplete styles */
+.autocomplete-suggestions {
+    text-align: left; cursor: default; border: 1px solid #ccc; border-top: 0; background: #fff; box-shadow: -1px 1px 3px rgba(0,0,0,.1);
+
+    /* core styles should not be changed */
+    position: absolute; display: none; z-index: 9999; max-height: 254px; overflow: hidden; overflow-y: auto; box-sizing: border-box;
+}
+.autocomplete-suggestion { position: relative; padding: 0 .6em; line-height: 23px; white-space: nowrap; overflow: hidden; font-size: 1.02em; color: #333; }
+.autocomplete-suggestion b { font-weight: normal; color: #1f8dd6; }
+.autocomplete-suggestion.selected { background: #f0f0f0; }
+
+.gallery {
+  list-style: none;
+}
+
+.gallery li {
+  float: left;
+  height: 30px;
+}
+
+.gallery img {
+  height: 100%;
+}
+
+.imgView {
+  height: 80px;
+}
+
+.btnImage{
+  height: 30px;
+  width: 30px;
+  background: transparent url('../images/directory.png') no-repeat center;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+  border-color: rgb(220, 220, 255);
+}

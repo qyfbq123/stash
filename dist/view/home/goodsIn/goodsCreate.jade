@@ -1,0 +1,46 @@
+
+#printArea
+  p &nbsp;&nbsp;&nbsp;&nbsp;
+  form#goodsInCreate
+    div
+      table.form
+        tr
+          td
+            div.width100 预计入库：
+          td
+            input.round.default-width-input#goodsInDate(type='text', can-value='date', name='date', required)
+          td
+            div.width100 供应商　：
+          td
+            input.round.default-width-input#supplierSelector(type='text', name='supplierVo', rangelength='2,10', required, placeholder='请选择...')
+          td
+            div.width60 备注：
+          td
+            input.round.default-width-input(type='text', can-value='desc', name='desc', rangelength='2,50')
+        tr
+          td(colspan=6)
+        tr
+          td(colspan=6)
+        tr
+          td
+            div.width100 商　　品：
+          td
+            input.round.default-width-input#goodSelector(type='text', placeholder='请选择...')
+          td
+            div.width100 放置库位：
+          td
+            input.round.default-width-input#locationSelector(type='text', name='location', placeholder='请选择...')
+          td
+            div.width60 数量：
+          td
+            input.round.default-width-input#goodCount(type='text', name='goodCount' ,value=1, min=1, number=true)
+
+  button.button.round.blue.image-right.ic-add.pull-right#addToGoodsList 添加到清单
+  p &nbsp;
+
+    #goodsInList
+  p &nbsp;
+
+  .row
+    button.button.round.blue.image-right.ic-add.pull-right#createGoodsList 保存
+    //- button.button.round.blue.image-right.ic-add.pull-right#printGoodsList 打印进货单

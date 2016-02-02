@@ -1,0 +1,21 @@
+div.collapse.navbar-collapse.page-full-width(role="navigation")
+  ul.nav.navbar-nav#tabs
+
+  ul.nav.navbar-nav.navbar-right
+    li
+      a 欢迎 {{username}}
+    li
+      a.round.image-left(href='#!logout') 退出
+
+div.fullHeight#currentWork
+  div.fullHeight#content
+    div.page-full-width.cf
+      div.side-menu.fl
+        h3 {{menuName}}
+        ul#menuList
+
+      div.side-content.fr
+        div.content-module-heading.cf
+          h3 {{childMenuName}}
+        div.content-module-main.cf
+          div#rightWorkspace

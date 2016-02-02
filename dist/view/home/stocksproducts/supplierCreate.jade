@@ -1,0 +1,62 @@
+
+p &nbsp;&nbsp;&nbsp;&nbsp;
+form#supplierCreate
+  .col-md-offset-2
+    table.form
+      tr
+        td
+          div.width100 供应商名称：
+        td
+          input.round.default-width-input(type='text', can-value='name', name='name', rangelength='2,10', required)
+        td
+          div.width100 供应商地址：
+        td
+          input.round.default-width-input(type='text', can-value='address', name='address', rangelength='2,50', required)
+      tr
+        td
+          div.width100 描述：
+        td
+          input.round.default-width-input(type='text', can-value='desc' name='desc')
+        td
+          div.width100
+        td
+          div.width100
+
+  p &nbsp;&nbsp;&nbsp;&nbsp;
+
+  .col-md-offset-2
+    table.form
+      tr
+        td
+          div.width100 联系人：
+        td
+          input.round.default-width-input(type='text', can-value='contactName', name='contactName' rangelength='2,10', required)
+        td
+          div.width100 联系人号码：
+        td
+          input.round.default-width-input(type='text', can-value='contactTel', name='contactTel' rangelength='2,15', required)
+      tr
+        td
+          div.width100 联系人邮箱：
+        td
+          input.round.default-width-input(type='text', can-value='contactEmail', name='contactEmail' email, required)
+        td
+          div.width100 联系人传真：
+        td
+          input.round.default-width-input(type='text', can-value='contactFax', name='contactFax' rangelength='2,15')
+      tr
+        td
+          div.width100 联系人QQ：
+        td
+          input.round.default-width-input(type='text', can-value='contactQq' name='contactQq', rangelength='2,15')
+        td
+          div.width100 联系人Skype：
+        td
+          input.round.default-width-input(type='text', can-value='contactMsn' name='contactMsn', rangelength='2,15')
+
+    textarea(placeholder='联系人描述...', can-value='contactDesc', style='margin: 0px; width: 797px; height: 73px;' name='contactDesc' rangelength='2,100')
+
+p &nbsp;
+
+.col-md-offset-10.col-md-2
+  button.button.round.blue.image-right.ic-add#createSupplier 保存

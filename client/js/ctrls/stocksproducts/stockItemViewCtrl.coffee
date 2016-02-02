@@ -1,6 +1,7 @@
 manageImgs = (data)->
   require ['imageManageCtrl'], (imageManageCtrl)->
     $('#stockItemList').attr('style', 'display:none;')
+    $('#filterSelector').attr('style', 'display:none;')
     new imageManageCtrl '#imageManager', data
 
 clickUpdateStock = (data)->
@@ -50,15 +51,16 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
               gallery:
                 enabled: true
             })
-
         parse: (data)->
           return {total:data.total, data: data.rows}
-        col:[{
-            field: 'locked'
-            title: '选择'
-            render: (data)->
-              "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
-          },{
+        col:[
+          # {
+          #   field: 'locked'
+          #   title: '选择'
+          #   render: (data)->
+          #     "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
+          # },
+          {
             attrHeader: { "style": "width:67px;"}
             field: ''
             title: '操作'
@@ -81,10 +83,15 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
               itemIds.push data.row.id
               imgs = _.map(data.value, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
               itemImgsInfo = {id: data.row.id, imgs: imgs}
-              html = ''
-              for img in imgs
-                html += "<li><a href='#{img.path}'><img src='#{img.path}'></a></li>"
 
+              _html = ''
+              count = 0
+              for img in imgs
+                count++
+                if count < 4
+                  _html += "<li><a href='#{img.path}'><img src='#{img.path}'></a></li>"
+                else
+                  _html += "<li style='display:none'><a href='#{img.path}'><img src='#{img.path}'></a></li>"
               html = "<ul class='gallery'>
                         <li>
                           <a title='图片管理' href='javascript:manageImgs(#{JSON.stringify(itemImgsInfo)});void(0);'>
@@ -93,7 +100,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
                         <li>
                         <li>
                           <ul id='photo#{data.row.id}' class='gallery'>
-                            #{html}
+                            #{_html}
                           </ul>
                         </li>
                       </ul>"
@@ -118,7 +125,6 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
                 "<p>品牌名称&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
                 "<p>创建时间&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.created}</p>" +
                 "<p>最近修改&nbsp;&nbsp;&nbsp;&nbsp;#{if data?.value?.modfied then new Date(data?.value?.modfied).toLocaleString() else '无'}</p>"
-
               "<a href=\"javascript:jAlert('#{info}', '品牌信息');void(0);\">#{data?.value?.name}</a>"
           },{
             field: 'categoryVo'
@@ -127,7 +133,6 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
               info =
                 "<p>种类名称&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
                 "<p>种类描述&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.desc}</p>"
-
               "<a href=\"javascript:jAlert('#{info}', '种类信息');void(0);\">#{data?.value?.name}</a>"
           }
         ]
