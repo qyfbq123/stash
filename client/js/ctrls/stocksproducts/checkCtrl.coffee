@@ -54,6 +54,11 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
 
             doCheck id
         col:[{
+            field: 'op'
+            title: '操作'
+            render: (data)->
+              "<a href='javascript:clickDeleteGoods(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+          }, {
             field: 'goodsVo'
             title: 'SKU'
             render: (data)->

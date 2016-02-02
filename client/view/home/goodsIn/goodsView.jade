@@ -1,12 +1,15 @@
 form#filterSelector
-  input.round.default-width-input#factor(type='text', name='factor', placeholder='搜索...')
+  input.round.default-width-input#factor(type='text', name='factor', placeholder='搜索订单编号、备注...')
   .companySel(style="display:inline")
     span.width40 　　 
     span 公司：
-    input.round.default-width-input#companyId(type='text', name='companyId')
+    input.round.default-width-input#companyId(type='text', placeholder='请选择...')
+    input#companyIdVal(type='hidden', name='companyId')
   span.width40 　　 
   span 供应商：
-  input.round.default-width-input#supplierId(type='text', name='supplierId')
+  input.round.default-width-input#supplierId(type='text', placeholder='请选择...')
+  input#supplierIdVal(type='hidden', name='supplierId')
+  input#select.my_button.round.blue.text-upper(type='button', name='select', value='搜索', style='margin-left:5px;')
 
 #listDetail
   .col-md-offset-7.col-md-5

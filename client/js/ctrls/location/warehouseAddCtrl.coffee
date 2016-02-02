@@ -24,12 +24,13 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         url = Auth.apiHost + if isNew then 'location/warehouse/create' else 'location/warehouse/update'
         $.postJSON(url, warehouseData.attr(),
           (data)->
-            for k, v of warehouseData.attr()
-              warehouseData.removeAttr(k)
-
             if data.status == 0
+
+              for k, v of warehouseData.attr()
+                warehouseData.removeAttr(k)
               warehouseData.attr({})
               if isNew then jAlert "新增仓库成功！", "提示" else jAlert "更新仓库成功！", "提示"
+              window.location.hash = '#!home/location/warehouseView'
             else
               jAlert "#{data.message}", "提示"
           (data)->

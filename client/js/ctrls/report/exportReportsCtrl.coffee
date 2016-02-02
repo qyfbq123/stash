@@ -75,6 +75,8 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         transformResult: (response, originalQuery)->
           query: originalQuery
           suggestions: _.map(response.data, (it)->{value:it.name, data: it})
+        onSearchStart: (query)->
+          opt.companyId = ''
         onSelect: (suggestion)->
           opt.companyId = suggestion.data.id
       })
@@ -84,9 +86,12 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         serviceUrl: "#{Auth.apiHost}goods/all"
         paramName: 'name'
         dataType: 'json'
+        params: {companyId: -> opt.companyId || ''}
         transformResult: (response, originalQuery)->
           query: originalQuery
-          suggestions: _.map(response.data, (it)->{value:it.name, data: it})
+          suggestions: _.map(response.data, (it)->{value:"#{it.sku} --- #{it.name}", data: it})
+        onSearchStart: (query)->
+          opt.goodsId = ''
         onSelect: (suggestion)->
           opt.goodsId = suggestion.data.id
       })

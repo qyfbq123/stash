@@ -163,7 +163,7 @@ clickListDetail1 = (data)->
 
 
 define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', 'autocomplete'], (Ctrl, can, Auth, base)->
-  selCompanyId = ''
+  # selCompanyId = ''
   return Ctrl.extend
     init: (el, data)->
       if !can.base
@@ -181,12 +181,14 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
         paramsDefault: {paging:10}
         parse: (data)->
           return {total:data.total, data: data.rows}
-        col:[{
-            field: 'locked'
-            title: '选择'
-            render: (data)->
-              "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
-          }, {
+        col:[
+          # {
+          #   field: 'locked'
+          #   title: '选择'
+          #   render: (data)->
+          #     "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
+          # },
+          {
             field: 'billnumber'
             title: '订单编号'
             render: (data)->
@@ -195,7 +197,9 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             field: ''
             title: '操作'
             render: (data)->
-              "<a href='javascript:clickDeleteGoodOutList(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+              if Auth.userIsAdmin() || Auth.user().id == data.row.creatorVo.id
+                switch data.row.status
+                  when 'started' then return "<a href='javascript:clickDeleteGoodOutList(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'created'
             title: '创建时间'
@@ -263,19 +267,24 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
           }
         ]
       })
-      $('#goodsOutList').datagrid( "filters", $('#filterSelector'));
+      $('#select').bind 'click', ()->
+        $('#goodsOutList').datagrid 'fetch', $('#filterSelector').serializeObject()
+      # $('#goodsOutList').datagrid( "filters", $('#filterSelector'));
 
       $('#consigneeId').autocomplete({
         minChars:0
         serviceUrl: "#{Auth.apiHost}goods/consignee/allbyname"
         paramName: 'name'
-        params: {companyId:()->selCompanyId || ''}
+        params: {companyId:()->$('#companyIdVal').val() || ''}
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
           suggestions: _.map(response.data, (it)-> {value:it.name, data: it.id})
+        onSearchStart: (query)->
+          $('#consigneeIdVal').val ''
         onSelect: (suggestion)->
-          $('#goodsOutList').datagrid( "fetch", {consigneeId:suggestion.data, factor:$('#factor')[0].value});
+          # $('#goodsOutList').datagrid( "fetch", {consigneeId:suggestion.data, factor:$('#factor')[0].value});
+          $('#consigneeIdVal').val suggestion.data
       })
 
       if(Auth.user().companyVo.issystem)
@@ -287,14 +296,15 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
           transformResult: (response, originalQuery)->
             query: originalQuery
             suggestions: _.map(response.data, (it)->{value:it.name, data: it.id})
+          onSearchStart: (query)->
+            $('#companyIdVal').val ''
           onSelect: (suggestion)->
-            $('#goodsOutList').datagrid( "fetch", {companyId:suggestion.data, factor:$('#factor')[0].value});
-            selCompanyId = suggestion.data
-            $('#consigneeId').autocomplete();
+            # $('#goodsOutList').datagrid( "fetch", {companyId:suggestion.data, factor:$('#factor')[0].value});
+            # selCompanyId = suggestion.data
+            # $('#consigneeId').autocomplete();
+            $('#companyIdVal').val suggestion.data
         });
-        $('#companyId').bind 'change',  ()->
-          selCompanyId = '' if !$('#companyId')[0].value
+        $('#companyIdVal').bind 'change',  ()->
+          # selCompanyId = '' if !$('#companyId')[0].value
           $('#consigneeId').autocomplete();
       else $('#filterSelector .companySel').empty()
-
-      $('#goodsInList').datagrid( "filters", $('#filterSelector'));

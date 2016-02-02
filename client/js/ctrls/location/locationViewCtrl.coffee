@@ -28,12 +28,14 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
         new base('', data)
       this.element.html can.view('../../public/view/home/location/locationView.html', locationData)
 
-      cols = [{
-          field: 'locked'
-          title: '选择'
-          render: (data)->
-            "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
-        },{
+      cols = [
+        # {
+        #   field: 'locked'
+        #   title: '选择'
+        #   render: (data)->
+        #     "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
+        # },
+        {
           field: 'name'
           title: '库位名称'
         }, {
@@ -73,18 +75,21 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
             "<a href=\"javascript:jAlert('#{info}', '仓库信息');void(0);\">#{data?.value?.name}</a>"
         },{
           field: 'companyVo'
-          title: '公司信息'
+          title: '使用公司'
           render: (data)->
-            info =
-              "<p>公司名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
-              "<p>公司地址&nbsp;&nbsp;&nbsp;#{data?.value?.address}</p>" +
-              "<p>联系人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactName}</p>" +
-              "<p>联系号码&nbsp;&nbsp;&nbsp;#{data?.value?.contactTel}</p>" +
-              "<p>联系邮箱&nbsp;&nbsp;&nbsp;#{data?.value?.contactEmail}</p>" +
-              "<p>联系QQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactQq}</p>" +
-              "<p>联系传真&nbsp;&nbsp;&nbsp;#{data?.value?.contactFax}</p>" +
-              "<p>联系Skype&nbsp;&nbsp;&nbsp;#{data?.value?.contactMsn}</p>"
-            "<a href=\"javascript:jAlert('#{info}', '公司信息');void(0);\">#{data?.value?.name}</a>"
+            if data?.value
+              info =
+                "<p>公司名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
+                "<p>公司地址&nbsp;&nbsp;&nbsp;#{data?.value?.address}</p>" +
+                "<p>联系人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactName}</p>" +
+                "<p>联系号码&nbsp;&nbsp;&nbsp;#{data?.value?.contactTel}</p>" +
+                "<p>联系邮箱&nbsp;&nbsp;&nbsp;#{data?.value?.contactEmail}</p>" +
+                "<p>联系QQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactQq}</p>" +
+                "<p>联系传真&nbsp;&nbsp;&nbsp;#{data?.value?.contactFax}</p>" +
+                "<p>联系Skype&nbsp;&nbsp;&nbsp;#{data?.value?.contactMsn}</p>"
+              "<a href=\"javascript:jAlert('#{info}', '公司信息');void(0);\">#{data?.value?.name}</a>"
+            else
+              '无'
         }
       ]
 
@@ -110,7 +115,9 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
         col: cols
       })
 
-      $('#locationList').datagrid( "filters", $('#filterSelector'));
+      # $('#locationList').datagrid( "filters", $('#filterSelector'));
+      $('#select').bind 'click', ()->
+        $('#locationList').datagrid 'fetch', $('#filterSelector').serializeObject()
 
       $('#warehouseSelector').autocomplete({
         minChars:0
@@ -120,6 +127,9 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
         transformResult: (response, originalQuery)->
           query: originalQuery
           suggestions: _.map(response.data, (it)-> {value:it.name, data: it})
+        onSearchStart: (query)->
+          $('#warehouseId').val ''
         onSelect: (suggestion)->
-          $('#locationList').datagrid( "fetch", {warehouseId:suggestion.data.id, factor:$('#factor')[0].value, unused:!!$('#unusedSelector')[0].value});
+          # $('#locationList').datagrid( "fetch", {warehouseId:suggestion.data.id, factor:$('#factor')[0].value, unused:!!$('#unusedSelector')[0].value});
+          $('#warehouseId').val suggestion.data.id
       });

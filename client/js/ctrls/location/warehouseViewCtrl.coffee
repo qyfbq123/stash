@@ -37,12 +37,14 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
         paramsDefault: {paging:10}
         parse: (data)->
           return {total:data.total, data: data.rows}
-        col:[{
-            field: 'locked'
-            title: '选择'
-            render: (data)->
-              "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
-          },{
+        col:[
+          # {
+          #   field: 'locked'
+          #   title: '选择'
+          #   render: (data)->
+          #     "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
+          # },
+          {
             attrHeader: { "style": "width:67px;"}
             field: ''
             title: '操作'
@@ -80,4 +82,6 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
         ]
       })
 
-      $('#warehouseList').datagrid( "filters", $('#filterSelector'));
+      # $('#warehouseList').datagrid( "filters", $('#filterSelector'));
+      $('#select').bind 'click', ()->
+        $('#warehouseList').datagrid 'fetch', $('#filterSelector').serializeObject()

@@ -6,11 +6,11 @@ form#stockItemCreate
         td.company
           div.width80 公司名称：
         td.company
-          input.round.default-width-input#companySelector(type='text', name='companyId')
+          input.round.default-width-input#companySelector(type='text', name='companyId',placeholder='请选择...')
         td.goods
-          div.width80 商品名称：
+          div.width80 商品：
         td.goods
-          input.round.default-width-input#goodSelector(type='text', name='goodsId')
+          input.round.default-width-input#goodSelector(type='text', name='goodsId',placeholder='请选择...')
       tr
         td.startAt
           div.width80 开始时间：
@@ -28,7 +28,7 @@ form#stockItemCreate
         td.factor
           div.width80 库存筛选：
         td.factor
-          input.round.default-width-input#factor(type='text', name='factor')
+          input.round.default-width-input#factor(type='text', name='factor', placeholder='按SKU、商品名、库位筛选...')
 
 .col-md-offset-10.col-md-2
   button.button.round.blue.image-right.ic-add#startExportBtn 导出报表

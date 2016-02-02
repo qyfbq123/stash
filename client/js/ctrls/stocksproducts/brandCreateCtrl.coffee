@@ -25,11 +25,13 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         url = Auth.apiHost + if isNew then 'goods/brand/create' else 'goods/brand/update'
         $.postJSON(url, brandData.attr(),
           (data)->
-            for k, v of brandData.attr()
-              brandData.removeAttr(k)
 
             if data.status == 0
+
+              for k, v of brandData.attr()
+                brandData.removeAttr(k)
               if isNew then jAlert "新增品牌成功！", "提示" else jAlert "更新品牌成功！", "提示"
+              window.location.hash = '#!home/stocksproducts/brandView'
             else
               jAlert "#{data.message}", "提示"
           (data)->

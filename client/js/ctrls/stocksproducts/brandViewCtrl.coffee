@@ -50,7 +50,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
               "<a href='javascript:clickDeleteBrand(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
-            title: '商品名'
+            title: '品牌名'
           },{
             field: 'created'
             title: '创建时间'
@@ -77,4 +77,6 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
         ]
       })
 
-      $('#brandList').datagrid( "fetch", {factor:$('#factor')[0].value});
+      # $('#brandList').datagrid( "fetch", {factor:$('#factor')[0].value});
+      $('#select').bind 'click', ()->
+        $('#brandList').datagrid 'fetch', $('#filterSelector').serializeObject()

@@ -209,7 +209,8 @@ p a, p a:hover { border-bottom: 1px dotted; }
 
 /* ---------- WIDTHS ---------- */
 /* Form Inputs Style */
-.default-width-input { width: 20.833em; /* Default Value. Equals 250px for the 12px font size */ }
+/*.default-width-input { width: 20.833em; * Default Value. Equals 250px for the 12px font size *}*/
+.default-width-input { width: 14.833em; }
 
 .full-width-input { width: 95%; }
 

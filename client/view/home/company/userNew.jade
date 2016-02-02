@@ -5,7 +5,7 @@ form#userNew
     table.form
       tr
         td
-          div.width80 姓名：
+          div.width80 用户名：
         td
           input.round.default-width-input(type='text', can-value='username' name='username' rangelength='2,10' required)
         td
@@ -29,12 +29,12 @@ form#userNew
         td
           div.width80 所属公司：
         td
-          input.round.default-width-input#companySelector(type='text')
+          input.round.default-width-input#companySelector(type='text', placeholder='请选择...')
       tr
         td
           div.width80 所属角色：
         td
-          select.round.default-width-input#roleSelector(multiple="multiple"  name='role' required)
+          select.round.default-width-input#roleSelector(multiple="multiple", name='role', required, placeholder='请选择...')
 
 
 

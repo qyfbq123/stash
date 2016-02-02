@@ -1,7 +1,7 @@
 
 define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
-  apiHost = 'http://192.168.1.9:8080/';
-  # apiHost = 'http://localhost:8080/';
+  # apiHost = 'http://192.168.1.8:8080/';
+  apiHost = 'http://localhost:8080/';
   isLogining = false
 
   return {
@@ -39,4 +39,10 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
       return Boolean(localStorage.get('logined'));
     user: ()->
       return localStorage.get('user');
+    userIsAdmin: () ->
+      if userInfo = localStorage.get('user')
+        if userInfo.roleVoList and Array.isArray userInfo.roleVoList
+          for k, v of userInfo.roleVoList
+            return true if v.name == '管理员'
+      return false
   }
