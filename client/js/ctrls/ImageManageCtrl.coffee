@@ -25,8 +25,8 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
         slugCallback: (name)-> name
       })
       .on 'filebatchuploadsuccess', (event, data)->
-        id = data.jqXHR.responseJSON.data.id
-        path = "#{Auth.apiHost}goods/photo?path=#{data.jqXHR.responseJSON.data.path}"
+        id = data.response.data.id
+        path = "#{Auth.apiHost}goods/photo?path=#{data.response.data.path}"
         imageData.imgs.push {id, path, uploadDate: Date.now()}
         $('#imageList').datagrid('render', {data: imageData.imgs})
         $("#uploadImg").fileinput('clear')
