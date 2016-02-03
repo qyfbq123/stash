@@ -1,6 +1,6 @@
 
 define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
-  apiHost = 'http://192.168.1.8:8080/';
+  apiHost = 'http://192.168.1.4:8080/';
   # apiHost = 'http://localhost:8080/';
   isLogining = false
 

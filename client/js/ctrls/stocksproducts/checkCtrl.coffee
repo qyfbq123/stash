@@ -84,7 +84,6 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
           }, {
             field: 'goodsVo'
             title: '商品图片'
-            attrHeader: { "style": "width:40%;"},
             render: (data)->
               itemIds.push data.row.id
               imgs = _.map(data?.value?.photos, (img)->img.path = "#{img.path}"; img)

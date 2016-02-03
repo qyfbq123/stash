@@ -63,23 +63,17 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
           },{
             field:'contactName'
             title:'联系人'
-          },{
-            field: 'contactTel'
-            title: '联系人号码'
-          },{
-            field: 'contactEmail'
-            title: '联系人邮箱'
-          },{
-            field: 'contactMsn'
-            title: '联系人Skype'
-          },{
-            field: 'contactFax'
-            title: '联系人传真'
-          },{
-            field: 'contactDesc'
-            title: '联系人描述'
-          }
-        ]
+            render: (data)->
+              info =
+                "<p>联系人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.row?.contactName ||''}</p>" +
+                "<p>联系号码&nbsp;&nbsp;&nbsp;#{data?.row?.contactTel || ''}</p>" +
+                "<p>联系邮箱&nbsp;&nbsp;&nbsp;#{data?.row?.contactEmail || ''}</p>" +
+                "<p>联系QQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.row?.contactQq || ''}</p>" +
+                "<p>联系传真&nbsp;&nbsp;&nbsp;#{data?.row?.contactFax || ''}</p>" +
+                "<p>联系Skype&nbsp;&nbsp;&nbsp;#{data?.row?.contactMsn || ''}</p>" +
+                "<p>联系人描述&nbsp;&nbsp;&nbsp;#{data?.row?.contactDesc || ''}</p>"
+              "<a href=\"javascript:jAlert('#{info}', '联系人信息');void(0);\">#{data.value}</a>"
+        }]
       })
 
       # $('#warehouseList').datagrid( "filters", $('#filterSelector'));
