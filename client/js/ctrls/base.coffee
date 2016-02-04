@@ -5,5 +5,5 @@ define ['can', 'can/control', 'homeCtrl', 'Auth', 'localStorage', '_'], (can, Co
       menus = localStorage.get('menus')
       currentMenu = _.find(menus, (item)-> item.url == data.id)
 
-      can.home = new homeCtrl('body', {}) if !can.home
+      can.home ?= new homeCtrl('body', {})
       can.home.updateChildMenu currentMenu

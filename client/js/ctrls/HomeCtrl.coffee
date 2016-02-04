@@ -65,14 +65,15 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
         childMenuName = if hit and hit.name then hit.name else '工作区域'
         homePageData.attr('childMenuName', childMenuName)
 
-      $.get(Auth.apiHost + 'user/menu', (data, status)=>
+      success = (data)->
         if parseInt(data.status) != 0
           jAlert('获取菜单失败 ' + data.message, '错误');
-          Auth.logout()
+          # Auth.logout()
           return;
-
         genMenu(data.data);
-      ).fail ()->
+      failed = (error)->
+        console.error error
+      $.getJSON Auth.apiHost + 'user/menu', {}, success, failed
 
     updateChildMenu: (data)->
       data ?= {}
