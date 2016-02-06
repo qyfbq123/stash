@@ -35,8 +35,11 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
     logout: ()->
       localStorage.remove('logined');
       localStorage.remove('user');
+
+      localStorage.remove('menu');
       localStorage.remove('checkList');
       document.cookie = ''
+      $.getJSON(apiHost + 'main/logout', ->)
       window.location.hash = '!login'
     logined: ()->
       return Boolean(localStorage.get('logined'));

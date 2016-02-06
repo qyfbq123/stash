@@ -86,6 +86,8 @@ require.config
     dateTimePicker: ['$']
 
 require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
+  $.ajaxSetup cache:false
+
   validRoute = (route, p)->
     if !Auth.logined() && route != 'login'
       window.location.hash = '!login'
