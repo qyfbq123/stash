@@ -21,6 +21,11 @@ form#newClient
           div.width100 公司描述：
         td
           input.round.default-width-input(type='text', can-value='desc' name='desc')
+      tr
+        td
+          div.width100 公司邮箱：
+        td
+          input.round.default-width-input(type='text', can-value='email' name='email', email)
 
   p &nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -34,7 +39,7 @@ form#newClient
         td
           div.width100 联系人号码：
         td
-          input.round.default-width-input(type='text', can-value='contactTel', name='contactTel' rangelength='2,15', required)
+          input.round.default-width-input(type='text', can-value='contactTel', name='contactTel')
       tr
         td
           div.width100 联系人邮箱：
@@ -52,7 +57,7 @@ form#newClient
         td
           div.width100 联系人Skype：
         td
-          input.round.default-width-input(type='text', can-value='contactMsn' name='contactMsn', rangelength='2,15')
+          input.round.default-width-input(type='text', can-value='contactMsn' name='contactMsn')
 
     textarea(placeholder='联系人描述...', can-value='contactDesc', style='margin: 0px; width: 797px; height: 73px;' name='contactDesc' rangelength='2,100')
 

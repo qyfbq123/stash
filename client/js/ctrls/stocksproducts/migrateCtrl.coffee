@@ -1,8 +1,8 @@
 
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'autocomplete', 'validate'], (Ctrl, can, Auth, base)->
-  pageData = new can.Map(original: {}, target: {})
   return Ctrl.extend
     init: (el, data)->
+      pageData = new can.Map(original: {}, target: {})
       new base('', data) if !can.base
       this.element.html can.view('../../public/view/home/stocksproducts/migrate.html', pageData)
 
@@ -68,11 +68,12 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
         $.postJSON(url, pageData.attr(),
           (data)->
             if data.status == 0
-              pageData.attr(original, {})
-              pageData.attr(target, {})
+              pageData.attr('original', {})
+              pageData.attr('target', {})
               $('#originalSelector')[0].value=''
               $('#targetSelector')[0].value=''
               jAlert "转移库位成功！", "提示"
+              window.location.hash = "#!home/stocksproducts/stock"
             else
               jAlert "#{data.message}", "提示"
           (data)->

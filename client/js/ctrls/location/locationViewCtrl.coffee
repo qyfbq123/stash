@@ -12,6 +12,7 @@ clickDeleteLocation = (data)->
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
+            $('#locationList').datagrid( "fetch")
           else
             jAlert data.message, '失败'
         ,(data)->
@@ -99,8 +100,10 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
           field: ''
           title: '操作'
           render: (data)->
-            "<a href='javascript:clickLocationUpdate(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-            "<a href='javascript:clickDeleteLocation(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+            str = "<a href='javascript:clickLocationUpdate(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" 
+            if !data.row.usage
+              str += "<a href='javascript:clickDeleteLocation(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+            return str
         }
 
       datagrid = $('#locationList').datagrid({

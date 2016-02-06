@@ -83,6 +83,9 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           for id in itemIds
             idSel = "#itemId#{id}"
             $(idSel).change (oldValue, newValue)->
+              max = $(this).attr 'max'
+              if $(this).val() > max
+                $(this).val max
               old = listData.attr id
               old.attr 'count', parseInt($(idSel)[0].value)
               listData.attr id, old
@@ -149,12 +152,11 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#addToGoodsList').unbind('click')
       $('#addToGoodsList').bind 'click', ()->
-        return if !$('#goodsOutCreate').valid()
+        # return if !$('#goodsOutCreate').valid()
 
         currentData.count = $('#goodCount')[0].value
 
         old = listData.attr(currentData.id)
-        console.log old
 
         if old
           currentData.count = parseInt(old.count) + parseInt(currentData.count)

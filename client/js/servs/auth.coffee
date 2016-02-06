@@ -1,8 +1,8 @@
 
 define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
   # apiHost = 'http://192.168.1.4:8080/';
-  # apiHost = 'http://localhost:8080/';
-  apiHost = '/'
+  apiHost = 'http://localhost:8080/';
+  # apiHost = '/'
   isLogining = false
 
   menus = {}
@@ -35,14 +35,18 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
     logout: ()->
       localStorage.remove('logined');
       localStorage.remove('user');
+
+      localStorage.remove('menu');
+      localStorage.remove('checkList');
       document.cookie = ''
+      $.getJSON(apiHost + 'main/logout', ->)
       window.location.hash = '!login'
     logined: ()->
       return Boolean(localStorage.get('logined'));
     user: ()->
       return localStorage.get('user');
-    userIsAdmin: () ->
-      if userInfo = localStorage.get('user')
+    userIsAdmin: (userInfo) ->
+      if userInfo ?= localStorage.get('user')
         if userInfo.roleVoList and Array.isArray userInfo.roleVoList
           for k, v of userInfo.roleVoList
             return true if v.name == '管理员'

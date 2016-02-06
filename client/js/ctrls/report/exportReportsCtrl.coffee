@@ -31,9 +31,9 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         apiSuffix = 'report/inall'
       else if data.subMenuId == 'inReportDetail'
         $('.goods').remove()
-        $('.startAt').remove()
-        $('.endAt').remove()
-        $('.company').remove()
+        # $('.startAt').remove()
+        # $('.endAt').remove()
+        # $('.company').remove()
         $('.factor').remove()
         apiSuffix = 'report/indetail'
       else if data.subMenuId == 'outReportAll'
@@ -43,9 +43,9 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         apiSuffix = 'report/outall'
       else if data.subMenuId == 'outReportDetail'
         $('.goods').remove()
-        $('.startAt').remove()
-        $('.endAt').remove()
-        $('.company').remove()
+        # $('.startAt').remove()
+        # $('.endAt').remove()
+        # $('.company').remove()
         $('.factor').remove()
         apiSuffix = 'report/outdetail'
       else if data.subMenuId == 'inventoryReport'
@@ -55,6 +55,23 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         $('.company').remove()
         $('.billnumber').remove()
         apiSuffix = 'report/inventory'
+      else if data.subMenuId == 'locationReport'
+        $('.goods').remove()
+        $('.startAt').remove()
+        $('.endAt').remove()
+        # $('.company').remove()
+        $('.billnumber').remove()
+        $('.factor').remove()
+        apiSuffix = 'report/location'
+
+      else if data.subMenuId == 'locationSubReport'
+        $('.goods').remove()
+        $('.startAt').remove()
+        $('.endAt').remove()
+        $('.company').remove()
+        $('.billnumber').remove()
+        $('.factor').remove()
+        apiSuffix = 'report/location'
 
       if !Auth.user().companyVo.issystem
         $('.company').remove()
@@ -107,7 +124,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
         if $('#billnumber')?[0]
           opt.billnumber = $('#billnumber')[0].value
-          return  jAlert '订单编号不可为空！', '提示' if !opt.billnumber
+          # return  jAlert '订单编号不可为空！', '提示' if !opt.billnumber
         if $('#factor')?[0]
           opt.factor = $('#factor')[0].value
 

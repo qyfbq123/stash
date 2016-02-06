@@ -41,8 +41,11 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
           field: 'op'
           title: '操作'
           render: (data)->
-            "<a href='javascript:clickUserUpdate(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-            "<a href='javascript:clickDeleteUser(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+            str = "<a href='javascript:clickUserUpdate(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;"
+            if Auth.user().id != data.row.id and (!Auth.userIsAdmin(data.row)  or Auth.user().companyVo.issystem)
+              str += "<a href='javascript:clickDeleteUser(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+
+            return str
         },{
           field: 'username'
           title: '用户名'
