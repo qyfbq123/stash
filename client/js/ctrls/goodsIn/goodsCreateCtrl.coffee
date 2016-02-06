@@ -2,7 +2,7 @@ listData = new can.Map()
 goodsData = new can.Map()
 
 deleteGoodsInListItem = (gid, lid)->
-  listData.removeAttr("#{gid}|#{lid}")
+  listData.removeAttr("#{gid}_#{lid}")
 
   vs = _.values(listData.attr())
   $('#goodsInList').datagrid('render', {total:vs.length, data:vs})
@@ -84,7 +84,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             idSel = "#itemId#{id}"
             $(idSel).change (oldValue, newValue)->
               old = listData.attr id
-              old.attr 'count', parseInt($(idSel)[0].value)
+              old.attr('good').attr('count', parseInt($(idSel)[0].value))
               listData.attr id, old
           $('.datagrid-page').empty()
         col:[{
@@ -131,8 +131,8 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             field: 'good'
             title: '数量'
             render: (data)->
-              itemIds.push data.value.id
-              "<input class='width60' type='number' value=#{data.value.count} id=itemId#{data.value.id} min:'1' required>"
+              itemIds.push "#{data.value.id}_#{data.row.location.id}"
+              "<input class='width60' type='number' value=#{data.value.count} id=itemId#{data.value.id}_#{data.row.location.id} min:'1' required>"
           },{
             attrHeader: { "style": "width:50px;", 'class': 'notPrint'},
             attr: {'class': 'notPrint'}
@@ -146,10 +146,10 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#addToGoodsList').unbind('click')
       $('#addToGoodsList').bind 'click', ()->
-        return if !$('#goodsInCreate').valid()
-
+        # return if !$('#goodsInCreate').valid()
+        return if !currentData.good
         currentData.good.count = $('#goodCount')[0].value
-        newId = "#{currentData.good.id}|#{currentData.location.id}"
+        newId = "#{currentData.good.id}_#{currentData.location.id}"
         old = listData.attr(newId)
 
         if old and old.location.id == currentData.location.id

@@ -12,6 +12,7 @@ clickDeleteBrand = (data)->
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
+            $('#brandList').datagrid( "fetch")
           else
             jAlert data.message, '失败'
         ,(data)->
@@ -36,12 +37,14 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
         paramsDefault: {paging:10}
         parse: (data)->
           return {total:data.total, data: data.rows}
-        col:[{
-            field: 'locked'
-            title: '选择'
-            render: (data)->
-              "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
-          },{
+        col:[
+          # {
+          #   field: 'locked'
+          #   title: '选择'
+          #   render: (data)->
+          #     "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
+          # },
+          {
             attrHeader: { "style": "width:67px;"}
             field: 'op'
             title: '操作'

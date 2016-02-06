@@ -12,6 +12,7 @@ clickDeleteCategory = (data)->
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
+            $('#categoryList').datagrid( "fetch")
           else
             jAlert data.message, '失败'
         ,(data)->

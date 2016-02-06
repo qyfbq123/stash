@@ -8,6 +8,9 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
       startAt = Date.now()
       checkList = localStorage.get 'checkList'
       itemIds =  []
+      # clickDeleteCheckGoods = (item)->
+      #   checkList = _.without(checkList, _.findWhere(checkList, item))
+      #   $('#goodsInList').datagrid('render', {total:checkList.length, data:checkList})
 
       $('#addCheck').unbind 'click'
       $('#addCheck').bind 'click', ()->
@@ -53,12 +56,14 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
                   return it
 
             doCheck id
-        col:[{
-            field: 'op'
-            title: '操作'
-            render: (data)->
-              "<a href='javascript:clickDeleteGoods(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
-          }, {
+        col:[
+          # {
+          #   field: 'op'
+          #   title: '操作'
+          #   render: (data)->
+          #     "<a href='javascript:clickDeleteCheckGoods(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+          # }, 
+          {
             field: 'goodsVo'
             title: 'SKU'
             render: (data)->

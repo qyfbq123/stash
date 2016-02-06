@@ -27,7 +27,7 @@ require.config
     loginCtrl: '../public/js/ctrls/LoginCtrl'
     imageManageCtrl: '../public/js/ctrls/ImageManageCtrl'
 
-    dashboardCtrl: '../public/js/ctrls/dashboardCtrl'
+    dashboardCtrl: '../public/js/ctrls/dashboard'
 
     # 公司下的控制器
     companyNewCtrl: '../public/js/ctrls/company/companyNewCtrl'

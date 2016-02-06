@@ -42,8 +42,8 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       else
         tmpLocationInfo = localStorage.get 'tmpLocationInfo'
         locationData.attr(tmpLocationInfo)
-        $('#warehouseSelector').attr('value', tmpLocationInfo.warehouseVo.name)
-        $('#companySelector').attr('value', tmpLocationInfo.companyVo.name)
+        $('#warehouseSelector').attr('value', tmpLocationInfo.warehouseVo?.name || '')
+        $('#companySelector').attr('value', tmpLocationInfo.companyVo?.name || '')
         $('#warehouseSelector').attr('disabled', 'disabled')
 
       $('#addLocation').unbind 'click'
