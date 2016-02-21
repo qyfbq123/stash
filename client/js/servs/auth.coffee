@@ -19,7 +19,7 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
           isLogining = false
           $('html').loading('stop');
           if parseInt(data.status) != 0
-            jAlert(data.message, '登陆失败');
+            jAlert(data.message, '登录失败');
           else
             localStorage.set('logined', true);
             localStorage.set('user', data.data);
@@ -29,7 +29,7 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
         isLogining = false
         window.location.hash = '!login'
         $('html').loading('stop');
-        jAlert('http error:' + status + ' ' + data.statusText, '登陆失败');
+        jAlert('http error:' + status + ' ' + data.statusText, '登录失败');
         done?()
       )
     logout: ()->
@@ -40,7 +40,7 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
       localStorage.remove('checkList');
       document.cookie = ''
       $.getJSON(apiHost + 'main/logout', ->)
-      window.location.hash = '!login'
+      window.location = '/'
     logined: ()->
       return Boolean(localStorage.get('logined'));
     user: ()->

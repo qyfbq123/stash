@@ -31,7 +31,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
               for k, v of supplierData.attr()
                 supplierData.removeAttr(k)
               supplierData.attr({})
-              jAlert "新增供应商成功！", "提示"
+              if isNew then jAlert "新增供应商成功！", "提示" else jAlert "更新供应商成功！", "提示"
               window.location.hash = '#!home/stocksproducts/supplierView'
             else
               jAlert "#{data.message}", "提示"

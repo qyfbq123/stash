@@ -8,7 +8,7 @@ clickDeleteWarehouse = (data)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'warehouse/delete', {warehouseId:data.id}
+      $.getJSON(Auth.apiHost + 'location/warehouse/delete', {warehouseId:data.id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
