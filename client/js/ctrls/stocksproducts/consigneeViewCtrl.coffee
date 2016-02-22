@@ -53,13 +53,13 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
               "<a href='javascript:clickDeleteConsignee(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'name'
-            title: '供应商名称'
+            title: '收货人名称'
           }, {
             field: 'address'
-            title: '供应商地址'
+            title: '收货人地址'
           },{
             field: 'desc'
-            title: '供应商描述'
+            title: '收货人描述'
           },{
             field:'contactName'
             title:'联系人'
