@@ -32,12 +32,17 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
         jAlert('http error:' + status + ' ' + data.statusText, '登录失败');
         done?()
       )
+
+      $.get(apiHost + 'static/sessionId', (data)->
+        localStorage.set 'sessionId', data
+      )
     logout: ()->
       localStorage.remove('logined');
       localStorage.remove('user');
 
       localStorage.remove('menu');
       localStorage.remove('checkList');
+      localStorage.remove('sessionId');
       document.cookie = ''
       $.getJSON(apiHost + 'main/logout', ->)
       window.location = '/'

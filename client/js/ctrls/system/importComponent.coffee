@@ -73,7 +73,7 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
           'fileTypeDesc' : '表格文件',
           'fileTypeExts' : '*.xls; *.xlsx',
           'swf': './lib/uploadify/uploadify.swf',
-          'uploader': "#{Auth.apiHost}#{pageData.attr('uploadUrl')}",
+          'uploader': "#{Auth.apiHost}#{pageData.attr('uploadUrl')};jsessionid=#{localStorage.get 'sessionId'}",
           'formData': (isCover: pageData.attr('isCover'))
           'onUploadStart' : (file)->
             $("#filePicker").uploadify "settings", "formData", (isCover: pageData.attr('isCover') )

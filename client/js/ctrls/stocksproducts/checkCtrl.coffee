@@ -10,6 +10,7 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
       itemIds =  []
       window.clickDeleteCheckGoods = (item)->
         checkList = _.without(checkList, _.findWhere(checkList, {id: item.id}))
+        localStorage.set 'checkList', checkList
         $('#checkGrid').datagrid('render', {total:checkList.length, data:checkList})
 
       $('#addCheck').unbind 'click'
