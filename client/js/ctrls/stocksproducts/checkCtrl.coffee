@@ -6,7 +6,7 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
       this.element.html can.view('../../public/view/home/stocksproducts/check.html', {})
 
       startAt = Date.now()
-      checkList = localStorage.get 'checkList'
+      checkList = localStorage.get('checkList') || []
       itemIds =  []
       window.clickDeleteCheckGoods = (item)->
         checkList = _.without(checkList, _.findWhere(checkList, {id: item.id}))
@@ -15,7 +15,18 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
 
       $('#addCheck').unbind 'click'
       $('#addCheck').bind 'click', ()->
-        entries = _.map checkList, (it)-> {inventoryId: it.id, quantity: it.quantity, checkQuantity: it.checkQuantity}
+        grouped = _.countBy checkList, (it)->
+          it.locationVo.name
+
+        for k, v of grouped
+          if v > 1
+            return jAlert "空闲库位 #{k} 多次使用！", "错误"
+
+        entries = _.map checkList, (it)->
+          if isNaN it.id
+            {quantity: it.quantity, checkQuantity: it.checkQuantity || it.quantity, itemId: it.goodsVo.id, locationId: it.locationVo.id}
+          else
+            {inventoryId: it.id, quantity: it.quantity, checkQuantity: it.checkQuantity}
         data = {startAt, entries}
         $.postJSON("#{Auth.apiHost}inventory/check", data,
           (data)->
@@ -26,7 +37,7 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
             else
               jAlert "#{data.message}", "提示"
           (data)->
-            jAlert "错误", data.responseText
+            jAlert data.responseText, "错误"
         )
 
       $('#checkGrid').datagrid({
@@ -81,7 +92,7 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
               return data?.value?.name
           }, {
             field: 'quantity'
-            title: '商品数量'
+            title: '数量'
           }, {
             field: 'quantity'
             title: '盘点数量',
@@ -134,6 +145,87 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
                 "<p>ZCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.zcoord}</p>"
 
               "<a href=\"javascript:jAlert('#{info}', '库位信息');void(0);\">#{data?.value?.name}</a>"
+          }, {
+            field: 'inVo',
+            title: '批次',
+            render: (data)->
+              return '无' if !data.value
+              inVo = data.value
+              udf = []
+              for i in [1...6]
+                udf.push( inVo["udf#{i}"] ) if inVo["udf#{i}"]
+              info =
+                """
+                <p>订单编号　　　#{inVo.billnumber}</p>
+                <p>客户订单编号　#{inVo.customerBillnumber}</p>
+                <p>自定义参数　　#{udf.join(', ') || ''}</p>
+                """
+              "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">#{inVo.billnumber}</a>"
           }
         ]
       })
+      
+      $('#goodsSelector').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}goods/all"
+        paramName: 'factor'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)-> {value:"#{it.sku} --- #{it.name}", data: it})
+        onSelect: (suggestion)->
+          # $('#stockList').datagrid( "fetch", {goodsId: suggestion.data});
+          $('#goodsSelector').data 'item', suggestion.data
+      })
+
+      $('#locationSelector').autocomplete({
+        minChars:0
+        serviceUrl: "#{Auth.apiHost}location/findusable"
+        paramName: 'name'
+        dataType: 'json'
+        transformResult: (response, originalQuery)->
+          query: originalQuery
+          suggestions: _.map(response.data, (it)->{value:it.name, data: it})
+        onSelect: (suggestion)->
+          # $('#stockList').datagrid( "fetch", {locationId:suggestion.data});
+          $('#locationSelector').data 'location', suggestion.data
+      })
+
+      $('#addNew').unbind('click').bind 'click', (e)->
+        $('#tmpAddDialog').removeClass 'hide'
+        
+        e.stopPropagation()
+        e.preventDefault()
+
+      $('#tmpAddDialog').on 'click', 'a.button', (e)->
+        e.stopPropagation()
+        e.preventDefault()
+        console.log 'com'
+        if( $(this).is '.ic-add' )
+          item = $('#goodsSelector').data 'item'
+          location = $('#locationSelector').data 'location'
+          return jAlert '请选择一个商品！', '错误' if !item
+          return jAlert '请选择一个库位！', '错误' if !location
+
+          if item.photos
+            _.map item.photos, (img)->
+              img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}" unless img.path.indexOf('http') == 0
+              img
+
+          inventory = 
+            id: "temp#{Date.now()}"
+            goodsVo: item
+            quantity: 1
+            lastOperator: Auth.user()
+            companyVo: Auth.user().companyVo
+            locationVo: location
+
+          checkList.push inventory
+          localStorage.set 'checkList', checkList
+          $('#checkGrid').datagrid('render', {total:checkList.length, data:checkList})
+
+        $('#tmpAddDialog').addClass 'hide'
+        $('#goodsSelector').val('')
+        $('#locationSelector').val('')
+        $('#goodsSelector').removeData 'item'
+        $('#locationSelector').removeData 'location'

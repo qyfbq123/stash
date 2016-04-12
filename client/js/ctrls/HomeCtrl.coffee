@@ -67,7 +67,8 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
 
       success = (data)->
         if parseInt(data.status) != 0
-          jAlert('获取菜单失败 ' + data.message, '错误', -> Auth.logout());
+          console.log '获取菜单失败 ' + data.message, '错误'
+          Auth.logout()
           return;
         genMenu(data.data);
       failed = (error)->

@@ -23,6 +23,7 @@
     "magnific-popup": "~1.0.0",
     "requirejs": "~2.1.20",
     "underscore": "~1.8.3",
-    "uploadify": "~3.2.1"
+    "uploadify": "~3.2.1",
+    "lscache": "^1.0.5"
   }
 }

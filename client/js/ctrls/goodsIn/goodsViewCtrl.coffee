@@ -179,6 +179,9 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
         paramsDefault: {paging:10}
         parse: (data)->
           return {total:data.total, data: data.rows}
+        onRowData: (row, numrow, $tr)->
+          $tr.data 'row', row
+          row
         col:[
           # {
           #   field: 'locked'
@@ -205,7 +208,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
           }, {
             field: 'date'
             title: '预计入库时间'
-            render: (data)-> new Date(data.value).toLocaleString()
+            render: (data)-> new Date(data.value).toLocaleDateString()
           }, {
             field: 'status'
             title: '状态'
@@ -308,3 +311,17 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
       # $('#goodsInList').datagrid( "filters", $('#filterSelector'));
       $('#select').bind 'click', ()->
         $('#goodsInList').datagrid 'fetch', $('#filterSelector').serializeObject()
+
+      $('#goodsInList').on 'click', 'tbody tr', (e)->
+        $tr = $(this).closest 'tr'
+        return if $tr.is('.details') or $(e.target).is 'a'
+        return $tr.next().remove() if $tr.next().is '.details'
+        $('#goodsInList tr.details').remove()
+        row = $tr.data 'row'
+        str = """
+          客户订单编号：#{row.customerBillnumber}
+        """
+        for i in [1...6]
+          if row["udf#{i}"]
+            str += "<br/>自定义参数#{i}：#{row['udf' + i]}"
+        $(this).closest('tr').after $('<tr class="details"/>').append $('<td colspan="9"/>').html str

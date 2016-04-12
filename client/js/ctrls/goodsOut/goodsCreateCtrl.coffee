@@ -47,7 +47,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
-          suggestions: _.map(response.data, (it)-> {value:"#{it.goodsVo.sku} --- #{it.goodsVo.name} --- #{it.locationVo.name}", data: it})
+          suggestions: _.map(response.data, (it)-> {value:"#{it.goodsVo.sku}(#{it.goodsVo.name}) --- #{it.locationVo.name} --- #{it.billnumber}", data: it})
         onSelect: (suggestion)->
           currentData = suggestion.data
           $('#goodCount').bind('change', ()->
@@ -113,6 +113,10 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             field: 'locationVo'
             title: '出货库位'
             render: (data)-> data?.value?.name
+          },{
+            attrHeader: { "style": "width:100px;"}
+            field: 'billnumber'
+            title: '批次'
           }, {
             field: 'goodsVo'
             title: '商品图片'
@@ -193,6 +197,9 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }
         ))
 
+        $('#udf input').each (i, e)->
+          goodsData.attr "udf#{i+1}", $(this).val()
+
         url = Auth.apiHost + 'stock/out/create'
         $.postJSON(url, goodsData.attr(),
           (data)->
@@ -214,3 +221,16 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           (data)->
             jAlert "错误", data.responseText
         )
+
+      $('#udfAdd').unbind('click').bind 'click', (e)->
+        $('<label/>').append($ '<input type="text" class="round width300"/>' ).append($ "<a class='btn' class='btn'>删除</a>").insertBefore '#udfAdd'
+
+        $('#udfAdd').addClass('hide') if $('#udf input').length >= 6
+        e.stopPropagation()
+        e.preventDefault()
+
+      $('#udf').on 'click', 'a.btn', (e)->
+        $(this).closest('label').remove()
+        $('#udfAdd').removeClass 'hide'
+        e.stopPropagation()
+        e.preventDefault()

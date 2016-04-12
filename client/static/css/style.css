@@ -745,3 +745,7 @@ div#footer {
 .my_table tr td{
     width: 80px;
 }
+
+tr.details {
+	background-color: lightblue!important;
+}

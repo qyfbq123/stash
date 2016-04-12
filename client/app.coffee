@@ -1,5 +1,5 @@
 require.config
-  baseUrl: '../lib'
+  baseUrl: './lib'
   paths:
     _: 'underscore/underscore-min'
     $: 'jquery/dist/jquery.min'
@@ -16,6 +16,7 @@ require.config
     imageView: 'magnific-popup/dist/jquery.magnific-popup.min'
     dateTimePicker: 'datetimepicker/jquery.datetimepicker'
     printer: 'jQuery.print/jQuery.print'
+    lscache: 'lscache/lscache.min'
 
     jqueryEx: '../public/js/servs/jQueryExtend'
     jAlert: '../public/js/plugins/jquery.alerts'

@@ -66,11 +66,11 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
               return data?.value?.name
           }, {
             field: 'quantity'
-            title: '商品数量'
+            title: '数量'
           }, {
             field: 'goodsVo'
-            title: '商品图片'
-            attrHeader: { "style": "width:30%;"},
+            title: '图片'
+            attrHeader: { "style": "width:25%;"},
             render: (data)->
               itemIds.push data.row.id
               imgs = _.map(data?.value?.photos, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
@@ -129,6 +129,22 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
                 "<p>ZCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.zcoord}</p>"
 
               "<a href=\"javascript:jAlert('#{info}', '库位信息');void(0);\">#{data?.value?.name}</a>"
+          }, {
+            field: 'inVo',
+            title: '批次',
+            render: (data)->
+              return '无' if !data.value
+              inVo = data.value
+              udf = []
+              for i in [1...6]
+                udf.push( inVo["udf#{i}"] ) if inVo["udf#{i}"]
+              info =
+                """
+                <p>订单编号　　　#{inVo.billnumber}</p>
+                <p>客户订单编号　#{inVo.customerBillnumber}</p>
+                <p>自定义参数　　#{udf.join(', ') || ''}</p>
+                """
+              "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">#{inVo.billnumber}</a>"
           }
         ]
       })
@@ -192,11 +208,17 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#addCheck').bind 'click', ()->
         return jAlert '未选择任何商品！', '提示' if selectedItems.length == 0
 
+        msg = ''
+        _.each selectedItems, (e, i)->
+          if e.companyVo.id != Auth.user().companyVo.id
+            msg= "只可以盘点当前公司库存！#{e.goodsVo.sku}有误！"
+
+        return jAlert msg, '错误' if msg
+
         oldCheckList = localStorage.get 'checkList'
         newCheckList = _.union(oldCheckList, selectedItems)
         newCheckList = _.uniq newCheckList, (it)-> it.id
         localStorage.set 'checkList', newCheckList
 
         jAlert '成功添加！'
-        console.log newCheckList
 

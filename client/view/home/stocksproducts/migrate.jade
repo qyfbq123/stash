@@ -8,6 +8,7 @@ form#migrateForm
       label.col-md-12 商品名称：{{original.goodsVo.name}}
       label.col-md-12 ＳＫＵ　：{{original.goodsVo.sku}}
       label.col-md-12 商品数量：{{original.quantity}}
+      label.col-md-12 批次　　：{{original.billnumber}}
       label.col-md-12 库位名称：{{original.locationVo.name}}
       label.col-md-12 库位行　：{{original.locationVo.xcoord}}
       label.col-md-12 库位列　：{{original.locationVo.ycoord}}
@@ -19,13 +20,10 @@ form#migrateForm
       input.default-width-input#targetSelector(type='text')
     p &nbsp;
     div.col-md-12.pull-left
-      label.col-md-12 商品名称：{{target.goodsVo.name}}
-      label.col-md-12 ＳＫＵ　：{{target.goodsVo.sku}}
-      label.col-md-12 商品数量：{{target.quantity}}
-      label.col-md-12 库位名称：{{target.locationVo.name}}
-      label.col-md-12 库位行　：{{target.locationVo.xcoord}}
-      label.col-md-12 库位列　：{{target.locationVo.ycoord}}
-      label.col-md-12 库位层　：{{target.locationVo.zcoord}}
+      label.col-md-12 库位名称：{{target.name}}
+      label.col-md-12 库位行　：{{target.xcoord}}
+      label.col-md-12 库位列　：{{target.ycoord}}
+      label.col-md-12 库位层　：{{target.zcoord}}
 
   .col-md-4
     span 转移数量：

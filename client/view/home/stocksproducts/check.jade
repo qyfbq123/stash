@@ -1,6 +1,25 @@
 #checkGrid
 
 .col-md-12
-  a.button.round.blue.image-right.ic-add.pull-left(href='#!home/stocksproducts/stock') 去盘点
+  a.button.round.blue.image-left.ic-left-arrow(href='#!home/stocksproducts/stock') 去盘点
+  |&nbsp;&nbsp;
+  a.button.round.blue.image-right.ic-add#addNew(href='#') 添加
 
   button.button.round.blue.image-right.ic-add.pull-right#addCheck 保存盘点
+
+form#tmpAddDialog.hide.form-horizontal(role='form', onSubmit="return false;")
+  .form-group
+    label.col-sm-4.control-label 商品：
+    .col-sm-6
+      input.round.default-width-input#goodsSelector(name='goodsSelector', type='text', placeholder='请选择...')
+      input#goodsId(type="hidden")
+  .form-group
+    label.col-sm-4.control-label 库位：
+    .col-sm-6
+      input.round.default-width-input#locationSelector(name='locationSelector', type='text', placeholder='请选择...')
+      input#locationId(type="hidden")
+  .form-group
+    .col-sm-offset-4.col-sm-4
+      a.button.round.blue.image-right.ic-add(href='#') 确定
+      |&nbsp;&nbsp;
+      a.button.round.blue.image-right.ic-cancel(href='#') 取消

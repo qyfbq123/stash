@@ -26,7 +26,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
-          suggestions: _.map(response.data, (it)-> {value:"#{it.locationVo.name} - #{it.goodsVo.sku} - #{it.goodsVo.name}", data: it})
+          suggestions: _.map(response.data, (it)-> {value:"#{it.locationVo.name} - #{it.goodsVo.sku} - #{it.billnumber}", data: it})
         onSelect: (suggestion)->
           original = suggestion.data
           pageData.attr('original', original)
@@ -51,7 +51,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
-          suggestions: _.map(response.data, (it)-> {value: "#{it.locationVo.name} - #{if it.goodsVo then it.goodsVo.sku else '空闲库位'} - #{if it.goodsVo then it.goodsVo.name else '无商品'}", data: it})
+          suggestions: _.map(response.data, (it)-> {value: "#{it.name}#{if it.usage then '' else ' - 空闲库位'}", data: it})
         onSelect: (suggestion)->
           target = suggestion.data
           pageData.attr('target', target)
@@ -61,8 +61,8 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
       $('#migrate').bind 'click', ()->
         return if !$('#migrateForm').valid()
 
-        if !pageData.attr('target')?.attr('goodsVo')
-          pageData.attr('target')?.attr('goodsVo', pageData.attr('original').goodsVo)
+        # if !pageData.attr('target')?.attr('goodsVo')
+        #   pageData.attr('target')?.attr('goodsVo', pageData.attr('original').goodsVo)
 
         url = Auth.apiHost + 'inventory/migrate'
         $.postJSON(url, pageData.attr(),

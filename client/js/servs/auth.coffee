@@ -1,7 +1,7 @@
 
 define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
   # apiHost = 'http://192.168.1.4:8080/';
-  apiHost = 'http://localhost:8080/';
+  apiHost = 'http://localhost:8080/mywms2/';
   # apiHost = '/'
   isLogining = false
 
@@ -47,6 +47,9 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
       $.getJSON(apiHost + 'main/logout', ->)
       window.location = '/'
     logined: ()->
+      if userinfo = localStorage.get 'user'
+        localStorage.set 'user', userinfo
+        localStorage.set 'logined', true
       return Boolean(localStorage.get('logined'));
     user: ()->
       return localStorage.get('user');

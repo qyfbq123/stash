@@ -14,11 +14,22 @@
           td
             input.round.default-width-input#consigneeSelector(type='text', name='desc', rangelength='2,50', required, placeholder='请选择...')
           td
+            div.width100 客户订单编号：
+          td
+            input.round.default-width-input#customerBillnumber(type='text', can-value='customerBillnumber', name='customerBillnumber', required)
+        tr
+        tr
+          td
+            div.width100 自定义参数：
+          td(colspan=3)
+            #udf
+              button#udfAdd.my_button.round.blue.text-upper 添加
+          td
             div.width80 备注：
           td
-            input.round.default-width-input#warehouseSelector(type='text', can-value='desc', name='desc', rangelength='2,50', required)
+            input.round.default-width-input#desc(type='text', can-value='desc', name='desc', rangelength='2,50')
         tr
-          td(colspan=6)
+        tr
         tr
           td
             div.width80 库　　存：

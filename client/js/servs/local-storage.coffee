@@ -1,22 +1,22 @@
 
-define ['_'], (un)->
+define ['_', 'lscache'], (un, lscache)->
   return {
     set: (key, value)->
       if _.isObject value
         value = JSON.stringify(value)
 
-      window.localStorage.setItem key, value
+      lscache.set key, value, 30
     get: (key)->
-      data = window.localStorage.getItem key
+      data = lscache.get key
       try
         data = JSON.parse data
       catch e
       return data
 
     remove: (key)->
-      window.localStorage.removeItem key
+      lscache.remove key
     delete: (key)->
-      window.localStorage.removeItem key
+      lscache.remove key
     rm: (key)->
-      window.localStorage.removeItem key
+      lscache.remove key
   }
