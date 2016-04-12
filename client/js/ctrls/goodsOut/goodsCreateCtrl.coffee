@@ -47,7 +47,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
-          suggestions: _.map(response.data, (it)-> {value:"#{it.goodsVo.sku}(#{it.goodsVo.name}) --- #{it.locationVo.name} --- #{it.billnumber}", data: it})
+          suggestions: _.map(response.data, (it)-> {value:"#{it.goodsVo.sku}(#{it.goodsVo.name}) --- #{it.locationVo.name}#{if it.billnumber then ' --- ' + it.billnumber else ''}", data: it})
         onSelect: (suggestion)->
           currentData = suggestion.data
           $('#goodCount').bind('change', ()->

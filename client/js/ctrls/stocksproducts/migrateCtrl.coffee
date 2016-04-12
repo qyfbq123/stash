@@ -26,7 +26,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
         dataType: 'json'
         transformResult: (response, originalQuery)->
           query: originalQuery
-          suggestions: _.map(response.data, (it)-> {value:"#{it.locationVo.name} - #{it.goodsVo.sku} - #{it.billnumber}", data: it})
+          suggestions: _.map(response.data, (it)-> {value:"#{it.locationVo.name} - #{it.goodsVo.sku}(#{it.goodsVo.name})#{if it.billnumber then ' - ' + it.billnumber else ''}", data: it})
         onSelect: (suggestion)->
           original = suggestion.data
           pageData.attr('original', original)
