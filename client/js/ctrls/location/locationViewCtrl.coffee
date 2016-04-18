@@ -37,29 +37,26 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
         #     "<input style='width:50px;' type='checkbox' name='DataGridCheckbox' checked=#{data.value == 0 ? 'checked' : 'unchecked'}>"
         # },
         {
+          attrHeader: { "style": "width:300px;"}
           field: 'name'
           title: '库位名称'
         }, {
-          field: 'created'
-          title: '创建时间'
-          render: (data)-> new Date(data.value).toLocaleString()
-        },{
           field: 'modfied'
           title: '最近修改'
-          render: (data)-> if data.value then new Date(data.value).toLocaleString() else '无'
+          render: (data)-> new Date(data.value || data.row.created).toLocaleString()
         },{
           field:'usage'
           title:'已使用'
           render: (data)-> if data.value then '是' else '否'
         },{
           field: 'xcoord'
-          title: '所在行'
+          title: '行'
         },{
           field: 'ycoord'
-          title: '所在列'
+          title: '列'
         },{
           field: 'zcoord'
-          title: '所在层'
+          title: '层'
         },{
           field: 'warehouseVo'
           title: '仓库信息'
@@ -95,7 +92,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
       ]
 
       if Auth.user().companyVo.issystem
-        cols.splice 1, 0, {
+        cols.splice 0, 0, {
           attrHeader: { "style": "width:67px;"}
           field: ''
           title: '操作'

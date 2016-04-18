@@ -68,6 +68,8 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
       success = (data)->
         if parseInt(data.status) != 0
           console.log '获取菜单失败 ' + data.message, '错误'
+          # jAlert '登录超时，请重新登录!', '错误', ->Auth.logout()
+          delete can.home
           Auth.logout()
           return;
         genMenu(data.data);
