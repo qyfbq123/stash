@@ -45,7 +45,7 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
       localStorage.remove('sessionId');
       document.cookie = ''
       $.getJSON(apiHost + 'main/logout', ->)
-      window.location = "#{apiHost}#!login"
+      window.location.hash = "!login"
     logined: ()->
       if userinfo = localStorage.get 'user'
         localStorage.set 'user', userinfo

@@ -1,7 +1,7 @@
 
 define ['can/control', 'can/view/mustache', 'Auth'], (Control, can, Auth)->
   if Auth.logined()
-    window.location.hash = '!home'
+    window.location.hash = '!home/dashboard/dashboardView'
 
   userInfo = new can.Map
     username: ''
