@@ -4,7 +4,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
     init: (el, data)->
       opt = {}
       new base('', data) if !can.base
-      this.element.html can.view('../../public/view/home/report/exportReports.html', {})
+      this.element.html can.view('../public/view/home/report/exportReports.html', {})
 
       apiSuffix = ''
       if data.subMenuId == 'operationsReport'

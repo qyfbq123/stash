@@ -7,7 +7,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
     init: (el, data)->
       new base('', data) if !can.base
 
-      this.element.html can.view('../../public/view/home/stocksproducts/stock.html', brandData)
+      this.element.html can.view('../public/view/home/stocksproducts/stock.html', brandData)
 
       itemIds =  []
       originItems = []
@@ -108,22 +108,22 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             title: '公司信息'
             render: (data)->
               info =
-                "<p>公司名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
-                "<p>公司地址&nbsp;&nbsp;&nbsp;#{data?.value?.address}</p>" +
-                "<p>联系人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactName}</p>" +
-                "<p>联系号码&nbsp;&nbsp;&nbsp;#{data?.value?.contactTel}</p>" +
-                "<p>联系邮箱&nbsp;&nbsp;&nbsp;#{data?.value?.contactEmail}</p>" +
-                "<p>联系QQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactQq}</p>" +
-                "<p>联系传真&nbsp;&nbsp;&nbsp;#{data?.value?.contactFax}</p>" +
-                "<p>联系MSN&nbsp;&nbsp;&nbsp;#{data?.value?.contactMsn}</p>"
-              "<a href=\"javascript:jAlert('#{info}', '公司信息');void(0);\">#{data?.value?.name}</a>"
+                "<p>公司名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name || ''}</p>" +
+                "<p>公司地址&nbsp;&nbsp;&nbsp;#{data?.value?.address || ''}</p>" +
+                "<p>联系人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactName || ''}</p>" +
+                "<p>联系号码&nbsp;&nbsp;&nbsp;#{data?.value?.contactTel || ''}</p>" +
+                "<p>联系邮箱&nbsp;&nbsp;&nbsp;#{data?.value?.contactEmail || ''}</p>" +
+                "<p>联系QQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.contactQq || ''}</p>" +
+                "<p>联系传真&nbsp;&nbsp;&nbsp;#{data?.value?.contactFax || ''}</p>" +
+                "<p>联系MSN&nbsp;&nbsp;&nbsp;#{data?.value?.contactMsn || ''}</p>"
+              "<a href=\"javascript:jAlert('#{info}', '公司信息');void(0);\">#{data?.value?.name || ''}</a>"
           }, {
             field: 'locationVo'
             title: '库位信息'
             render: (data)->
               return '无' if !data.value
               info =
-                "<p>库位名称&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name}</p>" +
+                "<p>库位名称&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name || ''}</p>" +
                 "<p>XCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.xcoord}</p>" +
                 "<p>YCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.ycoord}</p>" +
                 "<p>ZCoord  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.zcoord}</p>"
@@ -133,18 +133,35 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             field: 'inVo',
             title: '批次',
             render: (data)->
-              return '无' if !data.value
-              inVo = data.value
-              udf = []
-              for i in [1...6]
-                udf.push( inVo["udf#{i}"] ) if inVo["udf#{i}"]
-              info =
-                """
-                <p>订单编号　　　#{inVo.billnumber}</p>
-                <p>客户订单编号　#{inVo.customerBillnumber}</p>
-                <p>自定义参数　　#{udf.join(', ') || ''}</p>
-                """
-              "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">#{inVo.billnumber}</a>"
+              # return '无' if !data.value
+              rowData = data.row
+              if data.value
+                inVo = data.value
+                info =
+                  """
+                  <p>订单编号　　　#{inVo.billnumber}</p>
+                  <p>客户订单编号　#{inVo.customerBillnumber}</p>
+                  <p>自定义参数　　</p>
+                  <p>　　#{rowData.companyVo.udf1Alias || '参数1'}：#{rowData.udf1 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf2Alias || '参数2'}：#{rowData.udf2 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf3Alias || '参数3'}：#{rowData.udf3 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf4Alias || '参数4'}：#{rowData.udf4 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf5Alias || '参数5'}：#{rowData.udf5 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf6Alias || '参数6'}：#{rowData.udf6 || ''}</p>
+                  """
+                "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">#{inVo.billnumber}</a>"
+              else
+                info =
+                  """
+                  <p>自定义参数　　</p>
+                  <p>　　#{rowData.companyVo.udf1Alias || '参数1'}：#{rowData.udf1 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf2Alias || '参数2'}：#{rowData.udf2 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf3Alias || '参数3'}：#{rowData.udf3 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf4Alias || '参数4'}：#{rowData.udf4 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf5Alias || '参数5'}：#{rowData.udf5 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf6Alias || '参数6'}：#{rowData.udf6 || ''}</p>
+                  """
+                "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">缺省</a>"
           }
         ]
       })

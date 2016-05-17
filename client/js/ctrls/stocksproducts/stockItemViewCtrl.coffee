@@ -32,7 +32,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imag
     init: (el, data)->
       if !can.base
         new base('', data)
-      this.element.html can.view('../../public/view/home/stocksproducts/stockItemView.html', consigneeData)
+      this.element.html can.view('../public/view/home/stocksproducts/stockItemView.html', consigneeData)
 
       itemIds =  []
       datagrid = $('#stockItemList').datagrid({

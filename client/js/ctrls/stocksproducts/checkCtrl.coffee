@@ -3,7 +3,7 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
   return Ctrl.extend
     init: (el, data)->
       new base('', data) if !can.base
-      this.element.html can.view('../../public/view/home/stocksproducts/check.html', {})
+      this.element.html can.view('../public/view/home/stocksproducts/check.html', {})
 
       startAt = Date.now()
       checkList = localStorage.get('checkList') || []
@@ -24,7 +24,7 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
 
         entries = _.map checkList, (it)->
           if isNaN it.id
-            {quantity: it.quantity, checkQuantity: it.checkQuantity || it.quantity, itemId: it.goodsVo.id, locationId: it.locationVo.id}
+            {quantity: it.quantity, checkQuantity: it.checkQuantity || it.quantity, itemId: it.goodsVo.id, locationId: it.locationVo.id, udf1: it.udf1, udf2: it.udf2, udf3: it.udf3, udf4: it.udf4, udf5: it.udf5, udf6: it.udf6}
           else
             {inventoryId: it.id, quantity: it.quantity, checkQuantity: it.checkQuantity}
         data = {startAt, entries}
@@ -149,18 +149,34 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
             field: 'inVo',
             title: '批次',
             render: (data)->
-              return '无' if !data.value
-              inVo = data.value
-              udf = []
-              for i in [1...6]
-                udf.push( inVo["udf#{i}"] ) if inVo["udf#{i}"]
-              info =
-                """
-                <p>订单编号　　　#{inVo.billnumber}</p>
-                <p>客户订单编号　#{inVo.customerBillnumber}</p>
-                <p>自定义参数　　#{udf.join(', ') || ''}</p>
-                """
-              "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">#{inVo.billnumber}</a>"
+              rowData = data.row
+              if data.value
+                inVo = data.value
+                info =
+                  """
+                  <p>订单编号　　　#{inVo.billnumber}</p>
+                  <p>客户订单编号　#{inVo.customerBillnumber}</p>
+                  <p>自定义参数　　</p>
+                  <p>　　#{rowData.companyVo.udf1Alias || '参数1'}：#{rowData.udf1 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf2Alias || '参数2'}：#{rowData.udf2 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf3Alias || '参数3'}：#{rowData.udf3 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf4Alias || '参数4'}：#{rowData.udf4 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf5Alias || '参数5'}：#{rowData.udf5 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf6Alias || '参数6'}：#{rowData.udf6 || ''}</p>
+                  """
+                "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">#{inVo.billnumber}</a>"
+              else
+                info =
+                  """
+                  <p>自定义参数　　</p>
+                  <p>　　#{rowData.companyVo.udf1Alias || '参数1'}：#{rowData.udf1 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf2Alias || '参数2'}：#{rowData.udf2 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf3Alias || '参数3'}：#{rowData.udf3 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf4Alias || '参数4'}：#{rowData.udf4 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf5Alias || '参数5'}：#{rowData.udf5 || ''}</p>
+                  <p>　　#{rowData.companyVo.udf6Alias || '参数6'}：#{rowData.udf6 || ''}</p>
+                  """
+                "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">缺省</a>"
           }
         ]
       })
@@ -200,7 +216,6 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
       $('#tmpAddDialog').on 'click', 'a.button', (e)->
         e.stopPropagation()
         e.preventDefault()
-        console.log 'com'
         if( $(this).is '.ic-add' )
           item = $('#goodsSelector').data 'item'
           location = $('#locationSelector').data 'location'
@@ -219,6 +234,12 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
             lastOperator: Auth.user()
             companyVo: Auth.user().companyVo
             locationVo: location
+            udf1: $('#tmpAddDialog input[name="udf1"]').val() || null
+            udf2: $('#tmpAddDialog input[name="udf2"]').val() || null
+            udf3: $('#tmpAddDialog input[name="udf3"]').val() || null
+            udf4: $('#tmpAddDialog input[name="udf4"]').val() || null
+            udf5: $('#tmpAddDialog input[name="udf5"]').val() || null
+            udf6: $('#tmpAddDialog input[name="udf6"]').val() || null
 
           checkList.push inventory
           localStorage.set 'checkList', checkList
@@ -229,3 +250,12 @@ define ['can/control', 'can', 'Auth', 'base', 'localStorage', 'datagrid_plugin',
         $('#locationSelector').val('')
         $('#goodsSelector').removeData 'item'
         $('#locationSelector').removeData 'location'
+        $('#tmpAddDialog')[0].reset()
+
+      companyVo = Auth.user().companyVo
+      $('#tmpAddDialog input[name="udf1"]').attr 'placeholder', companyVo['udf1Alias'] || '参数1'
+      $('#tmpAddDialog input[name="udf2"]').attr 'placeholder', companyVo['udf2Alias'] || '参数2'
+      $('#tmpAddDialog input[name="udf3"]').attr 'placeholder', companyVo['udf3Alias'] || '参数3'
+      $('#tmpAddDialog input[name="udf4"]').attr 'placeholder', companyVo['udf4Alias'] || '参数4'
+      $('#tmpAddDialog input[name="udf5"]').attr 'placeholder', companyVo['udf5Alias'] || '参数5'
+      $('#tmpAddDialog input[name="udf6"]').attr 'placeholder', companyVo['udf6Alias'] || '参数6'

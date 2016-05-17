@@ -6,7 +6,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'autocomplete', 't
     init: (el, data)->
       if !can.base
         new base('', data)
-      this.element.html can.view('../../public/view/home/company/userNew.html', userInfo)
+      this.element.html can.view('../public/view/home/company/userNew.html', userInfo)
 
       selectedRole = []
       @isNewUser = window.location.hash.endsWith('userAdd')

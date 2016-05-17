@@ -4,7 +4,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
     init: (el, data)->
       pageData = new can.Map(original: {}, target: {})
       new base('', data) if !can.base
-      this.element.html can.view('../../public/view/home/stocksproducts/migrate.html', pageData)
+      this.element.html can.view('../public/view/home/stocksproducts/migrate.html', pageData)
 
       original = null
       target = null
@@ -60,6 +60,8 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
       $('#migrate').unbind 'click'
       $('#migrate').bind 'click', ()->
         return if !$('#migrateForm').valid()
+        return jAlert( '请选择原始库位！' )  if !pageData.attr('original').attr 'id'
+        return jAlert( '请选择目标库位！' )  if !pageData.attr('target').attr 'id'
 
         # if !pageData.attr('target')?.attr('goodsVo')
         #   pageData.attr('target')?.attr('goodsVo', pageData.attr('original').goodsVo)

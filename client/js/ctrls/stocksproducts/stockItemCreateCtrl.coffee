@@ -19,7 +19,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'fileInputZh', '_'
       new base('', data) if !can.base
 
       switchStep 1
-      this.element.html can.view('../../public/view/home/stocksproducts/stockItemCreate.html', stockItemData)
+      this.element.html can.view('../public/view/home/stocksproducts/stockItemCreate.html', stockItemData)
 
       isNew = window.location.hash.endsWith('stockItemAdd')
       if isNew

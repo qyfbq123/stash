@@ -24,7 +24,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
       if !can.base
         new base('', data)
 
-      this.element.html can.view('../../public/view/home/company/companyView.html', {})
+      this.element.html can.view('../public/view/home/company/companyView.html', {})
 
       cols = [
         # {

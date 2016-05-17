@@ -26,7 +26,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert'], (Ctr
     init: (el, data)->
       if !can.base
         new base('', data)
-      this.element.html can.view('../../public/view/home/stocksproducts/categoryView.html', categoryList)
+      this.element.html can.view('../public/view/home/stocksproducts/categoryView.html', categoryList)
 
       datagrid = $('#categoryList').datagrid({
         url: Auth.apiHost + 'goods/category/page',

@@ -40,17 +40,24 @@ define ['localStorage', 'loading', 'jAlert'], (localStorage, loading)->
       localStorage.remove('logined');
       localStorage.remove('user');
 
-      localStorage.remove('menu');
+      localStorage.remove('menus');
       localStorage.remove('checkList');
       localStorage.remove('sessionId');
       document.cookie = ''
       $.getJSON(apiHost + 'main/logout', ->)
       window.location.hash = "!login"
     logined: ()->
+      return Boolean(localStorage.get('logined'));
+    refresh: ()->
+      if sessionId = localStorage.get 'sessionId'
+        localStorage.set 'sessionId', sessionId
+
       if userinfo = localStorage.get 'user'
         localStorage.set 'user', userinfo
         localStorage.set 'logined', true
-      return Boolean(localStorage.get('logined'));
+
+      if menus = localStorage.get 'menus'
+        localStorage.set 'menus', menus
     user: ()->
       return localStorage.get('user');
     userIsAdmin: (userInfo) ->

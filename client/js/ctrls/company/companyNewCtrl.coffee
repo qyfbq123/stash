@@ -18,7 +18,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         if tmpCompanyInfo
           userInfo.attr(tmpCompanyInfo);
 
-      this.element.html can.view('../../public/view/home/company/companyNew.html', userInfo)
+      this.element.html can.view('../public/view/home/company/companyNew.html', userInfo)
 
       $('#saveCompany').unbind 'click'
       $('#saveCompany').bind 'click', ()->

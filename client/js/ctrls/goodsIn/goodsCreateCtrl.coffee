@@ -23,7 +23,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       
       new base('', data) if !can.base
 
-      this.element.html can.view('../../public/view/home/goodsIn/goodsCreate.html', goodsData)
+      this.element.html can.view('../public/view/home/goodsIn/goodsCreate.html', goodsData)
 
       $('#goodsInDate').datetimepicker
         timepicker: false
@@ -187,9 +187,6 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }
         ))
 
-        $('#udf input').each (i, e)->
-          goodsData.attr "udf#{i+1}", $(this).val()
-
         url = Auth.apiHost + 'stock/in/create'
         $.postJSON(url, goodsData.attr(),
           (data)->
@@ -215,14 +212,15 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         )
 
       $('#udfAdd').unbind('click').bind 'click', (e)->
-        $('<label/>').append($ '<input type="text" class="round width300"/>' ).append($ "<a class='btn' class='btn'>删除</a>").insertBefore '#udfAdd'
-
-        $('#udfAdd').addClass('hide') if $('#udf input').length >= 6
+        $('#udf>label').removeClass 'hide'
+        $('#udfAdd').addClass 'hide'
         e.stopPropagation()
         e.preventDefault()
 
-      $('#udf').on 'click', 'a.btn', (e)->
-        $(this).closest('label').remove()
-        $('#udfAdd').removeClass 'hide'
-        e.stopPropagation()
-        e.preventDefault()
+      companyVo = Auth.user().companyVo
+      $('#udf input[name="udf1"]').attr 'placeholder', companyVo['udf1Alias'] || '参数1'
+      $('#udf input[name="udf2"]').attr 'placeholder', companyVo['udf2Alias'] || '参数2'
+      $('#udf input[name="udf3"]').attr 'placeholder', companyVo['udf3Alias'] || '参数3'
+      $('#udf input[name="udf4"]').attr 'placeholder', companyVo['udf4Alias'] || '参数4'
+      $('#udf input[name="udf5"]').attr 'placeholder', companyVo['udf5Alias'] || '参数5'
+      $('#udf input[name="udf6"]').attr 'placeholder', companyVo['udf6Alias'] || '参数6'

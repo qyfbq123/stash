@@ -12,7 +12,7 @@ deleteImages = (image)->
 define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'imageView', 'fileInputZh'], (Ctrl, can, Auth, base)->
   return Ctrl.extend
     init: (el, imageData)->
-      this.element.html can.view('../../public/view/home/ImageManager.html', {})
+      this.element.html can.view('../public/view/home/ImageManager.html', {})
 
       $("#uploadImg").fileinput({
         language: 'zh'

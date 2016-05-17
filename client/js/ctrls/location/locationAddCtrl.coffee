@@ -6,7 +6,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
     init: (el, data)->
       new base('', data) if !can.base
 
-      this.element.html can.view('../../public/view/home/location/locationAdd.html', locationData)
+      this.element.html can.view('../public/view/home/location/locationAdd.html', locationData)
 
       $('#warehouseSelector').autocomplete({
         minChars:0

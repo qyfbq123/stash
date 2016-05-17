@@ -55,7 +55,7 @@ define ['can/control', 'can/view/mustache', 'Auth', '_', 'localStorage', 'jAlert
     init: ()->
       homePageData.attr 'username', Auth.user()?.username
 
-      this.element.html can.view('../../public/view/home/home.html', homePageData)
+      this.element.html can.view('../public/view/home/home.html', homePageData)
 
       can.route.bind "change", (ev, attr, how, newVal, oldVal)=>
         newVal ?= ''

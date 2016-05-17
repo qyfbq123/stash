@@ -99,6 +99,7 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
   Router = can.Control({
     '{can.route} change': (ev, attr, how, newVal, oldVal)->
       validRoute ev.route, 'change'
+      Auth.refresh()
       return false
 
     'login route': (data)->

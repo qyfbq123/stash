@@ -21,7 +21,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       new base('', data) if !can.base
 
-      this.element.html can.view('../../public/view/home/goodsOut/goodsCreate.html', goodsData)
+      this.element.html can.view('../public/view/home/goodsOut/goodsCreate.html', goodsData)
 
       $('#goodsOutDate').datetimepicker
         timepicker: false

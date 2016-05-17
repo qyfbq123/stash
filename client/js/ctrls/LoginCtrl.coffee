@@ -9,10 +9,12 @@ define ['can/control', 'can/view/mustache', 'Auth'], (Control, can, Auth)->
 
   return Control.extend
     init: ()->
-      this.element.html can.view('../../public/view/login.html', userInfo)
+      this.element.html can.view('../public/view/login.html', userInfo)
 
       $('input.login').keyup (e)->
-        Auth.login userInfo.attr() if e.keyCode == 13
+        if e.keyCode == 13
+          $(this).blur()
+          Auth.login userInfo.attr()
 
       $('.login_button').unbind 'click', ()->
       $('.login_button').bind 'click', ()->

@@ -4,13 +4,13 @@ define ['can/control', 'can/view/mustache', 'base', 'Auth', '_', 'datagrid_plugi
 
   return Control.extend
     init: (el, data)->
-      this.element.html can.view('../../public/view/home/dashboard.html', pageData)
+      this.element.html can.view('../public/view/home/dashboard.html', pageData)
 
       success = (data = {})->
         pageData.attr(data.data)
 
         $('#stockIn').datagrid({
-          data: data?.data?.todayInVoList
+          data: data?.data?.todayInVoList || []
           attr: "class": "table table-bordered table-striped"
           sorter: "bootstrap",
           pager: "bootstrap",
@@ -50,7 +50,7 @@ define ['can/control', 'can/view/mustache', 'base', 'Auth', '_', 'datagrid_plugi
         })
 
         $('#stockOut').datagrid({
-          data: data.data.todayOutVoList
+          data: data?.data?.todayOutVoList || []
           attr: "class": "table table-bordered table-striped"
           sorter: "bootstrap",
           pager: "bootstrap",

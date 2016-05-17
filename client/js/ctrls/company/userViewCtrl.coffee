@@ -27,7 +27,7 @@ define ['can/control', 'can', 'Auth', 'base', 'datagrid_plugin', 'jAlert', 'auto
       if !can.base
         new base('', data)
 
-      this.element.html can.view('../../public/view/home/company/userView.html', userList)
+      this.element.html can.view('../public/view/home/company/userView.html', userList)
 
       cols = [
         # {

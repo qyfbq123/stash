@@ -6,7 +6,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
     init: (el, data)->
       new base('', data) if !can.base
 
-      this.element.html can.view('../../public/view/home/stocksproducts/categoryCreate.html', categoryData)
+      this.element.html can.view('../public/view/home/stocksproducts/categoryCreate.html', categoryData)
 
       isNew = window.location.hash.endsWith('categoryAdd')
       if isNew

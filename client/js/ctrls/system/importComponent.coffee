@@ -44,6 +44,10 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
         pageData.attr('title', '商品')
         pageData.attr('downloadUrl', '商品.xls')
         pageData.attr('uploadUrl', 'basicdata/goods')
+      when 'inventoryDataImport'
+        pageData.attr('title', '库存')
+        pageData.attr('downloadUrl', '库存.xls')
+        pageData.attr('uploadUrl', 'basicdata/inventory')
 
   return can.Component.extend({
     tag: "DataImport",
@@ -57,7 +61,7 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
                            <a id='downloadUrl' href='./public/static/docs/{{downloadUrl}}' target='_blank' style='font-size:20px;' class='text-center pull-left'>{{title}}模板文件下载</a>
                            <div class='text-center pull-right'>
                             <input type='checkbox' can-value='isCover'></input>
-                            <label class='text-danger'>是否覆盖已存在{{title}}</label>
+                            <label id='isCover' class='text-danger'>是否覆盖已存在{{title}}</label>
                            </div>
                          </div>
                          "),
@@ -66,6 +70,7 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
       currentData
     events: {
       inserted:()->
+        $('#isCover').hide() if(pageData.attr('title') == '库存')
         $('#filePicker').uploadify({
           'width': 200
           'fileSizeLimit': '1024k'

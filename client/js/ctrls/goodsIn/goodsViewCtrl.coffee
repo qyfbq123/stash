@@ -167,7 +167,7 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
       if !can.base
         new base('', data)
 
-      this.element.html can.view('../../public/view/home/goodsIn/goodsView.html', {})
+      this.element.html can.view('../public/view/home/goodsIn/goodsView.html', {})
       $('#listDetail').attr('style', 'display:none;')
 
       datagrid = $('#goodsInList').datagrid({
