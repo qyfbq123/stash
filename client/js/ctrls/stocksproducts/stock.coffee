@@ -43,6 +43,10 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
                 else
                   selectedItems = _.reject selectedItems, (it)-> it.id == id
             check id
+
+          $('#stockList th:gt(7)').each ()->
+            if $(this).width() >= 100
+              $(this).width 100
         col:[{
             field: ''
             title: '选择'
@@ -70,7 +74,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }, {
             field: 'goodsVo'
             title: '图片'
-            attrHeader: { "style": "width:25%;"},
+            # attrHeader: { "style": "width:25%;"},
             render: (data)->
               itemIds.push data.row.id
               imgs = _.map(data?.value?.photos, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
@@ -85,25 +89,27 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
                           </ul>
                         </li>
                       </ul>"
-          }, {
-            field: 'lastOperator'
-            title: '最后操作人'
-            render: (data)->
-              roleNameList = _.pluck data.roleVoList, 'name'
-              info =
-                "<p>用户名　　　#{data?.value?.username}</p>" +
-                "<p>用户别名　　#{data?.value?.cname}</p>" +
-                "<p>用户地址　　#{data?.value?.address}</p>" +
-                "<p>用户角色　　#{roleNameList}</p>" +
-                "<p>所属公司　　#{data?.value?.companyVo?.name || '无'}</p>" +
-                "<p>创建时间　　#{if data?.value?.created then new Date(data.value.created).toLocaleString() else '无'}</p>" +
-                "<p>电话号码　　#{data?.value?.tel || ''}</p>"
-              "<a href=\"javascript:jAlert('#{info}', '最后操作人信息');void(0);\">#{data?.value?.username}</a>"
-          }, {
-            field: 'modified'
-            title: '最后修改时间'
-            render: (data)-> if data.value then new Date(data.value).toLocaleString() else '无'
-          }, {
+          }, 
+          # {
+          #   field: 'lastOperator'
+          #   title: '最后操作人'
+          #   render: (data)->
+          #     roleNameList = _.pluck data.roleVoList, 'name'
+          #     info =
+          #       "<p>用户名　　　#{data?.value?.username}</p>" +
+          #       "<p>用户别名　　#{data?.value?.cname}</p>" +
+          #       "<p>用户地址　　#{data?.value?.address}</p>" +
+          #       "<p>用户角色　　#{roleNameList}</p>" +
+          #       "<p>所属公司　　#{data?.value?.companyVo?.name || '无'}</p>" +
+          #       "<p>创建时间　　#{if data?.value?.created then new Date(data.value.created).toLocaleString() else '无'}</p>" +
+          #       "<p>电话号码　　#{data?.value?.tel || ''}</p>"
+          #     "<a href=\"javascript:jAlert('#{info}', '最后操作人信息');void(0);\">#{data?.value?.username}</a>"
+          # }, {
+          #   field: 'modified'
+          #   title: '最后修改时间'
+          #   render: (data)-> if data.value then new Date(data.value).toLocaleString() else '无'
+          # }, 
+          {
             field: 'companyVo'
             title: '公司信息'
             render: (data)->
@@ -141,27 +147,37 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
                   """
                   <p>订单编号　　　#{inVo.billnumber}</p>
                   <p>客户订单编号　#{inVo.customerBillnumber}</p>
-                  <p>自定义参数　　</p>
-                  <p>　　#{rowData.companyVo.udf1Alias || '参数1'}：#{rowData.udf1 || ''}</p>
-                  <p>　　#{rowData.companyVo.udf2Alias || '参数2'}：#{rowData.udf2 || ''}</p>
-                  <p>　　#{rowData.companyVo.udf3Alias || '参数3'}：#{rowData.udf3 || ''}</p>
-                  <p>　　#{rowData.companyVo.udf4Alias || '参数4'}：#{rowData.udf4 || ''}</p>
-                  <p>　　#{rowData.companyVo.udf5Alias || '参数5'}：#{rowData.udf5 || ''}</p>
-                  <p>　　#{rowData.companyVo.udf6Alias || '参数6'}：#{rowData.udf6 || ''}</p>
                   """
                 "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">#{inVo.billnumber}</a>"
-              else
-                info =
-                  """
-                  <p>自定义参数　　</p>
-                  <p>　　#{rowData.companyVo.udf1Alias || '参数1'}：#{rowData.udf1 || ''}</p>
-                  <p>　　#{rowData.companyVo.udf2Alias || '参数2'}：#{rowData.udf2 || ''}</p>
-                  <p>　　#{rowData.companyVo.udf3Alias || '参数3'}：#{rowData.udf3 || ''}</p>
-                  <p>　　#{rowData.companyVo.udf4Alias || '参数4'}：#{rowData.udf4 || ''}</p>
-                  <p>　　#{rowData.companyVo.udf5Alias || '参数5'}：#{rowData.udf5 || ''}</p>
-                  <p>　　#{rowData.companyVo.udf6Alias || '参数6'}：#{rowData.udf6 || ''}</p>
-                  """
-                "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">缺省</a>"
+                # info =
+                #   """
+                #   <p>自定义参数　　</p>
+                #   <p>　　#{rowData.companyVo.udf1Alias || '参数1'}：#{rowData.udf1 || ''}</p>
+                #   <p>　　#{rowData.companyVo.udf2Alias || '参数2'}：#{rowData.udf2 || ''}</p>
+                #   <p>　　#{rowData.companyVo.udf3Alias || '参数3'}：#{rowData.udf3 || ''}</p>
+                #   <p>　　#{rowData.companyVo.udf4Alias || '参数4'}：#{rowData.udf4 || ''}</p>
+                #   <p>　　#{rowData.companyVo.udf5Alias || '参数5'}：#{rowData.udf5 || ''}</p>
+                #   <p>　　#{rowData.companyVo.udf6Alias || '参数6'}：#{rowData.udf6 || ''}</p>
+                #   """
+                # "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">缺省</a>"
+          }, {
+            field: 'udf1',
+            title: Auth.user().companyVo.udf1Alias || '参数1'
+          }, {
+            field: 'udf2',
+            title: Auth.user().companyVo.udf2Alias || '参数2'
+          }, {
+            field: 'udf3',
+            title: Auth.user().companyVo.udf3Alias || '参数3'
+          }, {
+            field: 'udf4',
+            title: Auth.user().companyVo.udf4Alias || '参数4'
+          }, {
+            field: 'udf5',
+            title: Auth.user().companyVo.udf5Alias || '参数5'
+          }, {
+            field: 'udf6',
+            title: Auth.user().companyVo.udf6Alias || '参数6'
           }
         ]
       })
