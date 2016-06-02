@@ -1,5 +1,5 @@
 
-define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'validate', 'datagrid_plugin', 'imageView', 'autocomplete'], (base, can, Control, Auth, localStorage)->
+define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'storeJs', '_', 'jAlert', 'validate', 'datagrid_plugin', 'imageView', 'autocomplete', 'jqueryResizableColumns'], (base, can, Control, Auth, localStorage, storeJs)->
   brandData = new can.Map()
   # selCompanyId = ''
 
@@ -14,7 +14,9 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       selectedItems = []
       $('#stockList').datagrid({
         url: Auth.apiHost + 'stock/inventory/page',
-        attr: "class": "table table-bordered table-striped"
+        attr:
+          "class": "table table-bordered table-striped"
+          'data-resizable-columns-id': 'stockTable'
         sorter: "bootstrap",
         pager: "bootstrap",
         noData: '无数据'
@@ -44,18 +46,18 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
                   selectedItems = _.reject selectedItems, (it)-> it.id == id
             check id
 
-          $('#stockList th:gt(7)').each ()->
-            if $(this).width() >= 100
-              $(this).width 100
+          $('#stockList table').resizableColumns store: storeJs
         col:[{
             field: ''
             title: '选择'
+            attrHeader: "data-resizable-column-id" : "#"
             render: (data)->
               originItems.push data.row
               "<input style='width:50px;' type='checkbox' id=\"check#{data.row.id}\"}>"
           }, {
             field: 'goodsVo'
             title: 'SKU'
+            attrHeader: 'data-resizable-column-id': 'SKU'
             render: (data)->
               info =
                 "<p>SKU&nbsp;　　　#{data?.value?.sku}</p>" +
@@ -66,14 +68,17 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }, {
             field: 'goodsVo'
             title: '商品名称'
+            attrHeader: 'data-resizable-column-id': 'goodsName'
             render: (data)->
               return data?.value?.name
           }, {
             field: 'quantity'
             title: '数量'
+            attrHeader: 'data-resizable-column-id': 'quantity'
           }, {
             field: 'goodsVo'
             title: '图片'
+            attrHeader: 'data-resizable-column-id': 'photos'
             # attrHeader: { "style": "width:25%;"},
             render: (data)->
               itemIds.push data.row.id
@@ -112,6 +117,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           {
             field: 'companyVo'
             title: '公司信息'
+            attrHeader: 'data-resizable-column-id': 'companyVo'
             render: (data)->
               info =
                 "<p>公司名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{data?.value?.name || ''}</p>" +
@@ -126,6 +132,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }, {
             field: 'locationVo'
             title: '库位信息'
+            attrHeader: 'data-resizable-column-id': 'locationVo'
             render: (data)->
               return '无' if !data.value
               info =
@@ -136,8 +143,9 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
               "<a href=\"javascript:jAlert('#{info}', '库位信息');void(0);\">#{data?.value?.name}</a>"
           }, {
-            field: 'inVo',
-            title: '批次',
+            field: 'inVo'
+            title: '批次'
+            attrHeader: 'data-resizable-column-id': 'inVo'
             render: (data)->
               # return '无' if !data.value
               rowData = data.row
@@ -161,23 +169,29 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
                 #   """
                 # "<a href=\"javascript:jAlert('#{info}', '批次信息');void(0);\">缺省</a>"
           }, {
-            field: 'udf1',
+            field: 'udf1'
             title: Auth.user().companyVo.udf1Alias || '参数1'
+            attrHeader: 'data-resizable-column-id': 'udf1'
           }, {
-            field: 'udf2',
+            field: 'udf2'
             title: Auth.user().companyVo.udf2Alias || '参数2'
+            attrHeader: 'data-resizable-column-id': 'udf2'
           }, {
-            field: 'udf3',
+            field: 'udf3'
             title: Auth.user().companyVo.udf3Alias || '参数3'
+            attrHeader: 'data-resizable-column-id': 'udf3'
           }, {
-            field: 'udf4',
+            field: 'udf4'
             title: Auth.user().companyVo.udf4Alias || '参数4'
+            attrHeader: 'data-resizable-column-id': 'udf4'
           }, {
-            field: 'udf5',
+            field: 'udf5'
             title: Auth.user().companyVo.udf5Alias || '参数5'
+            attrHeader: 'data-resizable-column-id': 'udf5'
           }, {
-            field: 'udf6',
+            field: 'udf6'
             title: Auth.user().companyVo.udf6Alias || '参数6'
+            attrHeader: 'data-resizable-column-id': 'udf6'
           }
         ]
       })

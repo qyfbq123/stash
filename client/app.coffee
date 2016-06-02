@@ -29,6 +29,8 @@ require.config
     imageManageCtrl: '../public/js/ctrls/ImageManageCtrl'
 
     dashboardCtrl: '../public/js/ctrls/dashboard'
+    jqueryResizableColumns: 'jquery-resizable-columns/dist/jquery.resizableColumns.min'
+    storeJs: 'store-js/store.min'
 
     # 公司下的控制器
     companyNewCtrl: '../public/js/ctrls/company/companyNewCtrl'
@@ -85,6 +87,7 @@ require.config
     validate: ['$']
     fileInputZh: ['fileInput', '$']
     dateTimePicker: ['$']
+    jqueryResizableColumns: ['$']
 
 require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
   $.ajaxSetup cache:false
