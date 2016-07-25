@@ -53,7 +53,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'storeJs', '_', 'j
             attrHeader: "data-resizable-column-id" : "#"
             render: (data)->
               originItems.push data.row
-              "<input style='width:50px;' type='checkbox' id=\"check#{data.row.id}\"}>"
+              "<input type='checkbox' id=\"check#{data.row.id}\"}>"
           }, {
             field: 'goodsVo'
             title: 'SKU'
@@ -84,8 +84,13 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'storeJs', '_', 'j
               itemIds.push data.row.id
               imgs = _.map(data?.value?.photos, (img)->img.path = "#{Auth.apiHost}goods/photo?path=#{img.path}"; img)
               html = ''
+              count = 0
               for img in imgs
-                html += "<li><a href='#{img.path}'><img src='#{img.path}'></a></li>"
+                count++
+                if count < 4
+                  html += "<li><a href='#{img.path}'><img src='#{img.path}'></a></li>"
+                else
+                  html += "<li style='display:none'><a href='#{img.path}'><img src='#{img.path}'></a></li>"
 
               html = "<ul class='gallery'>
                         <li>

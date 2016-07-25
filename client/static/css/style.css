@@ -749,3 +749,11 @@ div#footer {
 tr.details {
 	background-color: lightblue!important;
 }
+#stockList table td a {
+  word-break: break-all;
+  word-wrap:break-word;
+  display:inline-block;
+}
+#stockList .gallery a {
+  display: inline;
+}
