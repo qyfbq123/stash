@@ -10,7 +10,6 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         localStorage.rm 'tmpStockData'
       else
         tmpStockData = localStorage.get 'tmpStockData'
-        console.log tmpStockData
         pageData.attr 'stockData', tmpStockData
         companyVo = Auth.user().companyVo
         aliasArr = [1..6].map (k)->

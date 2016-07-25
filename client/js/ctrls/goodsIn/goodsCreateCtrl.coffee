@@ -167,7 +167,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#printGoodsList').unbind 'click'
       $('#printGoodsList').bind 'click', ()->
-        $('#printArea').print(noPrintSelector: 'a,button,.notPrint')
+        $('#printArea').print(noPrintSelector: 'li a,button,.notPrint')
 
       $('#createGoodsList').unbind 'click'
       $('#createGoodsList').bind 'click', ()->
@@ -187,7 +187,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           }
         ))
 
-        url = Auth.apiHost + 'stock/in/create'
+        url = Auth.apiHost + if isNew then 'stock/in/create' else 'stock/in/update'
         $.postJSON(url, goodsData.attr(),
           (data)->
             if data.status == 0
@@ -201,7 +201,11 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
               $('#supplierSelector').val ''
               goodsData.attr({})
               listData.attr({})
-              jAlert "新增进货单成功！", "提示"
+              if isNew
+                jAlert "新增进货单成功！", "提示"
+              else
+                localStorage.rm 'tmpGoodsInData'
+                jAlert "修改进货单成功！", "提示"
 
               window.location.hash = '#!home/goodsIn/goodsInView'
             else
@@ -224,3 +228,23 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#udf input[name="udf4"]').attr 'placeholder', companyVo['udf4Alias'] || '参数4'
       $('#udf input[name="udf5"]').attr 'placeholder', companyVo['udf5Alias'] || '参数5'
       $('#udf input[name="udf6"]').attr 'placeholder', companyVo['udf6Alias'] || '参数6'
+
+      isNew = window.location.hash.endsWith('goodsInAdd')
+      if isNew
+        localStorage.rm 'tmpGoodsInData'
+      else
+        tmpGoodsInData = localStorage.get 'tmpGoodsInData'
+        goodsData.attr tmpGoodsInData
+        goodsData.attr 'date', new Date(tmpGoodsInData.date).toLocaleDateString()
+        $('#supplierSelector').attr 'value', tmpGoodsInData.supplierVo?.name
+        $('#udfAdd').click()
+        if tmpGoodsInData.entries
+          _.each tmpGoodsInData.entries, (e)->
+            tmpData =
+              good: e.goodsVo
+              location: e.locationVo
+            tmpData.good.count = e.quantity
+            listData.attr "#{tmpData.good.id}_#{tmpData.location.id}", tmpData
+        vs = _.values(listData.attr())
+
+        $('#goodsInList').datagrid('render', {total:vs.length, data:vs})

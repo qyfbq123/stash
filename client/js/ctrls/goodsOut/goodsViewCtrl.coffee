@@ -51,9 +51,9 @@ clickListDetail1 = (data)->
     $('#filterSelector').attr('style', 'display:none;')
     $('#goodsOutList').attr('style', 'display:none;')
     $('#listDetail').attr('style', 'display:block;')
-    if data.status == 'started'
-      $('#printList').attr('style', 'display:block;')
-    else $('#printList').attr('style', 'display:none;')
+    # if data.status == 'started'
+    #   $('#printList').attr('style', 'display:block;')
+    # else $('#printList').attr('style', 'display:none;')
 
     $('#billnumber').empty()
     $('#createAt').empty()
@@ -68,10 +68,9 @@ clickListDetail1 = (data)->
 
     $('#printList').unbind 'click'
     $('#printList').bind 'click', ()->
-      $('.col-md-12').print(noPrintSelector: 'a,button,.notPrint')
+      $('.col-md-12').print(noPrintSelector: 'li a,button,.notPrint')
 
     data = _.map(data.entries, (it)->
-      console.log it
       it.goodsVo ?=it.inventoryVo?.goodsVo
       it.goodsVo.quantity = it.quantity
       it.goodsVo.locationVo = it.inventoryVo.locationVo
@@ -161,6 +160,10 @@ clickListDetail1 = (data)->
       $('#filterSelector').attr('style', 'display:block;')
       $('#goodsOutList').attr('style', 'display:block;')
 
+clickUpdateGoodsOut = (data)->
+  require ['localStorage'], (localStorage)->
+    localStorage.set 'tmpGoodsOutData', data
+    window.location.hash = "#!home/goodsOut/goodsOutAdd/#{data.id}"
 
 define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', 'autocomplete'], (Ctrl, can, Auth, base)->
   # selCompanyId = ''
@@ -199,7 +202,8 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             render: (data)->
               if Auth.userIsAdmin() || Auth.user().id == data.row.creatorVo.id
                 switch data.row.status
-                  when 'started' then return "<a href='javascript:clickDeleteGoodOutList(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+                  when 'started' then return "<a href='javascript:clickUpdateGoodsOut(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;"  +
+                    "<a href='javascript:clickDeleteGoodOutList(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'created'
             title: '创建时间'

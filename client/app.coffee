@@ -184,9 +184,9 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
         new goodsInCreateCtrl('#rightWorkspace', {id:'goodsIn'})
     'home/goodsIn/goodsInAdd/:id route': (data)->
       return if !Auth.logined()
-      require ['goodsInViewCtrl', 'base'], (goodsInViewCtrl, base)->
+      require ['goodsInCreateCtrl', 'base'], (goodsInCreateCtrl, base)->
         new base('', data) if !can.base
-        new goodsInViewCtrl('#rightWorkspace', {id:'goodsIn'})
+        new goodsInCreateCtrl('#rightWorkspace', {id:'goodsIn'})
     'home/goodsIn/goodsInView route': (data)->
       return if !Auth.logined()
       require ['goodsInViewCtrl', 'base'], (goodsInViewCtrl, base)->

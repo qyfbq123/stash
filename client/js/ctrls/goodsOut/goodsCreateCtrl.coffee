@@ -178,7 +178,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
       $('#printGoodsList').unbind 'click'
       $('#printGoodsList').bind 'click', ()->
-        $('#printArea').print(noPrintSelector: 'a,button,.notPrint')
+        $('#printArea').print(noPrintSelector: 'li a,button,.notPrint')
 
       $('#createGoodsList').unbind 'click'
       $('#createGoodsList').bind 'click', ()->
@@ -200,7 +200,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         $('#udf input').each (i, e)->
           goodsData.attr "udf#{i+1}", $(this).val()
 
-        url = Auth.apiHost + 'stock/out/create'
+        url = Auth.apiHost + if isNew then 'stock/out/create' else 'stock/out/update'
         $.postJSON(url, goodsData.attr(),
           (data)->
             if data.status == 0
@@ -213,7 +213,11 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
               $('#consigneeSelector').val ''
               goodsData.attr({})
               listData.attr({})
-              jAlert "新增出货单成功！", "提示"
+              if isNew
+                jAlert "新增出货单成功！", "提示"
+              else
+                localStorage.rm 'tmpGoodsInData'
+                jAlert "修改出货单成功！", "提示"
               window.location.hash = '#!home/goodsOut/goodsOutView'
             else
               goodsData.attr 'date', saveDate
@@ -234,3 +238,24 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         $('#udfAdd').removeClass 'hide'
         e.stopPropagation()
         e.preventDefault()
+
+      isNew = window.location.hash.endsWith('goodsOutAdd')
+      if isNew
+        localStorage.rm 'tmpGoodsOutData'
+      else
+        tmpGoodsOutData = localStorage.get 'tmpGoodsOutData'
+        goodsData.attr tmpGoodsOutData
+        goodsData.attr 'date', new Date(tmpGoodsOutData.date).toLocaleDateString()
+        $('#consigneeSelector').attr 'value', tmpGoodsOutData.consigneeVo?.name
+        _.each [0...6], ->
+          $('#udfAdd').click()
+        _.each [1..6], (v)->
+          $("#udf input:eq(#{v-1})").val tmpGoodsOutData["udf#{v}"]
+        if tmpGoodsOutData.entries
+          _.each tmpGoodsOutData.entries, (e)->
+            tmpData = e.inventoryVo
+            tmpData.count = e.quantity
+            listData.attr tmpData.id, tmpData
+        vs = _.values(listData.attr())
+
+        $('#goodsOutList').datagrid('render', {total:vs.length, data:vs})
