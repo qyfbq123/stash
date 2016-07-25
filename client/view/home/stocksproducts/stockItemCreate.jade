@@ -21,12 +21,12 @@ div(style="display:{{page.StepCreate}};")
           td
             div.width80 商品体积：
           td
-            input.round.default-width-input(type='text', can-value='data.volume',name='volume', number)
+            input.round.default-width-input(type='text', can-value='data.volume',name='volume')
         tr
           td
             div.width80 商品重量：
           td
-            input.round.default-width-input(type='text', can-value='data.weight',name='weight', number)
+            input.round.default-width-input(type='text', can-value='data.weight',name='weight')
           td
             div.width80 计量单位：
           td
@@ -41,6 +41,10 @@ div(style="display:{{page.StepCreate}};")
           td
             input.round.default-width-input#categorySelector(type='text', name='category', placeholder='请选择...')
         tr
+          td
+            div.width80 备注：
+          td
+            input.round.default-width-input(type='text', can-value='data.desc',name='desc')
           td
             div.width80 危险品：
           td
