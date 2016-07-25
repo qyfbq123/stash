@@ -40,6 +40,7 @@ require.config
 
     # 库存 & 商品
     stockViewCtrl: '../public/js/ctrls/stocksproducts/stock'
+    stockUpdateCtrl: '../public/js/ctrls/stocksproducts/stockUpdateCtrl'
     brandViewCtrl: '../public/js/ctrls/stocksproducts/brandViewCtrl'
     brandCreateCtrl: '../public/js/ctrls/stocksproducts/brandCreateCtrl'
     categoryViewCtrl: '../public/js/ctrls/stocksproducts/categoryViewCtrl'
@@ -197,6 +198,12 @@ require ['can', 'Auth', 'localStorage'], (can, Auth, localStorage)->
       require ['stockViewCtrl', 'base'], (stockViewCtrl, base)->
         new base('', data) if !can.base
         new stockViewCtrl('#rightWorkspace', {id:'stocksproducts'})
+
+    'home/stocksproducts/stock/:id route': (data)->
+      return if !Auth.logined()
+      require ['stockUpdateCtrl', 'base'], (stockUpdateCtrl, base)->
+        new base('', data) if !can.base
+        new stockUpdateCtrl('#rightWorkspace', {id:'stocksproducts'})
 
     'home/stocksproducts/stockItemAdd route': (data)->
       return if !Auth.logined()

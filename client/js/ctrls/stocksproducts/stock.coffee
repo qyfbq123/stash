@@ -1,3 +1,7 @@
+clickUpdateStock2 = (data)->
+  require ['localStorage'], (localStorage)->
+    localStorage.set 'tmpStockData', data
+    window.location.hash = "#!home/stocksproducts/stock/#{data.id}"
 
 define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'storeJs', '_', 'jAlert', 'validate', 'datagrid_plugin', 'imageView', 'autocomplete', 'jqueryResizableColumns'], (base, can, Control, Auth, localStorage, storeJs)->
   brandData = new can.Map()
@@ -54,6 +58,11 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', 'storeJs', '_', 'j
             render: (data)->
               originItems.push data.row
               "<input type='checkbox' id=\"check#{data.row.id}\"}>"
+          }, {
+            field: ''
+            title: '操作'
+            render: (data)->
+              "<a href='javascript:clickUpdateStock2(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>"
           }, {
             field: 'goodsVo'
             title: 'SKU'
