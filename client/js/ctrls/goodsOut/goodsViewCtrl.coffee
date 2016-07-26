@@ -1,9 +1,9 @@
-clickDeleteGoodOutList = (data)->
+clickDeleteGoodOutList = (id)->
   require ['Auth', '$', 'jAlert'], (Auth)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'stock/out/delete', {outId:data.id}
+      $.getJSON(Auth.apiHost + 'stock/out/delete', {outId:id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -14,12 +14,12 @@ clickDeleteGoodOutList = (data)->
           jAlert data.responseText, "错误"
         )
 
-clickOutItemToConfirm = (data)->
+clickOutItemToConfirm = (id)->
   require ['Auth', '$', 'jAlert'], (Auth)->
     jConfirm '是否确认出库单？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'stock/out/confirm', {outId:data.id}
+      $.getJSON(Auth.apiHost + 'stock/out/confirm', {outId:id}
         ,(data)->
           if data.status == 0
             jAlert '成功！', '提示'
@@ -30,12 +30,12 @@ clickOutItemToConfirm = (data)->
           jAlert data.responseText, "错误"
         )
 
-clickOutItemToEnd = (data)->
+clickOutItemToEnd = (id)->
   require ['Auth', '$', 'jAlert'], (Auth)->
     jConfirm '将订单修改为【已经完成】？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'stock/out/end', {outId:data.id}
+      $.getJSON(Auth.apiHost + 'stock/out/end', {outId:id}
         ,(data)->
           if data.status == 0
             jAlert '修改成功！', '提示'
@@ -46,7 +46,8 @@ clickOutItemToEnd = (data)->
           jAlert data.responseText, "错误"
         )
 
-clickListDetail1 = (data)->
+clickListDetail1 = (id)->
+  data = $("##{id}").data 'row'
   require ['Auth', '$', 'datagrid_plugin', 'imageView', 'printer'], (Auth)->
     $('#filterSelector').attr('style', 'display:none;')
     $('#goodsOutList').attr('style', 'display:none;')
@@ -160,7 +161,8 @@ clickListDetail1 = (data)->
       $('#filterSelector').attr('style', 'display:block;')
       $('#goodsOutList').attr('style', 'display:block;')
 
-clickUpdateGoodsOut = (data)->
+clickUpdateGoodsOut = (id)->
+  data = $("##{id}").data 'row'
   require ['localStorage'], (localStorage)->
     localStorage.set 'tmpGoodsOutData', data
     window.location.hash = "#!home/goodsOut/goodsOutAdd/#{data.id}"
@@ -195,15 +197,15 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             field: 'billnumber'
             title: '订单编号'
             render: (data)->
-              "<a href='javascript:clickListDetail1(#{JSON.stringify(data.row)});void(0);'>#{data.value || '订单详情'}</a>"
+              $("<a id='clickListDetail1#{data.row.id}' href='javascript:clickListDetail1(\"clickListDetail1#{data.row.id}\");void(0);'>#{data.value || '订单详情'}</a>").data('row', data.row)
           }, {
             field: ''
             title: '操作'
             render: (data)->
               if Auth.userIsAdmin() || Auth.user().id == data.row.creatorVo.id
                 switch data.row.status
-                  when 'started' then return "<a href='javascript:clickUpdateGoodsOut(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;"  +
-                    "<a href='javascript:clickDeleteGoodOutList(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+                  when 'started' then return "<a href='javascript:clickUpdateGoodsOut(\"clickListDetail1#{data.row.id}\");void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;"  +
+                    "<a href='javascript:clickDeleteGoodOutList(#{data.row.id});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'created'
             title: '创建时间'
@@ -218,8 +220,8 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             render: (data)->
               tagInfo = {}
               switch data.value
-                when 'started' then tagInfo.class = 'bg-primary btn width100'; tagInfo.value = '等待确认'; tagInfo.fun = "clickOutItemToConfirm(#{JSON.stringify(data.row)});void(0);"
-                when 'confirmed' then tagInfo.class = 'bg-info btn width100'; tagInfo.value = '已经确认'; tagInfo.fun = "clickOutItemToEnd(#{JSON.stringify(data.row)});void(0);"
+                when 'started' then tagInfo.class = 'bg-primary btn width100'; tagInfo.value = '等待确认'; tagInfo.fun = "clickOutItemToConfirm(#{data.row.id});void(0);"
+                when 'confirmed' then tagInfo.class = 'bg-info btn width100'; tagInfo.value = '已经确认'; tagInfo.fun = "clickOutItemToEnd(#{data.row.id});void(0);"
                 when 'ended' then tagInfo.class = 'bg-success btn width100'; tagInfo.value = '已经完成'; tagInfo.fun = 'void(0)'
               "<a href='javascript:#{tagInfo.fun}' class='#{tagInfo.class}'>#{tagInfo.value}</a>"
           },{

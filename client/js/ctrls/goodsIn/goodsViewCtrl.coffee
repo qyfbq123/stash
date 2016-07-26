@@ -1,9 +1,9 @@
-clickDeleteGoodList = (data)->
+clickDeleteGoodList = (id)->
   require ['Auth', '$', 'jAlert'], (Auth)->
     jConfirm '确认删除？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'stock/in/delete', {inId:data.id}
+      $.getJSON(Auth.apiHost + 'stock/in/delete', {inId:id}
         ,(data)->
           if data.status == 0
             jAlert '删除成功！', '提示'
@@ -14,12 +14,12 @@ clickDeleteGoodList = (data)->
           jAlert data.responseText, "错误"
         )
 
-clickItemToConfirm = (data)->
+clickItemToConfirm = (id)->
   require ['Auth', '$', 'jAlert'], (Auth)->
     jConfirm '是否确认入库单？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'stock/in/confirm', {inId:data.id}
+      $.getJSON(Auth.apiHost + 'stock/in/confirm', {inId:id}
         ,(data)->
           if data.status == 0
             jAlert '成功！', '提示'
@@ -30,12 +30,12 @@ clickItemToConfirm = (data)->
           jAlert data.responseText, "错误"
         )
 
-clickItemToEnd = (data)->
+clickItemToEnd = (id)->
   require ['Auth', '$', 'jAlert'], (Auth)->
     jConfirm '将订单修改为【已经完成】？', '警告', (delete_)->
       return if !delete_
 
-      $.getJSON(Auth.apiHost + 'stock/in/end', {inId:data.id}
+      $.getJSON(Auth.apiHost + 'stock/in/end', {inId:id}
         ,(data)->
           if data.status == 0
             jAlert '修改成功！', '提示'
@@ -46,7 +46,8 @@ clickItemToEnd = (data)->
           jAlert data.responseText, "错误"
         )
 
-clickListDetail = (data)->
+clickListDetail = (id)->
+  data = $("##{id}").data 'row'
   require ['Auth', '$', 'datagrid_plugin', 'imageView', 'printer'], (Auth)->
     $('#filterSelector').attr('style', 'display:none;')
     $('#goodsInList').attr('style', 'display:none;')
@@ -159,7 +160,8 @@ clickListDetail = (data)->
       $('#filterSelector').attr('style', 'display:block;')
       $('#goodsInList').attr('style', 'display:block;')
 
-clickUpdateGoodsIn = (data)->
+clickUpdateGoodsIn = (id)->
+  data = $("##{id}").data 'row'
   require ['localStorage'], (localStorage)->
     localStorage.set 'tmpGoodsInData', data
     window.location.hash = "#!home/goodsIn/goodsInAdd/#{data.id}"
@@ -197,15 +199,15 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             field: 'billnumber'
             title: '订单编号'
             render: (data)->
-              "<a href='javascript:clickListDetail(#{JSON.stringify(data.row)});void(0);'>#{data.value || '订单详情'}</a>"
+              $("<a id='clickListDetail#{data.row.id}' href='javascript:clickListDetail(\"clickListDetail#{data.row.id}\");void(0);'>#{data.value || '订单详情'}</a>").data 'row', data.row
           }, {
             field: ''
             title: '操作'
             render: (data)->
               if Auth.userIsAdmin() || Auth.user().id == data.row.creatorVo.id
                 switch data.row.status
-                  when 'started' then return "<a href='javascript:clickUpdateGoodsIn(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;"  +
-                    "<a href='javascript:clickDeleteGoodList(#{JSON.stringify(data.row)});void(0);' class='table-actions-button ic-table-delete'></a>"
+                  when 'started' then return "<a href='javascript:clickUpdateGoodsIn(\"clickListDetail#{data.row.id}\");void(0);' class='table-actions-button ic-table-edit'></a>&nbsp;&nbsp;&nbsp;&nbsp;"  +
+                    "<a href='javascript:clickDeleteGoodList(#{data.row.id});void(0);' class='table-actions-button ic-table-delete'></a>"
           },{
             field: 'created'
             title: '创建时间'
@@ -220,8 +222,8 @@ define ['can/control', 'can/view/mustache', 'Auth', 'base', 'datagrid_plugin', '
             render: (data)->
               tagInfo = {}
               switch data.value
-                when 'started' then tagInfo.class = 'bg-primary btn width100'; tagInfo.value = '等待确认'; tagInfo.fun = "clickItemToConfirm(#{JSON.stringify(data.row)});void(0);"
-                when 'confirmed' then tagInfo.class = 'bg-info btn width100'; tagInfo.value = '已经确认'; tagInfo.fun = "clickItemToEnd(#{JSON.stringify(data.row)});void(0);"
+                when 'started' then tagInfo.class = 'bg-primary btn width100'; tagInfo.value = '等待确认'; tagInfo.fun = "clickItemToConfirm(#{data.row.id});void(0);"
+                when 'confirmed' then tagInfo.class = 'bg-info btn width100'; tagInfo.value = '已经确认'; tagInfo.fun = "clickItemToEnd(#{data.row.id});void(0);"
                 when 'ended' then tagInfo.class = 'bg-success btn width100'; tagInfo.value = '已经完成'; tagInfo.fun = 'void(0)'
               "<a href='javascript:#{tagInfo.fun}' class='#{tagInfo.class}'>#{tagInfo.value}</a>"
           },{
