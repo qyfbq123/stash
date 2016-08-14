@@ -48,6 +48,22 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
         pageData.attr('title', '库存')
         pageData.attr('downloadUrl', '库存.xls')
         pageData.attr('uploadUrl', 'basicdata/inventory')
+      when 'goodsInDataImport'
+        pageData.attr('title', '入库单')
+        pageData.attr('downloadUrl', '入库单.xls')
+        pageData.attr('uploadUrl', 'basicdata/goodsIn')
+      when 'goodsInBatchDataImport'
+        pageData.attr('title', '入库单（批量）')
+        pageData.attr('downloadUrl', '入库单(批量).xls')
+        pageData.attr('uploadUrl', 'basicdata/goodsInBatch')
+      when 'goodsOutDataImport'
+        pageData.attr('title', '出库单')
+        pageData.attr('downloadUrl', '出库单.xls')
+        pageData.attr('uploadUrl', 'basicdata/goodsOut')
+      when 'goodsOutBatchDataImport'
+        pageData.attr('title', '出库单（批量）')
+        pageData.attr('downloadUrl', '出库单(批量).xls')
+        pageData.attr('uploadUrl', 'basicdata/goodsOutBatch')
 
   return can.Component.extend({
     tag: "DataImport",
@@ -59,9 +75,9 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
                          <p>&nbsp;</p>
                          <div class='col-md-12'>
                            <a id='downloadUrl' href='./public/static/docs/{{downloadUrl}}' target='_blank' style='font-size:20px;' class='text-center pull-left'>{{title}}模板文件下载</a>
-                           <div class='text-center pull-right'>
+                           <div id='isCover' class='text-center pull-right'>
                             <input type='checkbox' can-value='isCover'></input>
-                            <label id='isCover' class='text-danger'>是否覆盖已存在{{title}}</label>
+                            <label class='text-danger'>是否覆盖已存在{{title}}</label>
                            </div>
                          </div>
                          "),
@@ -70,7 +86,7 @@ define ["can", "can/component","can/view/stache", 'Auth', 'localStorage', '_', '
       currentData
     events: {
       inserted:()->
-        $('#isCover').hide() if(pageData.attr('title') == '库存')
+        $('#isCover').hide() if ['库存', '入库单', '入库单（批量）', '出库单', '出库单（批量）'].indexOf(pageData.attr('title')) != -1
         $('#filePicker').uploadify({
           'width': 200
           'fileSizeLimit': '1024k'
