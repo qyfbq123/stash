@@ -58,10 +58,12 @@ clickListDetail1 = (id)->
 
     $('#billnumber').empty()
     $('#createAt').empty()
+    $('#customerBillnumber').empty()
     $('#goodsOutDate').empty()
     $('#consignee').empty()
     $('#desc').empty()
     $('#billnumber').append(data.billnumber)
+    $('#customerBillnumber').append(data.customerBillnumber)
     $('#createAt').append(new Date(data.created).toLocaleString())
     $('#goodsOutDate').append(new Date(data.date).toLocaleString())
     $('#consignee').append(data.consigneeVo.name)

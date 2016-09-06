@@ -50,6 +50,8 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           suggestions: _.map(response.data, (it)-> {value:"#{it.goodsVo.sku}(#{it.goodsVo.name}) --- #{it.locationVo.name}#{if it.billnumber then ' --- ' + it.billnumber else ''}", data: it})
         onSelect: (suggestion)->
           currentData = suggestion.data
+          $('#goodsOutCreate .udf input[name^="udf"]').each ->
+            $(this).val currentData[$(this).attr 'name']
           $('#goodCount').bind('change', ()->
             $('#goodCount')[0].value = currentData.quantity if $('#goodCount')[0].value > currentData.quantity
           )
@@ -154,11 +156,23 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         ]
       })
 
+      companyVo = Auth.user().companyVo
+      $('.udf input[name="udf1"]').attr 'placeholder', companyVo['udf1Alias'] || '参数1'
+      $('.udf input[name="udf2"]').attr 'placeholder', companyVo['udf2Alias'] || '参数2'
+      $('.udf input[name="udf3"]').attr 'placeholder', companyVo['udf3Alias'] || '参数3'
+      $('.udf input[name="udf4"]').attr 'placeholder', companyVo['udf4Alias'] || '参数4'
+      $('.udf input[name="udf5"]').attr 'placeholder', companyVo['udf5Alias'] || '参数5'
+      $('.udf input[name="udf6"]').attr 'placeholder', companyVo['udf6Alias'] || '参数6'
+
       $('#addToGoodsList').unbind('click')
       $('#addToGoodsList').bind 'click', ()->
         # return if !$('#goodsOutCreate').valid()
-
-        currentData.count = $('#goodCount')[0].value
+        if $('#inventorySelector')[0].value
+          currentData.count = $('#goodCount')[0].value
+        else
+          currentData.count = 0
+        $('#goodsOutCreate .udf input[name^="udf"]').each ->
+          currentData[$(this).attr 'name'] = $(this).val()
 
         old = listData.attr(currentData.id)
 
@@ -175,6 +189,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
 
         $('#inventorySelector')[0].value = ''
         $('#goodCount')[0].value = 1
+        $('#goodsOutCreate .udf input[name^="udf"]').val('')
 
       $('#printGoodsList').unbind 'click'
       $('#printGoodsList').bind 'click', ()->
@@ -194,11 +209,14 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           return {
             inventoryVo: it,
             quantity: count
+            udf1: it.udf1
+            udf2: it.udf2
+            udf3: it.udf3
+            udf4: it.udf4
+            udf5: it.udf5
+            udf6: it.udf6
           }
         ))
-
-        $('#udf input').each (i, e)->
-          goodsData.attr "udf#{i+1}", $(this).val()
 
         url = Auth.apiHost + if isNew then 'stock/out/create' else 'stock/out/update'
         $.postJSON(url, goodsData.attr(),
@@ -216,7 +234,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
               if isNew
                 jAlert "新增出货单成功！", "提示"
               else
-                localStorage.rm 'tmpGoodsInData'
+                localStorage.rm 'tmpGoodsOutData'
                 jAlert "修改出货单成功！", "提示"
               window.location.hash = '#!home/goodsOut/goodsOutView'
             else
@@ -226,19 +244,6 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             jAlert "错误", data.responseText
         )
 
-      $('#udfAdd').unbind('click').bind 'click', (e)->
-        $('<label/>').append($ '<input type="text" class="round width300"/>' ).append($ "<a class='btn' class='btn'>删除</a>").insertBefore '#udfAdd'
-
-        $('#udfAdd').addClass('hide') if $('#udf input').length >= 6
-        e.stopPropagation()
-        e.preventDefault()
-
-      $('#udf').on 'click', 'a.btn', (e)->
-        $(this).closest('label').remove()
-        $('#udfAdd').removeClass 'hide'
-        e.stopPropagation()
-        e.preventDefault()
-
       isNew = window.location.hash.endsWith('goodsOutAdd')
       if isNew
         localStorage.rm 'tmpGoodsOutData'
@@ -247,15 +252,26 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         goodsData.attr tmpGoodsOutData
         goodsData.attr 'date', new Date(tmpGoodsOutData.date).toLocaleDateString()
         $('#consigneeSelector').attr 'value', tmpGoodsOutData.consigneeVo?.name
-        _.each [0...6], ->
-          $('#udfAdd').click()
-        _.each [1..6], (v)->
-          $("#udf input:eq(#{v-1})").val tmpGoodsOutData["udf#{v}"]
         if tmpGoodsOutData.entries
           _.each tmpGoodsOutData.entries, (e)->
             tmpData = e.inventoryVo
             tmpData.count = e.quantity
+            tmpData.udf1 = e.udf1
+            tmpData.udf2 = e.udf2
+            tmpData.udf3 = e.udf3
+            tmpData.udf4 = e.udf4
+            tmpData.udf5 = e.udf5
+            tmpData.udf6 = e.udf6
             listData.attr tmpData.id, tmpData
         vs = _.values(listData.attr())
 
         $('#goodsOutList').datagrid('render', {total:vs.length, data:vs})
+
+
+      $('#goodsOutList').on 'click', 'tr:gt(0)', (e)->
+        $('#goodsOutList tr.details').removeClass 'details'
+        $(this).addClass 'details'
+        $('#inventorySelector')[0].value = ''
+        currentData =  _.values(listData.attr())[$(this).index()]
+        $('#goodsOutCreate .udf input[name^="udf"]').each ->
+          $(this).val currentData[$(this).attr 'name']

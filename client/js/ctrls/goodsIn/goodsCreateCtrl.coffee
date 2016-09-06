@@ -51,6 +51,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           query: originalQuery
           suggestions: _.map(response.data, (it)-> {value:"#{it.sku} --- #{it.name}", data: it})
         onSelect: (suggestion)->
+          $('#goodsInCreate .udf input[name^="udf"]').val('')
           currentData.good = suggestion.data
       })
 
@@ -148,7 +149,12 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
       $('#addToGoodsList').bind 'click', ()->
         # return if !$('#goodsInCreate').valid()
         return if !currentData.good
-        currentData.good.count = $('#goodCount')[0].value
+        $('#goodsInCreate .udf input[name^="udf"]').each ->
+          currentData[$(this).attr 'name'] = $(this).val()
+        if $('#goodSelector')[0].value
+          currentData.good.count = $('#goodCount')[0].value
+        else
+          currentData.good.count = 0
         newId = "#{currentData.good.id}_#{currentData.location.id}"
         old = listData.attr(newId)
 
@@ -160,6 +166,7 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         vs = _.values(listData.attr())
 
         $('#goodsInList').datagrid('render', {total:vs.length, data:vs})
+        $('#goodsInCreate .udf input[name^="udf"]').val('')
 
         $('#goodSelector')[0].value = ''
         $('#locationSelector')[0].value = ''
@@ -181,9 +188,15 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
           count = it.good.count
           delete it.good.count
           return {
-            goodsVo: it.good,
+            goodsVo: it.good
             locationVo: it.location
             quantity: count
+            udf1: it.udf1
+            udf2: it.udf2
+            udf3: it.udf3
+            udf4: it.udf4
+            udf5: it.udf5
+            udf6: it.udf6
           }
         ))
 
@@ -215,19 +228,14 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
             jAlert "错误", data.responseText
         )
 
-      $('#udfAdd').unbind('click').bind 'click', (e)->
-        $('#udf>label').removeClass 'hide'
-        $('#udfAdd').addClass 'hide'
-        e.stopPropagation()
-        e.preventDefault()
 
       companyVo = Auth.user().companyVo
-      $('#udf input[name="udf1"]').attr 'placeholder', companyVo['udf1Alias'] || '参数1'
-      $('#udf input[name="udf2"]').attr 'placeholder', companyVo['udf2Alias'] || '参数2'
-      $('#udf input[name="udf3"]').attr 'placeholder', companyVo['udf3Alias'] || '参数3'
-      $('#udf input[name="udf4"]').attr 'placeholder', companyVo['udf4Alias'] || '参数4'
-      $('#udf input[name="udf5"]').attr 'placeholder', companyVo['udf5Alias'] || '参数5'
-      $('#udf input[name="udf6"]').attr 'placeholder', companyVo['udf6Alias'] || '参数6'
+      $('.udf input[name="udf1"]').attr 'placeholder', companyVo['udf1Alias'] || '参数1'
+      $('.udf input[name="udf2"]').attr 'placeholder', companyVo['udf2Alias'] || '参数2'
+      $('.udf input[name="udf3"]').attr 'placeholder', companyVo['udf3Alias'] || '参数3'
+      $('.udf input[name="udf4"]').attr 'placeholder', companyVo['udf4Alias'] || '参数4'
+      $('.udf input[name="udf5"]').attr 'placeholder', companyVo['udf5Alias'] || '参数5'
+      $('.udf input[name="udf6"]').attr 'placeholder', companyVo['udf6Alias'] || '参数6'
 
       isNew = window.location.hash.endsWith('goodsInAdd')
       if isNew
@@ -237,14 +245,28 @@ define ['base', 'can', 'can/control', 'Auth', 'localStorage', '_', 'jAlert', 'va
         goodsData.attr tmpGoodsInData
         goodsData.attr 'date', new Date(tmpGoodsInData.date).toLocaleDateString()
         $('#supplierSelector').attr 'value', tmpGoodsInData.supplierVo?.name
-        $('#udfAdd').click()
         if tmpGoodsInData.entries
           _.each tmpGoodsInData.entries, (e)->
             tmpData =
               good: e.goodsVo
               location: e.locationVo
+              udf1: e.udf1
+              udf2: e.udf2
+              udf3: e.udf3
+              udf4: e.udf4
+              udf5: e.udf5
+              udf6: e.udf6
             tmpData.good.count = e.quantity
             listData.attr "#{tmpData.good.id}_#{tmpData.location.id}", tmpData
         vs = _.values(listData.attr())
 
         $('#goodsInList').datagrid('render', {total:vs.length, data:vs})
+
+      $('#goodsInList').on 'click', 'tr:gt(0)', (e)->
+        $('#goodsInList tr.details').removeClass 'details'
+        $(this).addClass 'details'
+        $('#goodSelector')[0].value = ''
+        $('#locationSelector')[0].value = ''
+        currentData =  _.values(listData.attr())[$(this).index()]
+        $('#goodsInCreate .udf input[name^="udf"]').each ->
+          $(this).val currentData[$(this).attr 'name']

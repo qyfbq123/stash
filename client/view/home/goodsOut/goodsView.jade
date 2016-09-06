@@ -1,5 +1,5 @@
 form#filterSelector
-  input.round.default-width-input#factor(type='text', name='factor', placeholder='搜索订单编号、备注...')
+  input.round.default-width-input#factor(type='text', name='factor', placeholder='搜索订单（客单）编号、备注...')
   .companySel(style="display:inline")
     span.width40 　　 
     span 公司：
@@ -27,6 +27,10 @@ form#filterSelector
             div.width80 订单编号：
           td
             label#billnumber
+          td
+            div.width80 客单编号：
+          td
+            label#customerBillnumber
         tr
           td
             div.width80 下单时间：

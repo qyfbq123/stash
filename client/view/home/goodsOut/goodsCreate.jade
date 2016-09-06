@@ -13,17 +13,12 @@
             div.width80 收货人：
           td
             input.round.default-width-input#consigneeSelector(type='text', name='desc', rangelength='2,50', required, placeholder='请选择...')
+        tr
+        tr
           td
             div.width100 客户订单编号：
           td
             input.round.default-width-input#customerBillnumber(type='text', can-value='customerBillnumber', name='customerBillnumber', required)
-        tr
-        tr
-          td
-            div.width100 自定义参数：
-          td(colspan=3)
-            #udf
-              button#udfAdd.my_button.round.blue.text-upper 添加
           td
             div.width80 备注：
           td
@@ -39,6 +34,25 @@
             div.width80 数量：
           td
             input.round.default-width-input#goodCount(type='text', name='goodCount' ,value=1, min=1, number=true, required='true')
+        tr
+        tr
+        tr
+          td(colspan=6)
+            div.width100 自定义参数：
+        tr.udf
+          td(colspan=2)
+            input.round.width300(name='udf1', type='text')
+          td(colspan=2)
+            input.round.width300(name='udf2', type='text')
+          td(colspan=2)
+            input.round.width300(name='udf3', type='text')
+        tr.udf
+          td(colspan=2)
+            input.round.width300(name='udf4', type='text')
+          td(colspan=2)
+            input.round.width300(name='udf5', type='text')
+          td(colspan=2)
+            input.round.width300(name='udf6', type='text')
 
   button.button.round.blue.image-right.ic-add.pull-right#addToGoodsList 添加到清单
   p &nbsp;
